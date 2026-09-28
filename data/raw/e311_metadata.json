@@ -1,0 +1,38 @@
+{
+  "corridorId": "E311",
+  "placeName": "Dubai Silicon Oasis",
+  "geocoding": {
+    "query": "Dubai Silicon Oasis",
+    "displayName": "واحة دبي للسيليكون, المدينة الدولية, دبي, الإمارات العربية المتحدة",
+    "latitude": 25.1217058,
+    "longitude": 55.3855055,
+    "boundingBox": {
+      "minLat": 25.1037774,
+      "maxLat": 25.138728,
+      "minLon": 55.3648828,
+      "maxLon": 55.4083445
+    },
+    "osmType": "way",
+    "osmId": 364819827,
+    "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright"
+  },
+  "searchBoundingBox": {
+    "minLat": 25.073777399999997,
+    "minLon": 55.334882799999995,
+    "maxLat": 25.168728,
+    "maxLon": 55.4383445
+  },
+  "query": "[out:json][timeout:90];\n(\n  \n          way[\"highway\"~\"^(motorway|trunk|primary)\"][\"ref\"~\"311\"](25.073777399999997,55.334882799999995,25.168728,55.4383445);\n          way[\"highway\"~\"^(motorway|trunk|primary)\"][\"name:en\"~\"Mohammed Bin Zayed\",i](25.073777399999997,55.334882799999995,25.168728,55.4383445);\n          way[\"highway\"~\"^(motorway|trunk|primary)\"][\"name\"~\"محمد بن زايد\"](25.073777399999997,55.334882799999995,25.168728,55.4383445);\n        \n)->.corridor_ways;\n\n(\n  .corridor_ways;\n  node(w.corridor_ways)[\"highway\"=\"traffic_signals\"];\n  node(w.corridor_ways)[\"highway\"=\"motorway_junction\"];\n);\nout body geom;",
+  "timestamp": "2026-09-28T12:27:44.327757+00:00",
+  "attribution": "Data © OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright",
+  "statistics": {
+    "totalSegments": 14,
+    "totalLengthKm": 29.217,
+    "segmentsWithMaxspeed": 14,
+    "segmentsMissingMaxspeed": 0,
+    "segmentsMissingMaxspeedPct": 0.0,
+    "trafficSignalsCount": 0,
+    "junctionsCount": 12,
+    "governanceNote": "Per AGENTS.md, missing tags are preserved as null/empty without invented gap-filling."
+  }
+}

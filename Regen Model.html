@@ -1,0 +1,3558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Regen Ceiling — Electric Vehicle Energy Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #090d12;
+    --panel: #0f151d;
+    --panel-2: #0b1017;
+    --panel-3: #141c26;
+    --grid-line: #1c2633;
+    --grid-subtle: #141c26;
+    --text: #e6edf3;
+    --muted: #8b98a5;
+    --muted-2: #526070;
+    
+    /* Strict semantic energy colors */
+    --input: #38bdf8;         /* Blue: Electrical power drawn from battery */
+    --loss: #f87171;          /* Rose: Drag, rolling, friction brake loss */
+    --friction: #fb7185;      /* Friction brake heat */
+    --recover: #34d399;       /* Emerald: Recovered kinetic/gravity energy */
+    --net: #f43f5e;           /* Net cost */
+    --external: #fbbf24;      /* Amber Gold: Solar energy */
+    --dynamic-road: #06b6d4;  /* Cyan: Dynamic wireless road inductive charging */
+    --intersection: #a855f7;  /* Purple: Stationary intersection wireless charging pad */
+    --focus: #38bdf8;
+    
+    box-sizing: border-box;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #f4f6f8;
+      --panel: #ffffff;
+      --panel-2: #eef2f6;
+      --panel-3: #e3e8ef;
+      --grid-line: #d8e1eb;
+      --grid-subtle: #e9eff5;
+      --text: #0f172a;
+      --muted: #64748b;
+      --muted-2: #94a3b8;
+      --input: #0284c7;
+      --loss: #e11d48;
+      --friction: #e11d48;
+      --recover: #059669;
+      --net: #e11d48;
+      --external: #d97706;
+      --dynamic-road: #0891b2;
+      --intersection: #9333ea;
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-y: auto;
+    min-height: 100vh;
+  }
+  .num { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+
+  /* App Shell */
+  .app-shell {
+    max-width: 1620px;
+    min-height: 100vh;
+    height: auto;
+    margin: 0 auto;
+    padding: 12px 20px 24px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+
+  .top-banner {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--grid-line);
+    margin-bottom: 10px;
+  }
+  .banner-left h1 {
+    font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .banner-left p {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 2px;
+    max-width: 82ch;
+    line-height: 1.4;
+  }
+  .scenario-badge {
+    background: var(--panel-2);
+    border: 1px solid var(--grid-line);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 0.76rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .scenario-badge .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--recover);
+  }
+
+  /* Vehicle Switcher */
+  .vehicletoggle {
+    flex-shrink: 0;
+    display: flex;
+    gap: 8px;
+    background: var(--panel-2);
+    padding: 4px;
+    border-radius: 10px;
+    border: 1px solid var(--grid-line);
+    margin-bottom: 12px;
+  }
+  .segbtn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+  .segbtn.active {
+    background: var(--panel-3);
+    color: var(--text);
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  /* Master Regeneration Mode Bar */
+  .regen-master-bar {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--grid-line);
+    border-radius: 10px;
+    padding: 8px 14px;
+    margin-bottom: 12px;
+  }
+  .master-label-group {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .master-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .master-sub {
+    font-size: 0.74rem;
+    color: var(--muted);
+  }
+  .master-btn-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .master-btn {
+    background: var(--panel-3);
+    border: 1px solid var(--grid-line);
+    color: var(--muted);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .master-btn:hover {
+    color: var(--text);
+    border-color: var(--muted-2);
+  }
+  .master-btn.baseline.active {
+    background: rgba(244, 63, 94, 0.18);
+    border-color: var(--loss);
+    color: #fda4af;
+    box-shadow: 0 0 10px rgba(244, 63, 94, 0.2);
+  }
+  .master-btn.factory.active {
+    background: rgba(56, 189, 248, 0.18);
+    border-color: var(--input);
+    color: #7dd3fc;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+  }
+  .master-btn.full.active {
+    background: rgba(52, 211, 153, 0.18);
+    border-color: var(--recover);
+    color: #6ee7b7;
+    box-shadow: 0 0 10px rgba(52, 211, 153, 0.2);
+  }
+
+  /* View Tabs Bar */
+  .view-tabs-bar {
+    flex-shrink: 0;
+    display: flex;
+    gap: 8px;
+    background: var(--panel-2);
+    border: 1px solid var(--grid-line);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 12px;
+  }
+  .view-tab-btn {
+    flex: 1;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--muted);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: left;
+  }
+  .view-tab-btn:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .view-tab-btn.active {
+    background: var(--panel-3);
+    border-color: var(--grid-line);
+    color: var(--text);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  }
+  .view-tab-btn.active#tabOutputsView {
+    border-color: rgba(52, 211, 153, 0.4);
+    color: #6ee7b7;
+    background: rgba(52, 211, 153, 0.12);
+  }
+  .view-tab-btn.active#tabControlsView {
+    border-color: rgba(56, 189, 248, 0.4);
+    color: #7dd3fc;
+    background: rgba(56, 189, 248, 0.12);
+  }
+  .view-tab-btn .tab-icon {
+    font-size: 1.05rem;
+    line-height: 1;
+  }
+  .view-tab-btn .tab-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+  .view-tab-btn .tab-sub {
+    font-size: 0.68rem;
+    color: var(--muted);
+    background: var(--panel-2);
+    border: 1px solid var(--grid-line);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+  .view-tab-btn.active .tab-sub {
+    color: inherit;
+    border-color: currentColor;
+    background: transparent;
+  }
+
+  /* Two-column layout with Flexible View Modes & Independent Scrolling */
+  .layout-grid {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 20px;
+  }
+
+  /* View Mode Controls */
+  .layout-grid.view-controls #rightCol {
+    display: none !important;
+  }
+  .layout-grid.view-controls #leftCol {
+    display: flex !important;
+    width: 100% !important;
+    max-width: 1050px;
+    margin: 0 auto;
+  }
+  .layout-grid.view-outputs #leftCol {
+    display: none !important;
+  }
+  .layout-grid.view-outputs #rightCol {
+    display: flex !important;
+    width: 100% !important;
+    max-width: 1050px;
+    margin: 0 auto;
+  }
+
+  .col-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+    padding-right: 8px;
+    padding-bottom: 28px;
+  }
+
+  /* Desktop independent scrolling on tall viewports */
+  @media (min-width: 1081px) and (min-height: 850px) {
+    body {
+      overflow: hidden;
+    }
+    .app-shell {
+      height: 100vh;
+      overflow: hidden;
+    }
+    .layout-grid.view-split {
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .layout-grid.view-split .col-stack {
+      height: 100%;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: #38bdf8 #0f151d;
+    }
+  }
+
+  /* High-Contrast, Sleek Scrollbars */
+  .col-stack::-webkit-scrollbar {
+    width: 8px;
+  }
+  .col-stack::-webkit-scrollbar-track {
+    background: #090d12;
+    border-radius: 4px;
+    border: 1px solid var(--grid-line);
+  }
+  .col-stack::-webkit-scrollbar-thumb {
+    background: #38bdf8;
+    border-radius: 4px;
+  }
+  .col-stack::-webkit-scrollbar-thumb:hover {
+    background: #7dd3fc;
+  }
+
+  /* Column Header Bar & Fast Nav Buttons */
+  .col-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 12px;
+    background: var(--panel-2);
+    border: 1px solid var(--grid-line);
+    border-radius: 8px;
+    margin-bottom: -4px;
+    flex-shrink: 0;
+  }
+  .col-header-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .col-header-badge.input-badge { color: var(--input); }
+  .col-header-badge.output-badge { color: var(--recover); }
+  .col-header-badge .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+  .col-header-badge.input-badge .dot { background: var(--input); }
+  .col-header-badge.output-badge .dot { background: var(--recover); }
+  
+  .col-nav-btn {
+    background: var(--panel-3);
+    color: var(--muted);
+    border: 1px solid var(--grid-line);
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 0.70rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .col-nav-btn:hover {
+    color: var(--text);
+    border-color: var(--muted-2);
+  }
+
+  .jump-pill-btn {
+    background: rgba(52, 211, 153, 0.18);
+    color: #6ee7b7;
+    border: 1px solid rgba(52, 211, 153, 0.4);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    vertical-align: middle;
+  }
+  .jump-pill-btn:hover {
+    background: rgba(52, 211, 153, 0.32);
+    border-color: #6ee7b7;
+    box-shadow: 0 0 10px rgba(52, 211, 153, 0.3);
+  }
+
+  /* Responsive Fallback: On mobile/smaller screens, stack and scroll page naturally */
+  @media (max-width: 1080px) {
+    .layout-grid.view-split {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .col-stack {
+      padding-right: 0;
+    }
+  }
+
+  /* Cards & Panels */
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--grid-line);
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .card-title {
+    font-size: 0.94rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-subtitle {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.45;
+    margin-bottom: 14px;
+  }
+
+  /* Interactive Stage & Road Canvas */
+  .stage-box {
+    background: var(--panel-2);
+    border: 1px solid var(--grid-line);
+    border-radius: 10px;
+    padding: 12px 14px 14px;
+  }
+  .stage-telemetry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .stage-telemetry b { color: var(--text); }
+  .status-tag {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    background: var(--panel-3);
+    border: 1px solid var(--grid-line);
+  }
+  canvas#road {
+    width: 100%;
+    height: 140px;
+    display: block;
+    border-radius: 8px;
+    background: #080c10;
+  }
+
+  /* Dual Pedals */
+  .pedals-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 14px;
+  }
+  @media (max-width: 580px) {
+    .pedals-grid { grid-template-columns: 1fr; }
+  }
+  .pedal-card {
+    background: var(--panel);
+    border: 1px solid var(--grid-line);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .pedal-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .pedal-card input[type="range"] {
+    width: 100%;
+    height: 6px;
+    accent-color: var(--input);
+    cursor: pointer;
+  }
+  .pedal-card.brake input[type="range"] { accent-color: var(--loss); }
+  .pedal-desc {
+    font-size: 0.7rem;
+    color: var(--muted-2);
+    margin-top: 6px;
+    line-height: 1.35;
+  }
+
+  /* Sliders & Fields */
+  .field {
+    margin-bottom: 14px;
+  }
+  .field:last-child { margin-bottom: 0; }
+  .field-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.82rem;
+    margin-bottom: 4px;
+  }
+  .field-name { color: var(--text); font-weight: 500; display: flex; align-items: center; gap: 6px; }
+  .field-val { color: var(--text); font-weight: 600; }
+  .formula-tag {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.69rem;
+    color: var(--muted-2);
+    background: var(--panel-3);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+  .field-desc {
+    font-size: 0.73rem;
+    color: var(--muted);
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+  .slider-wrap {
+    position: relative;
+    padding-top: 4px;
+  }
+  input[type="range"] {
+    width: 100%;
+    height: 4px;
+    background: var(--panel-3);
+    border-radius: 2px;
+    accent-color: var(--input);
+    display: block;
+  }
+  .typical-tick {
+    position: absolute;
+    top: 0px;
+    width: 2px;
+    height: 10px;
+    background: var(--recover);
+    pointer-events: none;
+    border-radius: 1px;
+    z-index: 2;
+  }
+  .typical-note {
+    font-size: 0.71rem;
+    color: var(--muted-2);
+    margin-top: 4px;
+  }
+
+  /* Preset Pills */
+  .preset-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .pill-btn {
+    background: var(--panel-2);
+    border: 1px solid var(--grid-line);
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 0.73rem;
+    padding: 4px 9px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .pill-btn:hover {
+    color: var(--text);
+    border-color: var(--muted-2);
+  }
+  .pill-btn.active {
+    background: var(--panel-3);
+    color: var(--text);
+    border-color: var(--input);
+    font-weight: 600;
+  }
+
+  /* Buttons & Toggle Switches */
+  .btn-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  button.action-btn {
+    flex: 1;
+    background: var(--panel-2);
+    border: 1px solid var(--grid-line);
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+  button.action-btn:hover { border-color: var(--muted-2); }
+  button.action-btn.primary {
+    background: var(--input);
+    border-color: var(--input);
+    color: #08111a;
+    font-weight: 600;
+  }
+  button.action-btn.primary:hover { filter: brightness(1.08); }
+
+  .toggle-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--grid-line);
+  }
+  .toggle-row:last-child { border-bottom: none; }
+  .toggle-label { font-size: 0.82rem; color: var(--text); }
+  .toggle-sub { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+  
+  .switch { position: relative; width: 36px; height: 20px; flex: none; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .switch .track { position: absolute; inset: 0; background: var(--panel-3); border: 1px solid var(--grid-line); border-radius: 20px; cursor: pointer; transition: 0.2s; }
+  .switch .knob { position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: var(--muted); transition: 0.2s; }
+  .switch input:checked + .track { background: var(--input); border-color: var(--input); }
+  .switch input:checked + .track .knob { transform: translateX(16px); background: #08111a; }
+
+  /* Sub-feature box */
+  .sub-feature-box {
+    background: var(--panel-2);
+    border: 1px solid var(--grid-line);
+    border-radius: 9px;
+    padding: 13px 15px;
+    margin-top: 12px;
+  }
+  .sub-feature-box:first-of-type { margin-top: 0; }
+  .sub-feature-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .sub-feature-title {
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .live-power-chip {
+    font-size: 0.72rem;
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+
+  /* ==============================================================
+     RIGHT COLUMN: HEADLINE METRIC & VISUALIZERS
+     ============================================================== */
+  .hero-metric-card {
+    background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+    border: 1px solid var(--grid-line);
+    border-radius: 14px;
+    padding: 22px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-metric-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: var(--loss);
+    transition: background 0.3s;
+  }
+  .hero-metric-card.positive::before {
+    background: var(--recover);
+  }
+  
+  .hero-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .hero-kicker {
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .hero-badge {
+    font-size: 0.74rem;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    background: rgba(248, 113, 113, 0.12);
+    color: var(--loss);
+    border: 1px solid rgba(248, 113, 113, 0.3);
+  }
+  .hero-metric-card.positive .hero-badge {
+    background: rgba(52, 211, 153, 0.12);
+    color: var(--recover);
+    border-color: rgba(52, 211, 153, 0.3);
+  }
+
+  .hero-val-display {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .hero-val {
+    font-size: clamp(2rem, 3.8vw, 2.75rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--loss);
+  }
+  .hero-metric-card.positive .hero-val {
+    color: var(--recover);
+  }
+  .hero-unit {
+    font-size: 1rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .hero-explanation {
+    font-size: 0.83rem;
+    line-height: 1.5;
+    color: var(--muted);
+    padding: 10px 12px;
+    background: var(--panel-2);
+    border: 1px solid var(--grid-line);
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+  .hero-explanation b { color: var(--text); }
+
+  /* Stack Bar */
+  .source-stack-wrap {
+    margin-top: 14px;
+  }
+  .stack-bar-title {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.74rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .proportional-stack-bar {
+    display: flex;
+    height: 12px;
+    background: var(--panel-3);
+    border-radius: 6px;
+    overflow: hidden;
+    gap: 1px;
+  }
+  .stack-seg {
+    height: 100%;
+    transition: width 0.25s ease;
+  }
+  .stack-seg.solar { background: var(--external); }
+  .stack-seg.dynamic { background: var(--dynamic-road); }
+  .stack-seg.intersection { background: var(--intersection); }
+  .stack-seg.regen { background: var(--recover); }
+  .stack-seg.consumed { background: var(--input); }
+  
+  .stack-legend {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+    font-size: 0.72rem;
+  }
+  .stack-legend span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--muted);
+  }
+  .stack-legend .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 2px;
+  }
+
+  /* Canvases */
+  canvas#powerMeter {
+    width: 100%;
+    height: 105px;
+    display: block;
+    background: var(--panel-2);
+    border: 1px solid var(--grid-line);
+    border-radius: 8px;
+    margin-top: 8px;
+  }
+  canvas#powertrainCanvas {
+    width: 100%;
+    height: 185px;
+    display: block;
+    background: var(--panel-2);
+    border: 1px solid var(--grid-line);
+    border-radius: 8px;
+    margin-top: 8px;
+  }
+
+  /* Two-Category Energy Ledger */
+  .ledger-category {
+    background: var(--panel-2);
+    border: 1px solid var(--grid-line);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+  .ledger-category:last-child { margin-bottom: 0; }
+  .cat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--grid-line);
+    margin-bottom: 8px;
+  }
+  .cat-title-tag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tag-pill {
+    font-size: 0.65rem;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .tag-pill.ext { background: rgba(251, 191, 36, 0.15); color: var(--external); border: 1px solid rgba(251, 191, 36, 0.3); }
+  .tag-pill.rec { background: rgba(52, 211, 153, 0.15); color: var(--recover); border: 1px solid rgba(52, 211, 153, 0.3); }
+  .tag-pill.con { background: rgba(56, 189, 248, 0.15); color: var(--input); border: 1px solid rgba(56, 189, 248, 0.3); }
+
+  .ledger-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.77rem;
+    padding: 4px 0;
+    color: var(--muted);
+  }
+  .ledger-row.sub-row {
+    padding-left: 14px;
+    font-size: 0.72rem;
+    color: var(--muted-2);
+  }
+  .ledger-row .val {
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  /* Solver Card */
+  .solver-card {
+    background: var(--panel-2);
+    border: 1px solid var(--grid-line);
+    border-radius: 10px;
+    padding: 16px;
+    position: relative;
+  }
+  .solver-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .solver-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .solver-ratio-pill {
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 12px;
+    background: rgba(251, 191, 36, 0.12);
+    color: var(--external);
+    border: 1px solid rgba(251, 191, 36, 0.25);
+  }
+  .solver-ratio-pill.surplus {
+    background: rgba(52, 211, 153, 0.15);
+    color: var(--recover);
+    border-color: rgba(52, 211, 153, 0.3);
+  }
+  .solver-verdict-text {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .solver-verdict-text b { color: var(--text); }
+  
+  .solver-requirements-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+  @media (max-width: 680px) {
+    .solver-requirements-grid { grid-template-columns: 1fr; }
+  }
+  .req-box {
+    background: var(--panel);
+    border: 1px solid var(--grid-line);
+    border-radius: 8px;
+    padding: 10px;
+  }
+  .req-label {
+    font-size: 0.7rem;
+    color: var(--muted-2);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 3px;
+  }
+  .req-val {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .req-note {
+    font-size: 0.69rem;
+    color: var(--muted);
+    margin-top: 2px;
+    line-height: 1.3;
+  }
+
+  /* Physics Audit Details */
+  details.physics-details {
+    border: 1px solid var(--grid-line);
+    border-radius: 10px;
+    background: var(--panel);
+    font-size: 0.8rem;
+    overflow: hidden;
+  }
+  details.physics-details summary {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text);
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  details.physics-details summary::-webkit-details-marker { display: none; }
+  details.physics-details .details-content {
+    padding: 0 16px 16px;
+    border-top: 1px solid var(--grid-line);
+  }
+  .audit-item {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--grid-line);
+    font-size: 0.77rem;
+    color: var(--muted);
+  }
+  .audit-item:last-child { border-bottom: none; }
+  .audit-icon { color: var(--recover); font-weight: bold; flex: none; }
+
+  footer {
+    margin-top: 16px;
+    margin-bottom: 12px;
+    padding-top: 14px;
+    border-top: 1px solid var(--grid-line);
+    font-size: 0.73rem;
+    color: var(--muted-2);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- Top Banner / Scenario Info -->
+  <header class="top-banner">
+    <div class="banner-left">
+      <h1>⚡ Electric Vehicle Energy Lab</h1>
+      <p>Investigating: <b>Can an EV receive MORE energy into its battery while moving than it consumes to move?</b> Explore regenerative braking, downhill gravity potential, suspension, thermoelectric, piezoelectric, wind wake, solar, and smart-city wireless road induction.</p>
+    </div>
+    <div class="scenario-badge num">
+      <span class="dot"></span> <span id="lblTopVehicleDesc">Scooter Mode · 170 kg · Full Harvester Suite</span>
+    </div>
+  </header>
+
+  <!-- Vehicle Switcher (Scooter vs Car) -->
+  <div class="vehicletoggle" style="margin-bottom:10px">
+    <button class="segbtn active" id="vehScooter">🛵 Two-Wheeler / Scooter (Activa Class · 170 kg)</button>
+    <button class="segbtn" id="vehCar">🚗 Electric Car / EV (Tiago/Nexon Class · 1350 kg)</button>
+  </div>
+
+  <!-- Master Regeneration Switch & Baseline Presets -->
+  <div class="regen-master-bar">
+    <div class="master-label-group">
+      <span class="master-title">⚡ Regeneration Mode:</span>
+      <span class="master-sub">Isolate pure baseline vehicle energy cost vs full recovery suite</span>
+    </div>
+    <div class="master-btn-group">
+      <button class="master-btn baseline" id="btnModeBaseline" title="Disable all battery recharge and recovery mechanisms to measure normal baseline cost">🔴 All Regen OFF (Pure Baseline Cost)</button>
+      <button class="master-btn factory" id="btnModeFactory" title="Stock EV setup: kinetic regenerative braking active, all experimental/wireless OFF">⚡ Factory EV (Brake Regen Only)</button>
+      <button class="master-btn full active" id="btnModeFull" title="Full smart-city harvest suite: regen braking, downhill, suspension, TEG, piezo, solar & wireless road induction">🟢 All Systems ON (Full Suite)</button>
+    </div>
+  </div>
+
+  <!-- View Mode Tabs (Direct Access to Controls, Outputs, or Split View) -->
+  <div class="view-tabs-bar" role="tablist">
+    <button class="view-tab-btn active" id="tabSplitView" role="tab" aria-selected="true" title="View controls and energy outputs side-by-side">
+      <span class="tab-icon">📊</span>
+      <span class="tab-title">Split View</span>
+      <span class="tab-sub num">Side-by-Side</span>
+    </button>
+    <button class="view-tab-btn" id="tabControlsView" role="tab" aria-selected="false" title="Focus view on driving controls, harvesters, and commute simulator">
+      <span class="tab-icon">🎮</span>
+      <span class="tab-title">Controls &amp; Sim</span>
+      <span class="tab-sub num">Inputs Only</span>
+    </button>
+    <button class="view-tab-btn" id="tabOutputsView" role="tab" aria-selected="false" title="Direct full-width view of core battery result, commute report, and complete energy ledger">
+      <span class="tab-icon">📋</span>
+      <span class="tab-title">Outputs &amp; Full Ledger</span>
+      <span class="tab-sub num">Core Result &amp; Ledger</span>
+    </button>
+  </div>
+
+  <!-- Main 2-Column Interface -->
+  <div class="layout-grid view-split" id="layoutGrid">
+
+    <!-- ==========================================
+         LEFT COLUMN: CONTROLS & EXPERIMENT INPUTS
+         ========================================== -->
+    <div class="col-stack" id="leftCol">
+
+      <!-- Column Scroll Header -->
+      <div class="col-header-bar">
+        <span class="col-header-badge input-badge"><span class="dot"></span> CONTROLS &amp; EXPERIMENT INPUTS</span>
+        <button class="col-nav-btn num" id="btnLeftToOutputs" title="Jump to Outputs Tab">📋 Go to Output Tab →</button>
+      </div>
+
+      <!-- 1. Interactive Drive Stage -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🎮 Live Vehicle &amp; Road Stage</div>
+          <span class="status-tag num" id="stateChip">Idle</span>
+        </div>
+
+        <div class="stage-box">
+          <div class="stage-telemetry num">
+            <span>Speed: <b id="speedReadout">0.0</b> km/h</span>
+            <span>Net Flow: <b id="powerReadout">0.0</b> kW</span>
+            <span>Distance: <b id="distReadout">0.00</b> km</span>
+          </div>
+          <canvas id="road"></canvas>
+
+          <div class="pedals-grid">
+            <div class="pedal-card" id="accelPedalWrap">
+              <div class="pedal-label-row">
+                <span>Accelerator (Throttle)</span>
+                <b class="num" id="accelVal">0%</b>
+              </div>
+              <input type="range" id="accelPedal" min="0" max="100" step="1" value="0">
+              <div class="pedal-desc">Supplies battery power to drive wheels forward.</div>
+            </div>
+
+            <div class="pedal-card brake" id="brakePedalWrap">
+              <div class="pedal-label-row">
+                <span>Brake Lever / Pedal</span>
+                <b class="num" id="brakeVal">0%</b>
+              </div>
+              <input type="range" id="brakePedal" min="0" max="100" step="1" value="0">
+              <div class="pedal-desc">Gentle braking triggers regen. Squeezing harder spills into friction discs.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Driving Modes -->
+        <div style="display:flex; gap:8px; margin-top:14px; margin-bottom:10px">
+          <button class="segbtn active" id="modeManual">Manual Pedals</button>
+          <button class="segbtn" id="modeCruise">Adaptive Cruise Control</button>
+        </div>
+
+        <div class="field" id="wrapCruiseField" style="display:none">
+          <div class="field-header">
+            <span class="field-name">Cruise Set-Speed</span>
+            <span class="field-val num" id="lblCruise">40 km/h</span>
+          </div>
+          <div class="slider-wrap"><input type="range" id="cruiseTarget" min="10" max="90" step="5" value="40"><div class="typical-tick" id="tick_cruise"></div></div>
+          <div class="typical-note num" id="note_cruise"></div>
+        </div>
+
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label">One-pedal driving (lift-off regen)</div>
+            <div class="toggle-sub">Lifting off accelerator automatically activates gentle regen (1.0 m/s²).</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="onePedal"><span class="track"><span class="knob"></span></span></label>
+        </div>
+      </div>
+
+      <!-- 2. 20-Minute Commute Simulator -->
+      <div class="card" id="timelapsePanel">
+        <div class="card-header">
+          <div class="card-title">⏱️ 20-Min Commute Simulator</div>
+          <span class="status-tag num" id="timelapseStatusChip">Ready</span>
+        </div>
+
+        <div style="display:flex; gap:8px; margin-bottom:12px">
+          <button class="segbtn active" id="simCityBtn">🏙️ Indian City Commute (~7.0 km, 12 Signals)</button>
+          <button class="segbtn" id="simHwyBtn">🛣️ Highway Cruise (~21.0 km, ~65 km/h)</button>
+        </div>
+
+        <div class="btn-row" style="margin-bottom:12px">
+          <button class="action-btn primary" id="btnPlayTimelapse">▶ Play 30x Timelapse</button>
+          <button class="action-btn" id="btnInstantTimelapse">⚡ Instant 20-Min Result</button>
+          <button class="action-btn" id="btnResetTimelapse" style="flex:0.6">Reset</button>
+        </div>
+
+        <div style="margin-bottom:10px">
+          <div style="display:flex; justify-content:space-between; font-size:0.76rem; margin-bottom:4px" class="num">
+            <span id="tlTimeElapsed">00:00 / 20:00 (0%)</span>
+            <span id="tlDistanceCovered">0.00 km</span>
+          </div>
+          <div style="height:6px; background:var(--panel-2); border-radius:3px; overflow:hidden">
+            <div id="tlProgressBar" style="width:0%; height:100%; background:var(--input); transition:width 0.1s linear"></div>
+          </div>
+        </div>
+
+        <div class="card-subtitle num" id="tlEventText" style="padding:8px 10px; background:var(--panel-2); border-radius:6px; margin-bottom:0">
+          Hit <b>Play 30x Timelapse</b> or <b>Instant Result</b> to simulate the complete 20-minute ride.
+        </div>
+      </div>
+
+      <!-- 3. Smart-City Wireless Infrastructure (External Energy) -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">⚡ Smart-City Wireless Infrastructure (External Energy)</div>
+          <span class="status-tag num" style="color:var(--dynamic-road); border-color:var(--dynamic-road)" id="lblInfraTotalActive">0.0 kW Total Inflow</span>
+        </div>
+        <p class="card-subtitle">Municipal road grid inductive power transfer (IPT) embedded under pavement. Supplies genuine external energy while rolling or waiting at signals.</p>
+
+        <!-- Dynamic Road Coils Sub-box -->
+        <div class="sub-feature-box">
+          <div class="sub-feature-header">
+            <span class="sub-feature-title">🛣️ Dynamic In-Motion Road Coils</span>
+            <label class="switch"><input type="checkbox" id="chkDynamicRoad" checked><span class="track"><span class="knob"></span></span></label>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:0.73rem; color:var(--muted); margin-bottom:8px">
+            <span>High-frequency IPT coils under lane asphalt</span>
+            <span class="live-power-chip num" id="lblDynamicStatus" style="background:rgba(6,182,212,0.12); color:var(--dynamic-road); border:1px solid rgba(6,182,212,0.3)">0.0 kW Active</span>
+          </div>
+
+          <div class="field">
+            <div class="field-header">
+              <span class="field-name">Road Coil Output Power</span>
+              <span class="field-val num" id="lblRoadPower">3.3 kW</span>
+            </div>
+            <div class="slider-wrap"><input type="range" id="sliderRoadPower" min="1.0" max="10.0" step="0.5" value="3.3"></div>
+          </div>
+
+          <div class="field" style="margin-top:10px">
+            <div class="field-header">
+              <span class="field-name">Route Electrification Coverage</span>
+              <span class="field-val num" id="lblRoadCoverage">15% of each 400 m road segment (60 m active per block)</span>
+            </div>
+            <div class="slider-wrap"><input type="range" id="sliderRoadCoverage" min="0" max="100" step="5" value="15"></div>
+            <div class="preset-pills">
+              <button class="pill-btn" data-rcov="0">0% Off</button>
+              <button class="pill-btn active" data-rcov="15">15% Standard</button>
+              <button class="pill-btn" data-rcov="30">30% Corridor</button>
+              <button class="pill-btn" data-rcov="50">50% Half-Grid</button>
+              <button class="pill-btn" data-rcov="100">100% Full Road</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Intersection Wireless Pads Sub-box -->
+        <div class="sub-feature-box">
+          <div class="sub-feature-header">
+            <span class="sub-feature-title">🚦 Traffic Light Wireless Charging Pads</span>
+            <label class="switch"><input type="checkbox" id="chkIntersection" checked><span class="track"><span class="knob"></span></span></label>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:0.73rem; color:var(--muted); margin-bottom:8px">
+            <span>Stationary pads under stopping boxes at red signals</span>
+            <span class="live-power-chip num" id="lblIntersectionStatus" style="background:rgba(168,85,247,0.12); color:var(--intersection); border:1px solid rgba(168,85,247,0.3)">0.0 kW Active</span>
+          </div>
+
+          <div class="field">
+            <div class="field-header">
+              <span class="field-name">Intersection Pad Power</span>
+              <span class="field-val num" id="lblPadPower">3.3 kW</span>
+            </div>
+            <div class="slider-wrap"><input type="range" id="sliderPadPower" min="1.5" max="6.0" step="0.5" value="3.3"></div>
+          </div>
+
+          <div class="field" style="margin-top:10px">
+            <div class="field-header">
+              <span class="field-name">Equipped Signal Junctions</span>
+              <span class="field-val num" id="lblIntersectionPct">50% (6 of 12 signals)</span>
+            </div>
+            <div class="slider-wrap"><input type="range" id="sliderIntersectionPct" min="0" max="100" step="10" value="50"></div>
+            <div class="preset-pills">
+              <button class="pill-btn" data-junc="0">0% Off</button>
+              <button class="pill-btn" data-junc="25">25% Major</button>
+              <button class="pill-btn active" data-junc="50">50% Standard</button>
+              <button class="pill-btn" data-junc="100">100% Full Grid</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 4. Vehicle Physical Properties -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">⚙️ Vehicle Physical Properties</div>
+        </div>
+
+        <div class="field">
+          <div class="field-header">
+            <span class="field-name">Total Moving Mass <span class="formula-tag">m</span></span>
+            <span class="field-val num" id="lblMass">170 kg</span>
+          </div>
+          <div class="slider-wrap"><input type="range" id="mass" min="80" max="320" step="5" value="170"><div class="typical-tick" id="tick_mass"></div></div>
+          <div class="typical-note num" id="note_mass"></div>
+        </div>
+
+        <div class="field">
+          <div class="field-header">
+            <span class="field-name">Aerodynamic Drag Area <span class="formula-tag">Cd·A</span></span>
+            <span class="field-val num" id="lblDrag">0.42 m²</span>
+          </div>
+          <div class="slider-wrap"><input type="range" id="drag" min="0.20" max="0.90" step="0.01" value="0.42"><div class="typical-tick" id="tick_drag"></div></div>
+          <div class="typical-note num" id="note_drag"></div>
+        </div>
+
+        <div class="field">
+          <div class="field-header">
+            <span class="field-name">Rolling Resistance Coeff. <span class="formula-tag">Crr</span></span>
+            <span class="field-val num" id="lblRoll">0.018</span>
+          </div>
+          <div class="slider-wrap"><input type="range" id="roll" min="0.008" max="0.025" step="0.001" value="0.018"><div class="typical-tick" id="tick_roll"></div></div>
+          <div class="typical-note num" id="note_roll"></div>
+        </div>
+
+        <div class="field">
+          <div class="field-header">
+            <span class="field-name">Air Density <span class="formula-tag">ρ</span></span>
+            <span class="field-val num" id="lblAirDensity">1.225 kg/m³</span>
+          </div>
+          <div class="slider-wrap"><input type="range" id="airDensity" min="1.000" max="1.350" step="0.005" value="1.225"></div>
+        </div>
+      </div>
+
+      <!-- 5. Braking & Regeneration Limits -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🛑 Braking &amp; Regeneration Limits</div>
+          <span class="live-power-chip num" id="lblBrakeRegenStatus" style="background:rgba(52,211,153,0.12); color:var(--recover); border:1px solid rgba(52,211,153,0.3)">Standby</span>
+        </div>
+
+        <!-- Master Switch for Kinetic Brake Regen -->
+        <div class="toggle-row" style="margin-bottom:14px; background:var(--panel-2); padding:10px 12px; border-radius:8px; border:1px solid var(--grid-line)">
+          <div>
+            <div class="toggle-label" style="font-size:0.86rem; font-weight:600">🔄 Kinetic Regenerative Braking</div>
+            <div class="toggle-sub">Motor acts as generator during deceleration (<span class="num" id="valRegenW">0.0 W</span>). When switched OFF, 100% of braking force goes to friction brake pad heat.</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="toggleRegenBraking" checked><span class="track"><span class="knob"></span></span></label>
+        </div>
+
+        <div class="field">
+          <div class="field-header">
+            <span class="field-name">Max Acceleration</span>
+            <span class="field-val num" id="lblMaxAccel">1.8 m/s²</span>
+          </div>
+          <div class="slider-wrap"><input type="range" id="maxAccel" min="0.8" max="4.0" step="0.1" value="1.8"><div class="typical-tick" id="tick_maxAccel"></div></div>
+          <div class="typical-note num" id="note_maxAccel"></div>
+        </div>
+
+        <div class="field">
+          <div class="field-header">
+            <span class="field-name">Max Braking Deceleration</span>
+            <span class="field-val num" id="lblMaxBrake">5.0 m/s²</span>
+          </div>
+          <div class="slider-wrap"><input type="range" id="maxBrake" min="2.0" max="7.0" step="0.5" value="5.0"><div class="typical-tick" id="tick_maxBrake"></div></div>
+          <div class="typical-note num" id="note_maxBrake"></div>
+        </div>
+
+        <div class="field">
+          <div class="field-header">
+            <span class="field-name">Motor Regen Deceleration Ceiling</span>
+            <span class="field-val num" id="lblMaxRegen">1.0 m/s²</span>
+          </div>
+          <div class="slider-wrap"><input type="range" id="maxRegen" min="0.3" max="3.0" step="0.1" value="1.0"><div class="typical-tick" id="tick_maxRegen"></div></div>
+          <div class="typical-note num" id="note_maxRegen"></div>
+        </div>
+
+        <div class="field">
+          <div class="field-header">
+            <span class="field-name">Regen Round-Trip Efficiency <span class="formula-tag">η</span></span>
+            <span class="field-val num" id="lblRegenEff">55%</span>
+          </div>
+          <div class="slider-wrap"><input type="range" id="regenEff" min="20" max="90" step="1" value="55"><div class="typical-tick" id="tick_regenEff"></div></div>
+          <div class="typical-note num" id="note_regenEff"></div>
+        </div>
+      </div>
+
+      <!-- 6. Environmental Factors: Gravity & Grade -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">⛰️ Gravity &amp; Road Incline (Grade)</div>
+        </div>
+
+        <div class="field">
+          <div class="field-header">
+            <span class="field-name">Road Grade (Slope) <span class="formula-tag">tan θ</span></span>
+            <span class="field-val num" id="lblGrade">0.0% (Flat)</span>
+          </div>
+          <div class="slider-wrap"><input type="range" id="grade" min="-12" max="12" step="0.5" value="0"></div>
+          <div class="preset-pills">
+            <button class="pill-btn" data-grade="-8">−8% Steep Descent</button>
+            <button class="pill-btn" data-grade="-4">−4% Gentle Downhill</button>
+            <button class="pill-btn active" data-grade="0">0% Flat Road</button>
+            <button class="pill-btn" data-grade="6">+6% Hill Climb</button>
+          </div>
+        </div>
+
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label">Downhill Gravity Regen</div>
+            <div class="toggle-sub">Harvests potential energy into battery during descent (<span class="num" id="valDownhillW">0.0 W</span>).</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="toggleDownhill" checked><span class="track"><span class="knob"></span></span></label>
+        </div>
+      </div>
+
+      <!-- 7. Extra Energy Harvesters (Experimental & Myth Checks) -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🧲 Harvester Suite &amp; Myth Checks</div>
+        </div>
+
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label">🪨 Regenerative Suspension</div>
+            <div class="toggle-sub">Recovers vertical shock-absorber heat on road bumps (<span class="num" id="valSuspensionW">0.0 W</span>).</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="toggleSuspension" checked><span class="track"><span class="knob"></span></span></label>
+        </div>
+
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label">🔥 Thermoelectric Generator (TEG)</div>
+            <div class="toggle-sub">Seebeck modules on motor casing &amp; inverter (<span class="num" id="valThermoW">0.0 W</span>).</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="toggleThermo" checked><span class="track"><span class="knob"></span></span></label>
+        </div>
+
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label">⚡ Piezoelectric Crystal Harvester</div>
+            <div class="toggle-sub">Captures tire contact &amp; chassis flexing vibration (<span class="num" id="valPiezoW">0.0 W</span>).</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="togglePiezo" checked><span class="track"><span class="knob"></span></span></label>
+        </div>
+
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label">💨 Boundary Layer Wake Harvester</div>
+            <div class="toggle-sub">Micro-turbines in fairing wake zones (<span class="num" id="valWakeW">0.0 W</span>).</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="toggleWake" checked><span class="track"><span class="knob"></span></span></label>
+        </div>
+
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label">🌀 Vehicle-Mounted Wind Turbine (Myth Check)</div>
+            <div class="toggle-sub">Calculates turbine electrical output (<span class="num" id="valTurbineNet">0.0 W Gen</span>) vs induced aero drag.</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="toggleTurbine"><span class="track"><span class="knob"></span></span></label>
+        </div>
+      </div>
+
+      <!-- 8. Solar & Weather Energy Sources -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">☀️ Solar &amp; Weather Parameters</div>
+          <span class="num field-val" id="valSolarW" style="color:var(--external)">0.0 W</span>
+        </div>
+
+        <div class="toggle-row" style="margin-bottom:12px">
+          <div>
+            <div class="toggle-label">Vehicle Solar Panel Active</div>
+            <div class="toggle-sub">Harvests sunlight directly into the high-voltage battery.</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="toggleSolar" checked><span class="track"><span class="knob"></span></span></label>
+        </div>
+
+        <div class="field">
+          <div class="field-header">
+            <span class="field-name">Panel Usable Area</span>
+            <span class="field-val num" id="lblSolarArea">0.15 m²</span>
+          </div>
+          <div class="slider-wrap"><input type="range" id="solarArea" min="0.05" max="4.0" step="0.05" value="0.15"></div>
+        </div>
+
+        <div class="field">
+          <div class="field-header">
+            <span class="field-name">Cell Efficiency</span>
+            <span class="field-val num" id="lblSolarEff">20%</span>
+          </div>
+          <div class="slider-wrap"><input type="range" id="solarEff" min="10" max="28" step="1" value="20"></div>
+        </div>
+
+        <div class="field">
+          <div class="field-header">
+            <span class="field-name">Sunlight Irradiance (G)</span>
+            <span class="field-val num" id="lblIrradiance">950 W/m²</span>
+          </div>
+          <div class="slider-wrap"><input type="range" id="irradiance" min="0" max="1100" step="10" value="950"></div>
+          <div class="preset-pills">
+            <button class="pill-btn active" data-irr="950">☀️ Clear Noon (950)</button>
+            <button class="pill-btn" data-irr="550">⛅ Winter Hazy (550)</button>
+            <button class="pill-btn" data-irr="150">🌧️ Monsoon (150)</button>
+            <button class="pill-btn" data-irr="0">🌙 Night (0)</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field-header">
+            <span class="field-name">Ambient Temperature</span>
+            <span class="field-val num" id="lblAmbientTemp">35°C</span>
+          </div>
+          <div class="slider-wrap"><input type="range" id="ambientTemp" min="15" max="45" step="1" value="35"></div>
+        </div>
+
+        <div class="toggle-row" style="margin-top:12px">
+          <div>
+            <div class="toggle-label">Atmospheric Wind</div>
+            <div class="toggle-sub">Wind speed relative to ground (<span id="lblWindSpeed">0 km/h</span>).</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="toggleWind"><span class="track"><span class="knob"></span></span></label>
+        </div>
+        <div class="slider-wrap" id="wrapWindSlider" style="display:none; margin-top:8px">
+          <input type="range" id="windSpeed" min="-40" max="40" step="2" value="0">
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         RIGHT COLUMN: TELEMETRY & ENERGY ACCOUNTING
+         ========================================== -->
+    <div class="col-stack" id="rightCol">
+
+      <!-- Column Scroll Header -->
+      <div class="col-header-bar">
+        <span class="col-header-badge output-badge"><span class="dot"></span> OUTPUTS &amp; ENERGY ACCOUNTING</span>
+        <button class="col-nav-btn num" id="btnRightToControls" title="Jump to Controls Tab">🎮 Go to Controls Tab ←</button>
+      </div>
+
+      <!-- 1. Headline Metric: CORE QUESTION RESULT (BATTERY ENERGY BALANCE) -->
+      <div class="hero-metric-card" id="heroCard">
+        <div class="hero-header-row">
+          <span class="hero-kicker">Core Question Result</span>
+          <span class="hero-badge num" id="heroBadge">NET ENERGY LOSS</span>
+        </div>
+
+        <div class="hero-val-display">
+          <span class="hero-val num" id="heroNetWh">−0.0 Wh</span>
+          <span class="hero-unit">net battery change</span>
+        </div>
+
+        <div class="hero-explanation" id="heroExplanation">
+          Drive the vehicle or run the 20-min commute to observe whether external energy + recovered kinetic energy can overcome propulsion drag.
+        </div>
+
+        <!-- Proportional Stack Bar -->
+        <div class="source-stack-wrap">
+          <div class="stack-bar-title num">
+            <span>Energy Ratio: External vs Recovered vs Consumed</span>
+            <span id="lblStackRatio">0% | 0% | 100%</span>
+          </div>
+          <div class="proportional-stack-bar">
+            <div class="stack-seg solar" id="barSegSolar" style="width: 0%"></div>
+            <div class="stack-seg dynamic" id="barSegDynamic" style="width: 0%"></div>
+            <div class="stack-seg intersection" id="barSegIntersection" style="width: 0%"></div>
+            <div class="stack-seg regen" id="barSegRegen" style="width: 0%"></div>
+            <div class="stack-seg consumed" id="barSegConsumed" style="width: 100%"></div>
+          </div>
+          <div class="stack-legend num">
+            <span><i class="dot" style="background:var(--external)"></i> Solar: <b id="legSolarPct">0%</b></span>
+            <span><i class="dot" style="background:var(--dynamic-road)"></i> Road Coils: <b id="legDynamicPct">0%</b></span>
+            <span><i class="dot" style="background:var(--intersection)"></i> Signals: <b id="legJuncPct">0%</b></span>
+            <span><i class="dot" style="background:var(--recover)"></i> Regen/Downhill: <b id="legRegenPct">0%</b></span>
+            <span><i class="dot" style="background:var(--input)"></i> Battery Net Draw: <b id="legDrawPct">100%</b></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 20-Min Commute Simulation Report Card (Prominent Output) -->
+      <div class="card" id="tlReportCard" style="display:none; border-color: rgba(52, 211, 153, 0.4); background: linear-gradient(180deg, var(--panel-2) 0%, var(--panel) 100%);">
+        <div class="card-header" style="margin-bottom:8px">
+          <div class="card-title" id="tlReportTitle" style="color:#6ee7b7">⏱️ 20-Min Commute Report</div>
+          <span class="solver-ratio-pill num surplus" id="tlReportNet">0.0 Wh net</span>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:0.78rem; margin-bottom:10px" class="num">
+          <div style="background:var(--panel); padding:8px 10px; border-radius:6px; border:1px solid var(--grid-line)">
+            <span style="color:var(--muted); font-size:0.7rem">⚡ Drawn Power:</span><br>
+            <b id="tlRepDrawn" style="color:var(--input); font-size:0.92rem">0.0 Wh</b>
+          </div>
+          <div style="background:var(--panel); padding:8px 10px; border-radius:6px; border:1px solid var(--grid-line)">
+            <span style="color:var(--muted); font-size:0.7rem">🔄 Regen Reclaimed:</span><br>
+            <b id="tlRepRegen" style="color:var(--recover); font-size:0.92rem">0.0 Wh (0%)</b>
+          </div>
+          <div style="background:var(--panel); padding:8px 10px; border-radius:6px; border:1px solid var(--grid-line)">
+            <span style="color:var(--muted); font-size:0.7rem">💨 Aerodynamic Drag:</span><br>
+            <b id="tlRepDrag">0.0 Wh</b>
+          </div>
+          <div style="background:var(--panel); padding:8px 10px; border-radius:6px; border:1px solid var(--grid-line)">
+            <span style="color:var(--muted); font-size:0.7rem">🛞 Tire Rolling Loss:</span><br>
+            <b id="tlRepRoll">0.0 Wh</b>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; font-size:0.76rem; background:var(--panel); padding:8px 10px; border-radius:6px; border:1px solid var(--grid-line)" class="num">
+          <span>Efficiency: <b id="tlRepEff">— Wh/km</b></span>
+          <span>Friction Pad Heat: <b id="tlRepFriction" style="color:var(--loss)">0.0 Wh</b></span>
+        </div>
+        <div id="tlComparisonVerdict" style="margin-top:10px; font-size:0.78rem; line-height:1.45; color:var(--muted); border-top:1px dashed var(--grid-line); padding-top:8px"></div>
+      </div>
+
+      <!-- 3. Complete Trip Energy Accounting (Full 2-Category Ledger) -->
+      <div class="card" id="ledgerCard">
+        <div class="card-header">
+          <div class="card-title">📋 Complete Trip Energy Accounting</div>
+          <span class="num field-val" id="lblTripDistance">0.00 km</span>
+        </div>
+
+        <!-- Category A: Energy Leaving Battery -->
+        <div class="ledger-category">
+          <div class="cat-header">
+            <span class="cat-title-tag">
+              <span class="tag-pill con">Outflow</span>
+              <b>1. Energy Leaving Battery (Consumed)</b>
+            </span>
+            <span class="num val" id="valTotalOutflow" style="color:var(--input)">0.0 Wh</span>
+          </div>
+          <div class="ledger-row">
+            <span>⚡ Motor propulsion electrical power</span>
+            <span class="num val" id="valInput">0.0 Wh</span>
+          </div>
+          <div class="ledger-row sub-row">
+            <span>↳ Aerodynamic drag force (air push)</span>
+            <span class="num" id="valLossDrag">0.0 Wh</span>
+          </div>
+          <div class="ledger-row sub-row">
+            <span>↳ Tire rolling resistance (road friction)</span>
+            <span class="num" id="valLossRoll">0.0 Wh</span>
+          </div>
+          <div class="ledger-row sub-row">
+            <span>↳ Incline climbing work (gravity resistance)</span>
+            <span class="num" id="valLossGrade">0.0 Wh</span>
+          </div>
+          <div class="ledger-row sub-row">
+            <span>↳ Friction brake pad heat (unrecoverable)</span>
+            <span class="num" id="valFriction">0.0 Wh</span>
+          </div>
+          <div class="ledger-row sub-row">
+            <span>↳ Motor &amp; inverter electrical conversion heat</span>
+            <span class="num" id="valLossConv">0.0 Wh</span>
+          </div>
+          <div class="ledger-row sub-row">
+            <span>↳ Kinetic energy recaptured via regen (returned to battery)</span>
+            <span class="num" id="valLossRegen" style="color:var(--recover)">+0.0 Wh</span>
+          </div>
+          <div class="ledger-row sub-row" id="rowLossKE" style="display:none">
+            <span>↳ Stored vehicle kinetic energy (momentum in motion)</span>
+            <span class="num" id="valLossKE">0.0 Wh</span>
+          </div>
+          <div class="ledger-row">
+            <span>💡 Vehicle auxiliary electronics (ECU &amp; lamps)</span>
+            <span class="num val" id="valAux">0.0 Wh</span>
+          </div>
+        </div>
+
+        <!-- Category B: Energy Entering Battery -->
+        <div class="ledger-category">
+          <div class="cat-header">
+            <span class="cat-title-tag">
+              <span class="tag-pill ext">External</span>
+              <b>2A. External Energy (Photons + Road Grid)</b>
+            </span>
+            <span class="num val" id="valTotalExternal" style="color:var(--external)">+0.0 Wh</span>
+          </div>
+          <div class="ledger-row">
+            <span>☀️ Vehicle solar panel harvest</span>
+            <span class="num val" id="valSolar">0.0 Wh</span>
+          </div>
+          <div class="ledger-row">
+            <span>🛣️ Dynamic in-motion wireless road coils</span>
+            <span class="num val" id="valDynamicDetail" style="color:var(--dynamic-road)">0.0 Wh</span>
+          </div>
+          <div class="ledger-row">
+            <span>🚦 Traffic light wireless charging pads</span>
+            <span class="num val" id="valIntersectionDetail" style="color:var(--intersection)">0.0 Wh</span>
+          </div>
+        </div>
+
+        <div class="ledger-category">
+          <div class="cat-header">
+            <span class="cat-title-tag">
+              <span class="tag-pill rec">Recovered</span>
+              <b>2B. Recovered Energy (Vehicle's Own Motion &amp; Slope)</b>
+            </span>
+            <span class="num val" id="valRecoveredTotal" style="color:var(--recover)">+0.0 Wh</span>
+          </div>
+          <div class="ledger-row">
+            <span>🔄 Regenerative braking (kinetic capture)</span>
+            <span class="num val" id="valRecover">0.0 Wh</span>
+          </div>
+          <div class="ledger-row">
+            <span>⛰️ Downhill gravity potential recovery</span>
+            <span class="num val" id="valDownhill">0.0 Wh</span>
+          </div>
+          <div class="ledger-row">
+            <span>🪨 Suspension damping (vibration capture)</span>
+            <span class="num val" id="valSuspension">0.0 Wh</span>
+          </div>
+          <div class="ledger-row">
+            <span>🔬 Thermoelectric + Piezo + Wake micro-harvesters</span>
+            <span class="num val" id="valMarginal">0.0 Wh</span>
+          </div>
+          <div class="ledger-row">
+            <span>🌀 Vehicle wind turbine electricity generated</span>
+            <span class="num val" id="valTurbine" style="color:var(--recover)">+0.0 Wh</span>
+          </div>
+        </div>
+
+        <!-- Final Net Accounting -->
+        <div style="display:flex; justify-content:space-between; align-items:center; padding-top:10px; border-top:1px solid var(--grid-line); font-size:0.84rem" class="num">
+          <span><b>Net Trip Result:</b></span>
+          <b id="valNet" style="color:var(--loss)">0.0 Wh (— Wh/km)</b>
+        </div>
+        <div class="statrow" style="margin-top:6px"><span class="k" style="color:var(--muted); font-size:0.75rem">Trip Efficiency:</span> <span class="v num" id="statEff">— Wh/km</span></div>
+        <div class="statrow"><span class="k" style="color:var(--muted); font-size:0.75rem">Range gained from recovery:</span> <span class="v num" id="statRange">— km</span></div>
+        <div class="verdict" id="verdict" style="margin-top:8px; font-size:0.75rem; color:var(--muted)">Push accelerator to drive, then brake to see energy flows.</div>
+
+        <div class="btn-row" style="margin-top:14px">
+          <button class="action-btn primary" id="pauseBtn">Pause</button>
+          <button class="action-btn" id="resetBtn">Reset Trip</button>
+        </div>
+      </div>
+
+      <!-- 4. "WHAT WOULD IT TAKE TO GO NET POSITIVE?" Solver Card -->
+      <div class="solver-card">
+        <div class="solver-header">
+          <div class="solver-title">🎯 Can This Vehicle Go Net-Positive?</div>
+          <span class="solver-ratio-pill num" id="solverRatioPill">External covers 0.0% of trip</span>
+        </div>
+
+        <div class="solver-verdict-text" id="solverVerdict">
+          Evaluating whether solar, wireless road induction, and downhill gravity recovery can overcome aerodynamic and rolling resistance.
+        </div>
+
+        <div class="solver-requirements-grid num">
+          <div class="req-box">
+            <div class="req-label">Break-Even Road Coils</div>
+            <div class="req-val" id="solReqRoad" style="color:var(--dynamic-road)">— %</div>
+            <div class="req-note" id="solReqRoadNote">at 3.3 kW power</div>
+          </div>
+          <div class="req-box">
+            <div class="req-label">Break-Even Signals</div>
+            <div class="req-val" id="solReqJunc" style="color:var(--intersection)">— %</div>
+            <div class="req-note" id="solReqJuncNote">with 3.3 kW pads</div>
+          </div>
+          <div class="req-box">
+            <div class="req-label">Solar Alone Canopy</div>
+            <div class="req-val" id="solReqArea" style="color:var(--external)">— m²</div>
+            <div class="req-note" id="solReqAreaNote">at current speed</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Live Power Oscilloscope Meter -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📈 Live Power Oscilloscope</div>
+          <span class="num" id="lblLiveKW" style="font-size:0.8rem; font-weight:600">0.00 kW</span>
+        </div>
+        <p class="card-subtitle">Real-time battery electrical flow: blue is battery draw, green is regen/downhill, amber/cyan is wireless and solar recharge.</p>
+        <canvas id="powerMeter"></canvas>
+      </div>
+
+      <!-- 6. Powertrain Flow Schematic Canvas -->
+      <div class="card" id="powertrainPanel">
+        <div class="card-header">
+          <div class="card-title">🔄 Powertrain &amp; Smart-City Grid Transfer Schematic</div>
+          <span class="num" id="ptFlowDetail" style="font-size:0.8rem; font-weight:600">0.0 W</span>
+        </div>
+        <canvas id="powertrainCanvas"></canvas>
+        <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:0.75rem; color:var(--muted)">
+          <span class="status-tag num" id="ptStatusPill">⚡ Standby / Idle</span>
+          <span class="num" id="lblNetFlowW">0.0 W (Net)</span>
+        </div>
+      </div>
+
+      <!-- 6. Expandable Physics Validation & Myth-Check Lab -->
+      <details class="physics-details">
+        <summary>
+          <span>📐 Physics Validation &amp; Myth-Check Lab</span>
+          <span style="font-size:0.72rem; color:var(--muted)">Expand</span>
+        </summary>
+        <div class="details-content">
+          <p class="card-subtitle" style="margin-top:10px; margin-bottom:8px">Live verification ensuring zero physical laws or thermodynamic ceilings are violated:</p>
+          
+          <div class="audit-item">
+            <span class="audit-icon">✓</span>
+            <div><b>Conservation of Energy:</b> Net battery delta precisely equals Total Inflow minus Total Outflow (<span class="num" id="audConservation">ΔE = 0.00 Wh</span>).</div>
+          </div>
+          <div class="audit-item">
+            <span class="audit-icon">✓</span>
+            <div><b>Kinetic Bound on Regen:</b> Recovered braking energy is strictly bounded by <span class="num">½·m·Δv²</span>. Never exceeds available vehicle momentum.</div>
+          </div>
+          <div class="audit-item">
+            <span class="audit-icon">✓</span>
+            <div><b>External Wireless Road Infrastructure:</b> Complies with SAE J2954 guidelines. Ground power comes from municipal electrical grid. 85% dynamic transfer efficiency / 88% stationary pad efficiency accounts for high-frequency magnetic coupling and inverter losses.</div>
+          </div>
+          <div class="audit-item">
+            <span class="audit-icon">✓</span>
+            <div><b>Gravitational Potential Energy:</b> Downhill regen is strictly bounded by <span class="num">m·g·h·η</span>. Cannot recover more energy than the elevation drop provides.</div>
+          </div>
+          <div class="audit-item">
+            <span class="audit-icon">✓</span>
+            <div><b>Solar Thermodynamic Bound:</b> Solar output strictly capped by <span class="num">G·A·η·η_temp·η_mppt</span> (maximum ~140 W/m² effective under clear noon sun).</div>
+          </div>
+          <div class="audit-item">
+            <span class="audit-icon">✓</span>
+            <div><b>Myth Check: Vehicle-Mounted Wind Turbine:</b> Pulling electricity from ambient headwind adds drag equal to <span class="num">F_extra = P_extract / v</span>. Because Betz limit + turbine efficiency &lt; 40%, the motor must burn 2.5× more battery power to overcome the added turbine drag than the turbine generates (<span class="num" style="color:var(--loss)">Net Turbine Effect: ALWAYS NEGATIVE</span>).</div>
+          </div>
+          <div class="audit-item">
+            <span class="audit-icon">✓</span>
+            <div><b>Micro-Harvesters (Piezo/Thermoelectric/Wake):</b> Recovering tire flex and motor casing heat yields realistic sub-watt power (thermoelectric ~3.5 W, piezo ~0.05 W, wake ~0.02 W).</div>
+          </div>
+        </div>
+      </details>
+
+      <footer>
+        <b>Electric Vehicle Energy Lab</b> — Calibrated to real-world physics. Supports Activa-class Indian scooter (170 kg total) and Tiago/Nexon EV class car (1350 kg total). Wireless inductive charging infrastructure based on SAE J2954 IPT pilot parameters (3.3 kW level 2 grid feed, 85–88% coupling efficiency). Driving cycles reflect Bengaluru/Mumbai TomTom urban telemetry (14–22 km/h average traffic crawl) and open expressway cruising.
+      </footer>
+
+    </div>
+
+  </div> <!-- end layout-grid -->
+
+</div> <!-- end app-shell -->
+
+<script>
+(function() {
+  'use strict';
+
+  // Physical Constants
+  var G = 9.81;
+  var RHO = 1.225;
+
+  // DOM Elements cache
+  var $ = function(id) { return document.getElementById(id); };
+  var els = {
+    layoutGrid: $('layoutGrid'), leftCol: $('leftCol'), rightCol: $('rightCol'),
+    tabSplitView: $('tabSplitView'), tabControlsView: $('tabControlsView'), tabOutputsView: $('tabOutputsView'),
+    btnLeftToOutputs: $('btnLeftToOutputs'), btnRightToControls: $('btnRightToControls'),
+    ledgerCard: $('ledgerCard'),
+    vehScooter: $('vehScooter'), vehCar: $('vehCar'), lblTopVehicleDesc: $('lblTopVehicleDesc'),
+    btnModeBaseline: $('btnModeBaseline'), btnModeFactory: $('btnModeFactory'), btnModeFull: $('btnModeFull'),
+    stateChip: $('stateChip'), speedReadout: $('speedReadout'), powerReadout: $('powerReadout'), distReadout: $('distReadout'),
+    road: $('road'),
+    accelPedal: $('accelPedal'), accelVal: $('accelVal'), accelPedalWrap: $('accelPedalWrap'),
+    brakePedal: $('brakePedal'), brakeVal: $('brakeVal'), brakePedalWrap: $('brakePedalWrap'),
+    modeManual: $('modeManual'), modeCruise: $('modeCruise'),
+    wrapCruiseField: $('wrapCruiseField'), cruiseTarget: $('cruiseTarget'), lblCruise: $('lblCruise'),
+    onePedal: $('onePedal'),
+    timelapsePanel: $('timelapsePanel'), timelapseStatusChip: $('timelapseStatusChip'),
+    simCityBtn: $('simCityBtn'), simHwyBtn: $('simHwyBtn'),
+    btnPlayTimelapse: $('btnPlayTimelapse'), btnInstantTimelapse: $('btnInstantTimelapse'), btnResetTimelapse: $('btnResetTimelapse'),
+    tlTimeElapsed: $('tlTimeElapsed'), tlDistanceCovered: $('tlDistanceCovered'), tlProgressBar: $('tlProgressBar'), tlEventText: $('tlEventText'),
+    lblInfraTotalActive: $('lblInfraTotalActive'),
+    chkDynamicRoad: $('chkDynamicRoad'), sliderRoadPower: $('sliderRoadPower'), lblRoadPower: $('lblRoadPower'),
+    sliderRoadCoverage: $('sliderRoadCoverage'), lblRoadCoverage: $('lblRoadCoverage'), lblDynamicStatus: $('lblDynamicStatus'),
+    chkIntersection: $('chkIntersection'), sliderPadPower: $('sliderPadPower'), lblPadPower: $('lblPadPower'),
+    sliderIntersectionPct: $('sliderIntersectionPct'), lblIntersectionPct: $('lblIntersectionPct'), lblIntersectionStatus: $('lblIntersectionStatus'),
+    mass: $('mass'), lblMass: $('lblMass'),
+    drag: $('drag'), lblDrag: $('lblDrag'),
+    roll: $('roll'), lblRoll: $('lblRoll'),
+    airDensity: $('airDensity'), lblAirDensity: $('lblAirDensity'),
+    toggleRegenBraking: $('toggleRegenBraking'), valRegenW: $('valRegenW'), lblBrakeRegenStatus: $('lblBrakeRegenStatus'),
+    maxAccel: $('maxAccel'), lblMaxAccel: $('lblMaxAccel'),
+    maxBrake: $('maxBrake'), lblMaxBrake: $('lblMaxBrake'),
+    maxRegen: $('maxRegen'), lblMaxRegen: $('lblMaxRegen'),
+    regenEff: $('regenEff'), lblRegenEff: $('lblRegenEff'),
+    grade: $('grade'), lblGrade: $('lblGrade'),
+    toggleDownhill: $('toggleDownhill'), valDownhillW: $('valDownhillW'),
+    toggleSuspension: $('toggleSuspension'), valSuspensionW: $('valSuspensionW'),
+    toggleThermo: $('toggleThermo'), valThermoW: $('valThermoW'),
+    togglePiezo: $('togglePiezo'), valPiezoW: $('valPiezoW'),
+    toggleWake: $('toggleWake'), valWakeW: $('valWakeW'),
+    toggleTurbine: $('toggleTurbine'), valTurbineNet: $('valTurbineNet'),
+    toggleSolar: $('toggleSolar'), solarArea: $('solarArea'), lblSolarArea: $('lblSolarArea'),
+    solarEff: $('solarEff'), lblSolarEff: $('lblSolarEff'),
+    irradiance: $('irradiance'), lblIrradiance: $('lblIrradiance'),
+    ambientTemp: $('ambientTemp'), lblAmbientTemp: $('lblAmbientTemp'),
+    valSolarW: $('valSolarW'),
+    toggleWind: $('toggleWind'), wrapWindSlider: $('wrapWindSlider'), windSpeed: $('windSpeed'), lblWindSpeed: $('lblWindSpeed'),
+    heroCard: $('heroCard'), heroBadge: $('heroBadge'), heroNetWh: $('heroNetWh'), heroExplanation: $('heroExplanation'),
+    lblStackRatio: $('lblStackRatio'), barSegSolar: $('barSegSolar'), barSegDynamic: $('barSegDynamic'), barSegIntersection: $('barSegIntersection'),
+    barSegRegen: $('barSegRegen'), barSegConsumed: $('barSegConsumed'),
+    legSolarPct: $('legSolarPct'), legDynamicPct: $('legDynamicPct'), legJuncPct: $('legJuncPct'), legRegenPct: $('legRegenPct'), legDrawPct: $('legDrawPct'),
+    solverRatioPill: $('solverRatioPill'), solverVerdict: $('solverVerdict'),
+    solReqRoad: $('solReqRoad'), solReqRoadNote: $('solReqRoadNote'),
+    solReqJunc: $('solReqJunc'), solReqJuncNote: $('solReqJuncNote'),
+    solReqArea: $('solReqArea'), solReqAreaNote: $('solReqAreaNote'),
+    powerMeter: $('powerMeter'), lblLiveKW: $('lblLiveKW'),
+    powertrainPanel: $('powertrainPanel'), powertrainCanvas: $('powertrainCanvas'), ptFlowDetail: $('ptFlowDetail'), ptStatusPill: $('ptStatusPill'), lblNetFlowW: $('lblNetFlowW'),
+    lblTripDistance: $('lblTripDistance'),
+    valTotalOutflow: $('valTotalOutflow'), valInput: $('valInput'),
+    valLossDrag: $('valLossDrag'), valLossRoll: $('valLossRoll'), valLossGrade: $('valLossGrade'), valFriction: $('valFriction'), valLossConv: $('valLossConv'),
+    valLossRegen: $('valLossRegen'), rowLossKE: $('rowLossKE'), valLossKE: $('valLossKE'),
+    valAux: $('valAux'), valTotalExternal: $('valTotalExternal'), valSolar: $('valSolar'),
+    valDynamicDetail: $('valDynamicDetail'), valIntersectionDetail: $('valIntersectionDetail'),
+    valRecoveredTotal: $('valRecoveredTotal'), valRecover: $('valRecover'), valDownhill: $('valDownhill'),
+    valSuspension: $('valSuspension'), valMarginal: $('valMarginal'), valTurbine: $('valTurbine'),
+    valNet: $('valNet'), statEff: $('statEff'), statRange: $('statRange'), verdict: $('verdict'),
+    tlReportCard: $('tlReportCard'), tlReportTitle: $('tlReportTitle'), tlReportNet: $('tlReportNet'),
+    tlRepDrawn: $('tlRepDrawn'), tlRepRegen: $('tlRepRegen'), tlRepDrag: $('tlRepDrag'), tlRepRoll: $('tlRepRoll'),
+    tlRepEff: $('tlRepEff'), tlRepFriction: $('tlRepFriction'), tlComparisonVerdict: $('tlComparisonVerdict'),
+    pauseBtn: $('pauseBtn'), resetBtn: $('resetBtn'),
+    audConservation: $('audConservation')
+  };
+
+  // Vehicle Presets Specification
+  var VEHICLES = {
+    scooter: {
+      label: 'scooter', unitLabel: 'an Activa-class Indian scooter + rider',
+      desc: 'Scooter Mode · 170 kg · Full Harvester Suite',
+      mass:      { min: 80,   max: 320,  step: 5,     typical: 170,  unit: 'kg' },
+      drag:      { min: 0.20, max: 0.90, step: 0.01,  typical: 0.42, unit: 'm²' },
+      roll:      { min: 0.008,max: 0.025,step: 0.001, typical: 0.018,unit: '' },
+      maxAccel:  { min: 0.8,  max: 4.0,  step: 0.1,   typical: 1.8,  unit: 'm/s²' },
+      maxBrake:  { min: 2.0,  max: 7.0,  step: 0.5,   typical: 5.0,  unit: 'm/s²' },
+      maxRegen:  { min: 0.3,  max: 3.0,  step: 0.1,   typical: 1.0,  unit: 'm/s²' },
+      regenEff:  { min: 20,   max: 90,   step: 1,     typical: 55,   unit: '%' },
+      cruise:    { min: 10,   max: 70,   step: 5,     typical: 35,   unit: 'km/h' },
+      solarArea: { min: 0.05, max: 0.60, step: 0.05,  typical: 0.15, unit: 'm²' },
+      driveEff:  0.85,
+      maxRegenPower: 2500,
+      auxWatts: 15
+    },
+    car: {
+      label: 'car', unitLabel: 'a Tiago/Nexon EV-class Indian electric car',
+      desc: 'Car Mode (Tiago/Nexon EV class) · 1350 kg · Full Aero/Suspension Suite',
+      mass:      { min: 800,  max: 2400, step: 25,    typical: 1350, unit: 'kg' },
+      drag:      { min: 0.40, max: 1.40, step: 0.02,  typical: 0.65, unit: 'm²' },
+      roll:      { min: 0.006,max: 0.020,step: 0.001, typical: 0.014,unit: '' },
+      maxAccel:  { min: 1.0,  max: 6.0,  step: 0.1,   typical: 2.8,  unit: 'm/s²' },
+      maxBrake:  { min: 3.0,  max: 9.0,  step: 0.5,   typical: 7.0,  unit: 'm/s²' },
+      maxRegen:  { min: 0.5,  max: 4.0,  step: 0.1,   typical: 2.0,  unit: 'm/s²' },
+      regenEff:  { min: 20,   max: 90,   step: 1,     typical: 65,   unit: '%' },
+      cruise:    { min: 20,   max: 120,  step: 5,     typical: 65,   unit: 'km/h' },
+      solarArea: { min: 0.30, max: 4.00, step: 0.10,  typical: 1.80, unit: 'm²' },
+      driveEff:  0.88,
+      maxRegenPower: 28000,
+      auxWatts: 120
+    }
+  };
+  var vehicleType = 'scooter';
+  var mode = 'manual';
+
+  // State Variables
+  var v = 0; // m/s
+  var distance = 0;
+  var running = true;
+  var state = 'idle';
+
+  // Accumulators (Joules)
+  var totIn = 0;
+  var totLossDrag = 0;
+  var totLossRoll = 0;
+  var totLossGrade = 0;
+  var totFriction = 0;
+  var totConvLoss = 0;
+  var totAux = 0;
+
+  var totSolar = 0;
+  var totDynamic = 0;
+  var totIntersection = 0;
+
+  var totRecover = 0;
+  var totDownhill = 0;
+  var totSuspension = 0;
+  var totMarginal = 0;
+  var totTurbine = 0;
+
+  // Instantaneous Rates (W)
+  var currentPowerKW = 0;
+  var currentFrictionKW = 0;
+  var curSolarW = 0;
+  var curDynamicW = 0;
+  var curIntersectionW = 0;
+  var curDownhillW = 0;
+  var curSuspensionW = 0;
+  var curThermoW = 0;
+  var curPiezoW = 0;
+  var curWakeW = 0;
+  var curTurbineNetW = 0;
+  var curNetBatteryW = 0;
+
+  var isOverRoadCoil = false;
+  var isOverSignalPad = false;
+
+  var powerHistory = [];
+
+  // Timelapse state
+  var tlActive = false;
+  var tlSimTime = 0;
+  var tlSpeedMult = 30;
+  var tlCondition = 'city';
+
+  function J2Wh(j) { return j / 3600; }
+  function fmt(val, unit, decimals) {
+    var s = (decimals !== undefined) ? val.toFixed(decimals) : String(val);
+    return unit ? (s + ' ' + unit) : s;
+  }
+  function placeTick(tickId, cfg, decimals) {
+    var t = $(tickId);
+    if (!t) return;
+    var pct = ((cfg.typical - cfg.min) / (cfg.max - cfg.min)) * 100;
+    t.style.left = pct + '%';
+    t.title = 'Typical: ' + fmt(cfg.typical, cfg.unit, decimals);
+  }
+
+  // Canvas contexts
+  var roadCtx = els.road.getContext('2d');
+  var meterCtx = els.powerMeter.getContext('2d');
+  var ptCtx = els.powertrainCanvas.getContext('2d');
+
+  function resizeCanvases() {
+    var dpr = window.devicePixelRatio || 1;
+    [els.road, els.powerMeter, els.powertrainCanvas].forEach(function(c) {
+      if (!c) return;
+      var rect = c.getBoundingClientRect();
+      var w = Math.max(1, Math.round(rect.width * dpr));
+      var h = Math.max(1, Math.round(rect.height * dpr));
+      if (c.width !== w || c.height !== h) {
+        c.width = w;
+        c.height = h;
+      }
+    });
+  }
+  window.addEventListener('resize', resizeCanvases);
+  if (typeof ResizeObserver !== 'undefined') {
+    var ro = new ResizeObserver(function() { resizeCanvases(); });
+    if (els.road) ro.observe(els.road);
+    if (els.powerMeter) ro.observe(els.powerMeter);
+    if (els.powertrainCanvas) ro.observe(els.powertrainCanvas);
+  }
+
+  // ---------- Vehicle Switcher Logic ----------
+  function applyVehicle(type) {
+    vehicleType = type;
+    els.vehScooter.classList.toggle('active', type === 'scooter');
+    els.vehCar.classList.toggle('active', type === 'car');
+    var V = VEHICLES[type];
+    els.lblTopVehicleDesc.textContent = V.desc;
+
+    var specs = [
+      ['mass', els.mass, 0], ['drag', els.drag, 2], ['roll', els.roll, 3],
+      ['maxAccel', els.maxAccel, 1], ['maxBrake', els.maxBrake, 1],
+      ['maxRegen', els.maxRegen, 1], ['regenEff', els.regenEff, 0], ['cruise', els.cruiseTarget, 0]
+    ];
+    specs.forEach(function(s) {
+      var key = s[0], el = s[1], decimals = s[2];
+      var cfg = V[key];
+      el.min = cfg.min; el.max = cfg.max; el.step = cfg.step; el.value = cfg.typical;
+      placeTick('tick_' + key, cfg, decimals);
+      var noteEl = $('note_' + key);
+      if (noteEl) noteEl.textContent = 'Typical for ' + V.unitLabel + ': ' + fmt(cfg.typical, cfg.unit, decimals);
+    });
+
+    var sCfg = V.solarArea;
+    els.solarArea.min = sCfg.min; els.solarArea.max = sCfg.max; els.solarArea.step = sCfg.step; els.solarArea.value = sCfg.typical;
+
+    updateCommuteLabels();
+    syncLabels();
+    updateUI();
+  }
+  els.vehScooter.addEventListener('click', function() { applyVehicle('scooter'); });
+  els.vehCar.addEventListener('click', function() { applyVehicle('car'); });
+
+  // ---------- Commute Button Labels (BUGFIX: labels were hardcoded and did not
+  // match what the 20-min timelapse actually drives. "Highway Cruise (12 km, 75 km/h)"
+  // was self-contradictory on its own terms — 75 km/h sustained for 20 min covers
+  // ~25 km, not 12 km — and the real profile (65 km/h for scooters, 82 km/h for
+  // cars) covers ~21-26 km, exactly what users were seeing. Instead of another
+  // hardcoded (and eventually wrong-again) number, this estimates the true
+  // distance by integrating the same target-speed profile getTimelapseTarget()
+  // uses, per vehicle, so the label can never drift out of sync with the sim again. ----------
+  function estimateNominalRouteKm(cond) {
+    // getTimelapseTarget reads the (already-updated) global vehicleType itself,
+    // so this just needs to know which commute profile to integrate.
+    var distKm = 0;
+    for (var t = 0; t < 1200; t++) {
+      distKm += getTimelapseTarget(cond, t).targetKmh / 3600;
+    }
+    return distKm;
+  }
+  function updateCommuteLabels() {
+    var isCar = vehicleType === 'car';
+    var cityKm = estimateNominalRouteKm('city');
+    var hwyKm = estimateNominalRouteKm('highway');
+    var hwyTop = isCar ? 82 : 65;
+    els.simCityBtn.textContent = '🏙️ Indian City Commute (~' + cityKm.toFixed(1) + ' km, 12 Signals)';
+    els.simHwyBtn.textContent = '🛣️ Highway Cruise (~' + hwyKm.toFixed(1) + ' km, ~' + hwyTop + ' km/h)';
+  }
+
+  // ---------- View Mode Switcher Logic ----------
+  var currentViewMode = 'split';
+  function setViewMode(mode) {
+    currentViewMode = mode;
+    els.tabSplitView.classList.toggle('active', mode === 'split');
+    els.tabControlsView.classList.toggle('active', mode === 'controls');
+    els.tabOutputsView.classList.toggle('active', mode === 'outputs');
+
+    els.layoutGrid.classList.remove('view-split', 'view-controls', 'view-outputs');
+    els.layoutGrid.classList.add('view-' + mode);
+
+    els.tabSplitView.setAttribute('aria-selected', mode === 'split');
+    els.tabControlsView.setAttribute('aria-selected', mode === 'controls');
+    els.tabOutputsView.setAttribute('aria-selected', mode === 'outputs');
+
+    setTimeout(function() {
+      resizeCanvases();
+    }, 30);
+  }
+
+  els.tabSplitView.addEventListener('click', function() { setViewMode('split'); });
+  els.tabControlsView.addEventListener('click', function() { setViewMode('controls'); });
+  els.tabOutputsView.addEventListener('click', function() { setViewMode('outputs'); });
+  if (els.btnLeftToOutputs) els.btnLeftToOutputs.addEventListener('click', function() { setViewMode('outputs'); });
+  if (els.btnRightToControls) els.btnRightToControls.addEventListener('click', function() { setViewMode('controls'); });
+
+  window.__jumpToOutputs = function() {
+    setViewMode('outputs');
+    if (els.tlReportCard) {
+      setTimeout(function() {
+        els.tlReportCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    }
+  };
+
+  function syncLabels() {
+    els.lblMass.textContent = fmt(parseFloat(els.mass.value), 'kg', 0);
+    els.lblDrag.textContent = fmt(parseFloat(els.drag.value), 'm²', 2);
+    els.lblRoll.textContent = fmt(parseFloat(els.roll.value), '', 3);
+    els.lblAirDensity.textContent = fmt(parseFloat(els.airDensity.value), 'kg/m³', 3);
+    els.lblMaxAccel.textContent = fmt(parseFloat(els.maxAccel.value), 'm/s²', 1);
+    els.lblMaxBrake.textContent = fmt(parseFloat(els.maxBrake.value), 'm/s²', 1);
+    els.lblMaxRegen.textContent = fmt(parseFloat(els.maxRegen.value), 'm/s²', 1);
+    els.lblRegenEff.textContent = fmt(parseFloat(els.regenEff.value), '%', 0);
+    els.lblGrade.textContent = fmt(parseFloat(els.grade.value), '%', 1);
+    els.lblCruise.textContent = fmt(parseFloat(els.cruiseTarget.value), 'km/h', 0);
+    els.lblSolarArea.textContent = fmt(parseFloat(els.solarArea.value), 'm²', 2);
+    els.lblSolarEff.textContent = fmt(parseFloat(els.solarEff.value), '%', 0);
+    els.lblIrradiance.textContent = fmt(parseFloat(els.irradiance.value), 'W/m²', 0);
+    els.lblAmbientTemp.textContent = fmt(parseFloat(els.ambientTemp.value), '°C', 0);
+    els.lblWindSpeed.textContent = fmt(parseFloat(els.windSpeed.value), 'km/h', 0);
+
+    els.lblRoadPower.textContent = parseFloat(els.sliderRoadPower.value).toFixed(1) + ' kW';
+    var rCov = parseFloat(els.sliderRoadCoverage.value);
+    // BUGFIX: this used to compute rCov * 0.07, i.e. it always assumed the route
+    // was a fixed 7 km (the city commute's nominal length) no matter which commute
+    // or vehicle was selected — so on the 12 km-labeled (really ~21-26 km) highway
+    // route it showed a wrong, disconnected figure like "10% of route (0.70 km)".
+    // The coil is actually energized for a % of every repeating 400 m road block
+    // (see isOverRoadCoil below), a distance-independent quantity, so describe it
+    // that way instead of tying it to a hardcoded "whole route" length.
+    var activeBlockM = Math.round(400 * rCov / 100);
+    els.lblRoadCoverage.textContent = rCov + '% of each 400 m road segment (' + activeBlockM + ' m active per block)';
+    els.lblPadPower.textContent = parseFloat(els.sliderPadPower.value).toFixed(1) + ' kW';
+    var jPct = parseFloat(els.sliderIntersectionPct.value);
+    els.lblIntersectionPct.textContent = jPct + '% (' + Math.round(12 * (jPct / 100)) + ' of 12 signals)';
+  }
+
+  // ---------- Solar Modeling ----------
+  function computeSolarPower() {
+    if (!els.toggleSolar.checked) return 0;
+    var area = parseFloat(els.solarArea.value);
+    var panelEff = parseFloat(els.solarEff.value) / 100;
+    var irr = parseFloat(els.irradiance.value);
+    var ambT = parseFloat(els.ambientTemp.value);
+
+    if (irr <= 1 || area <= 0.001) return 0;
+
+    var panelTemp = ambT + 25 * (irr / 800);
+    var tempDerate = Math.max(0.5, 1 - 0.004 * Math.max(0, panelTemp - 25));
+    return irr * area * panelEff * tempDerate * 0.92;
+  }
+
+  // ---------- Route Target Generator ----------
+  function getTimelapseTarget(cond, tSec) {
+    var isCar = vehicleType === 'car';
+    if (cond === 'city') {
+      var cycleT = tSec % 100;
+      var cycleIdx = Math.floor(tSec / 100);
+      var maxSpd = isCar ? (38 + (cycleIdx % 4) * 4) : (30 + (cycleIdx % 4) * 3);
+
+      if (cycleT < 18) {
+        return { targetKmh: 0, event: '🚦 Red traffic signal — stopped at intersection ' + (cycleIdx + 1) + ' of 12' };
+      } else if (cycleT < 34) {
+        var frac = (cycleT - 18) / 16;
+        return { targetKmh: frac * maxSpd, event: '🟢 Green signal — accelerating smoothly into traffic stream' };
+      } else if (cycleT < 65) {
+        var wobble = Math.sin(tSec * 0.4) * 1.8;
+        return { targetKmh: maxSpd + wobble, event: '🚗 Cruising in urban traffic (~' + Math.round(maxSpd) + ' km/h)' };
+      } else if (cycleT < 78) {
+        var bumpSpd = 14;
+        var f2 = (cycleT - 65) / 13;
+        return { targetKmh: maxSpd * (1 - f2) + bumpSpd * f2, event: '⚠️ Speed breaker ahead — slowing down (Regen active)' };
+      } else if (cycleT < 86) {
+        return { targetKmh: 28, event: '⚡ Post-hump acceleration back to traffic speed' };
+      } else {
+        var f3 = (cycleT - 86) / 14;
+        return { targetKmh: Math.max(0, 28 * (1 - f3)), event: '🛑 Approaching traffic signal — gentle regenerative stop' };
+      }
+    } else {
+      var hwyTop = isCar ? 82 : 65;
+      if (tSec < 25) {
+        return { targetKmh: (tSec / 25) * hwyTop, event: '🛣️ Entering expressway on-ramp — accelerating to cruise' };
+      } else if (tSec < 800) {
+        var w1 = Math.sin(tSec * 0.1) * 2.5;
+        return { targetKmh: hwyTop + w1, event: '💨 Sustained open highway cruise at ' + Math.round(hwyTop) + ' km/h' };
+      } else if (tSec < 840) {
+        return { targetKmh: 35, event: '🛑 Approaching toll plaza / interchange — slowing down' };
+      } else if (tSec < 870) {
+        var fUp = (tSec - 840) / 30;
+        return { targetKmh: 35 * (1 - fUp) + hwyTop * fUp, event: '⚡ Exiting toll plaza — building highway speed' };
+      } else if (tSec < 1165) {
+        var w2 = Math.sin(tSec * 0.08) * 2;
+        return { targetKmh: hwyTop + w2, event: '💨 Final high-speed expressway stretch' };
+      } else {
+        var fExit = (tSec - 1165) / 35;
+        var w3 = Math.sin(1165 * 0.08) * 2;
+        return { targetKmh: Math.max(0, (hwyTop + w3) * (1 - fExit)), event: '🛑 Taking highway exit ramp — smooth regenerative deceleration to stop' };
+      }
+    }
+  }
+
+  // ---------- Core Physics Step ----------
+  function stepPhysics(dt) {
+    var mass = parseFloat(els.mass.value);
+    var cdA = parseFloat(els.drag.value);
+    var crr = parseFloat(els.roll.value);
+    var rho = parseFloat(els.airDensity.value);
+    var maxAcc = parseFloat(els.maxAccel.value);
+    var maxBrk = parseFloat(els.maxBrake.value);
+    var maxRegenDecel = parseFloat(els.maxRegen.value);
+    var regenEff = parseFloat(els.regenEff.value) / 100;
+    var accelPct = mode === 'cruise' ? 0 : parseFloat(els.accelPedal.value) / 100;
+    var brakePct = parseFloat(els.brakePedal.value) / 100;
+    var cruiseTargetV = parseFloat(els.cruiseTarget.value) / 3.6;
+    var onePedal = els.onePedal.checked;
+
+    var V = VEHICLES[vehicleType];
+    var driveEff = V.driveEff || 0.86;
+    var maxRegenPwr = V.maxRegenPower || 2500;
+    var pAux = V.auxWatts || 15;
+
+    // 1. Solar Input (Area × Irradiance × Efficiency × Temperature Derate × Time)
+    curSolarW = computeSolarPower();
+    totSolar += curSolarW * dt;
+
+    // 2. Dynamic Road Coils (Power × Time Over Energized Coils × Efficiency)
+    var roadCovFrac = parseFloat(els.sliderRoadCoverage.value) / 100;
+    var roadPwrW = parseFloat(els.sliderRoadPower.value) * 1000;
+    var blockPos = distance % 400;
+    isOverRoadCoil = els.chkDynamicRoad.checked && roadCovFrac > 0 && (blockPos < 400 * roadCovFrac) && (v > 0.4);
+
+    if (isOverRoadCoil) {
+      curDynamicW = roadPwrW * 0.85;
+      totDynamic += curDynamicW * dt;
+    } else {
+      curDynamicW = 0;
+    }
+
+    // 3. Intersection Pads (Power × Dwell Time Stopped Over Equipped Pads × Efficiency)
+    var juncEquipFrac = parseFloat(els.sliderIntersectionPct.value) / 100;
+    var padPwrW = parseFloat(els.sliderPadPower.value) * 1000;
+
+    if (tlActive) {
+      var cycleIdx = Math.floor(tlSimTime / 100);
+      var cycleT = tlSimTime % 100;
+      var isSignalEquipped = (cycleIdx % 12) < Math.round(12 * juncEquipFrac);
+      isOverSignalPad = (tlCondition === 'city') && els.chkIntersection.checked && juncEquipFrac > 0 && isSignalEquipped && (cycleT < 18) && (v < 0.4);
+    } else {
+      var manJuncIdx = Math.floor(distance / 500);
+      var manEquipped = (manJuncIdx % 12) < Math.round(12 * juncEquipFrac);
+      isOverSignalPad = els.chkIntersection.checked && juncEquipFrac > 0 && manEquipped && ((distance % 500) < 20) && (v < 0.4);
+    }
+
+    if (isOverSignalPad) {
+      curIntersectionW = padPwrW * 0.88;
+      totIntersection += curIntersectionW * dt;
+    } else {
+      curIntersectionW = 0;
+    }
+
+    // Auxiliary Electronics Drain
+    totAux += pAux * dt;
+
+    var vPrev = v;
+    var windSpeedVal = parseFloat(els.windSpeed.value) / 3.6;
+    var effV = (els.toggleWind.checked) ? Math.max(0, vPrev + windSpeedVal) : vPrev;
+    var fDragVeh = 0.5 * rho * cdA * effV * effV;
+
+    // Vehicle-mounted wind turbine physical aerodynamic drag & electricity generation
+    var fTurbDrag = 0;
+    curTurbineNetW = 0;
+    if (els.toggleTurbine.checked && vPrev > 1.0) {
+      var isCar = (vehicleType === 'car');
+      var aTurb = isCar ? 0.10 : 0.03;
+      var vRel = effV > 0.1 ? effV : vPrev;
+      fTurbDrag = 0.5 * rho * aTurb * vRel * vRel * 0.85;
+      curTurbineNetW = 0.5 * rho * aTurb * Math.pow(vRel, 3) * 0.28 * 0.70;
+      totTurbine += curTurbineNetW * dt;
+    }
+
+    var fDrag = fDragVeh + fTurbDrag;
+    var fRoll = vPrev > 0.05 ? crr * mass * G : 0;
+
+    var gradePct = parseFloat(els.grade.value);
+    var gradeRad = Math.atan(gradePct / 100);
+    var fGrade = mass * G * Math.sin(gradeRad);
+
+    // Handle Timelapse Speed Control & Realistic Resistance Holding
+    if (tlActive) {
+      var tgt = getTimelapseTarget(tlCondition, tlSimTime);
+      var curKmh = v * 3.6;
+      var spdDiff = tgt.targetKmh - curKmh;
+
+      if (tgt.targetKmh <= 0.5) {
+        accelPct = 0;
+        brakePct = vPrev > 0.05 ? Math.min(1.0, 0.4 + vPrev / 8) : 0;
+      } else if (spdDiff > 1.2) {
+        accelPct = Math.min(1.0, spdDiff / 14);
+        brakePct = 0;
+      } else if (spdDiff < -1.5) {
+        accelPct = 0;
+        brakePct = Math.min(1.0, Math.abs(spdDiff) / 12);
+      } else {
+        var fResist = fDrag + fRoll + Math.max(0, fGrade);
+        var fMaxThrust = mass * maxAcc;
+        accelPct = Math.min(1.0, Math.max(0.04, fResist / Math.max(1, fMaxThrust)));
+        brakePct = 0;
+      }
+
+      els.accelPedal.value = Math.round(accelPct * 100);
+      els.brakePedal.value = Math.round(brakePct * 100);
+      els.accelVal.textContent = els.accelPedal.value + '%';
+      els.brakeVal.textContent = els.brakePedal.value + '%';
+
+      var activeEvt = tgt.event;
+      if (isOverSignalPad) {
+        activeEvt += ' <b style="color:var(--intersection)">[⚡ Signal Pad: +' + (curIntersectionW / 1000).toFixed(1) + ' kW]</b>';
+      } else if (isOverRoadCoil) {
+        activeEvt += ' <b style="color:var(--dynamic-road)">[⚡ Over Road Coil: +' + (curDynamicW / 1000).toFixed(1) + ' kW]</b>';
+      }
+      els.tlEventText.innerHTML = activeEvt;
+    }
+
+    var driven = false;
+    var accelDemand = 0;
+    var decelDemand = 0;
+
+    var isRegenEnabled = els.toggleRegenBraking ? els.toggleRegenBraking.checked : true;
+    if (brakePct > 0.001) {
+      state = 'brake';
+      decelDemand = brakePct * maxBrk;
+    } else if (mode === 'manual' && accelPct > 0.001) {
+      state = 'accel';
+      driven = true;
+      accelDemand = accelPct * maxAcc;
+    } else if (mode === 'cruise') {
+      if (vPrev < cruiseTargetV - 0.15) {
+        state = 'cruise-catchup';
+        driven = true;
+        accelDemand = Math.min(1.6, maxAcc);
+      } else if (vPrev > cruiseTargetV + 0.15) {
+        state = 'cruise-coastdown';
+        driven = false;
+        if (gradePct < 0 || vPrev > cruiseTargetV + 0.5) {
+          decelDemand = Math.min(maxRegenDecel, (vPrev - cruiseTargetV) / 2);
+        } else {
+          decelDemand = 0;
+        }
+      } else {
+        state = 'cruise-hold';
+        if (gradePct < 0 && (-fGrade > fDrag + fRoll)) {
+          driven = false;
+          accelDemand = 0;
+          decelDemand = 0;
+        } else {
+          driven = true;
+          accelDemand = 0;
+        }
+      }
+    } else if (onePedal && vPrev > 0.2 && isRegenEnabled) {
+      state = 'one-pedal';
+      decelDemand = maxRegenDecel;
+    } else {
+      state = (vPrev > 0.05) ? 'coast' : 'idle';
+      decelDemand = 0;
+    }
+
+    // Vehicle Dynamics & Energy Ledger (Strict First Law of Thermodynamics)
+    var stepDist = 0;
+    if (driven) {
+      var fInertia = mass * accelDemand;
+      var fForward = fInertia + fDrag + fRoll + fGrade;
+
+      if (fForward > 0) {
+        v = Math.max(0, vPrev + accelDemand * dt);
+        var vAvg = (vPrev + v) / 2;
+        stepDist = vAvg * dt;
+
+        var mechEnergy = fForward * vAvg * dt;
+        var elecEnergy = mechEnergy / driveEff;
+
+        totIn += elecEnergy;
+        totLossDrag += fDrag * vAvg * dt;
+        totLossRoll += fRoll * vAvg * dt;
+        if (fGrade > 0) totLossGrade += fGrade * vAvg * dt;
+        totConvLoss += (elecEnergy - mechEnergy);
+
+        currentPowerKW = dt > 0 ? (elecEnergy / dt) / 1000 : 0;
+        currentFrictionKW = 0;
+      } else {
+        var aDownhill = (-fGrade - fDrag - fRoll) / mass;
+        v = Math.max(0, vPrev + Math.max(0, aDownhill) * dt);
+        var vAvg = (vPrev + v) / 2;
+        stepDist = vAvg * dt;
+
+        totLossDrag += fDrag * vAvg * dt;
+        totLossRoll += fRoll * vAvg * dt;
+
+        currentPowerKW = 0;
+        currentFrictionKW = 0;
+      }
+    } else {
+      var fBrakeDemand = mass * decelDemand;
+      var fRetard = 0;
+      curDownhillW = 0;
+
+      // Downhill gravity potential recovery (Hill Descent Retarder)
+      if (vPrev > 0.1 && els.toggleDownhill.checked && gradePct < 0) {
+        var fGravityPull = -fGrade; // forward pull force down incline
+        var fExcessGravity = Math.max(0, fGravityPull - fDrag - fRoll);
+        if (fExcessGravity > 0) {
+          var fRetardMaxPower = vPrev > 0.1 ? (maxRegenPwr / vPrev) : (mass * maxRegenDecel);
+          var fRetardLimit = Math.min(mass * maxRegenDecel, fRetardMaxPower);
+          fRetard = Math.min(fExcessGravity, fRetardLimit);
+        }
+      }
+
+      var fResistTotal = fDrag + fRoll + fBrakeDemand + fRetard + fGrade;
+      var aTotalDecel = fResistTotal / mass;
+      var dtStop = (aTotalDecel > 0 && vPrev > 0) ? (vPrev / aTotalDecel) : dt;
+      var actualDt = Math.min(dt, Math.max(0, dtStop));
+      v = Math.max(0, vPrev - aTotalDecel * actualDt);
+      var vAvg2 = (vPrev + v) / 2;
+      var dDist = vAvg2 * actualDt;
+      stepDist = dDist;
+
+      if (fRetard > 0 && dDist > 0) {
+        var pDownhillMechWork = fRetard * dDist;
+        var pDownhillRecovered = pDownhillMechWork * regenEff;
+        curDownhillW = actualDt > 0 ? (pDownhillRecovered / actualDt) : 0;
+        totDownhill += pDownhillRecovered;
+        totConvLoss += pDownhillMechWork * (1 - regenEff);
+      }
+
+      var workDrag = fDrag * dDist;
+      var workRoll = fRoll * dDist;
+      var workGrade = (fGrade > 0) ? (fGrade * dDist) : 0;
+
+      totLossDrag += workDrag;
+      totLossRoll += workRoll;
+      if (workGrade > 0) totLossGrade += workGrade;
+
+      var brakeAvailWork = fBrakeDemand * dDist;
+
+      if (fBrakeDemand > 0 && brakeAvailWork > 0) {
+        var regenFade = Math.max(0, Math.min(1, (vAvg2 - 0.5) / 1.0));
+        var fRegenMaxDecel = mass * maxRegenDecel * regenFade;
+        var fRegenMaxPower = vAvg2 > 0.1 ? (maxRegenPwr / vAvg2) : fRegenMaxDecel;
+        var fRegenLimit = isRegenEnabled ? Math.min(fRegenMaxDecel, fRegenMaxPower) : 0;
+
+        var fRegen = Math.min(fBrakeDemand, fRegenLimit);
+        var fFriction = Math.max(0, fBrakeDemand - fRegen);
+
+        var ratioRegen = (fBrakeDemand > 0) ? (fRegen / fBrakeDemand) : 0;
+        var ratioFriction = 1 - ratioRegen;
+
+        var regenMech = brakeAvailWork * ratioRegen;
+        var frictionMech = brakeAvailWork * ratioFriction;
+
+        var recovered = regenMech * regenEff;
+        var regenConvLoss = regenMech * (1 - regenEff);
+
+        totRecover += recovered;
+        totFriction += frictionMech;
+        totConvLoss += regenConvLoss;
+
+        currentPowerKW = dt > 0 ? -(recovered / dt) / 1000 : 0;
+        currentFrictionKW = dt > 0 ? (frictionMech / dt) / 1000 : 0;
+      } else {
+        currentPowerKW = 0;
+        currentFrictionKW = 0;
+      }
+    }
+
+    var vAvgAll = (vPrev + v) / 2;
+
+    // 5. Harvesters (Physically Bounded)
+    if (vAvgAll > 0.3) {
+      var isCar = (vehicleType === 'car');
+      if (els.toggleSuspension.checked) {
+        var suspBase = isCar ? 12.0 : 1.2;
+        var suspScale = isCar ? 13.0 : 2.2;
+        curSuspensionW = (suspBase + suspScale * Math.min(1.0, vAvgAll / 14)) * (regenEff / 0.65);
+        totSuspension += curSuspensionW * dt;
+      } else {
+        curSuspensionW = 0;
+      }
+
+      if (els.toggleThermo.checked) {
+        var tegBase = isCar ? 3.0 : 0.8;
+        var tegScale = isCar ? 5.5 : 1.4;
+        curThermoW = (tegBase + tegScale * Math.min(1.0, vAvgAll / 14)) * (regenEff / 0.65);
+        totMarginal += curThermoW * dt;
+      } else {
+        curThermoW = 0;
+      }
+
+      if (els.togglePiezo.checked) {
+        var piezoBase = isCar ? 0.10 : 0.02;
+        var piezoScale = isCar ? 0.20 : 0.04;
+        curPiezoW = (piezoBase + piezoScale * Math.min(1.0, vAvgAll / 14));
+        totMarginal += curPiezoW * dt;
+      } else {
+        curPiezoW = 0;
+      }
+
+      if (els.toggleWake.checked) {
+        var wakeBase = isCar ? 0.05 : 0.01;
+        var wakeScale = isCar ? 0.15 : 0.03;
+        curWakeW = (wakeBase + wakeScale * Math.min(1.0, vAvgAll / 14));
+        totMarginal += curWakeW * dt;
+      } else {
+        curWakeW = 0;
+      }
+    } else {
+      curSuspensionW = 0;
+      curThermoW = 0;
+      curPiezoW = 0;
+      curWakeW = 0;
+    }
+
+    distance += stepDist;
+
+    // Power History - Single unified battery net electrical flow (kW)
+    // Positive = net battery draw (blue); Negative = net battery recharge (green)
+    var curExtW = curSolarW + curDynamicW + curIntersectionW;
+    var curHarvW = curDownhillW + curSuspensionW + curThermoW + curPiezoW + curWakeW + curTurbineNetW;
+    var curRegenW = (currentPowerKW < 0) ? (-currentPowerKW * 1000) : 0;
+    var curDrawW = (currentPowerKW > 0) ? (currentPowerKW * 1000) : 0;
+
+    curNetBatteryW = curDrawW + pAux - (curRegenW + curHarvW + curExtW);
+    var totalNetPowerKW = curNetBatteryW / 1000;
+    powerHistory.push(totalNetPowerKW);
+    if (powerHistory.length > 120) powerHistory.shift();
+  }
+
+  // ---------- Update UI & Real-Time Dashboard ----------
+  function updateUI() {
+    var distKm = distance / 1000;
+    var mass = parseFloat(els.mass.value);
+    var gradePct = parseFloat(els.grade.value);
+    var gradeRad = Math.atan(gradePct / 100);
+    var fGrade = mass * G * Math.sin(gradeRad);
+    var pAux = VEHICLES[vehicleType].auxWatts || 15;
+    var curExtW = curSolarW + curDynamicW + curIntersectionW;
+    var curHarvW = curDownhillW + curSuspensionW + curThermoW + curPiezoW + curWakeW + curTurbineNetW;
+    var curRegenW = (currentPowerKW < 0) ? (-currentPowerKW * 1000) : 0;
+    var curDrawW = (currentPowerKW > 0) ? (currentPowerKW * 1000) : 0;
+    var netBatteryW = curNetBatteryW;
+    els.speedReadout.textContent = (v * 3.6).toFixed(1);
+    els.distReadout.textContent = distKm.toFixed(2);
+    els.powerReadout.textContent = (netBatteryW / 1000).toFixed(2);
+    els.lblTripDistance.textContent = distKm.toFixed(2) + ' km';
+    els.lblLiveKW.textContent = (netBatteryW >= 0 ? '−' : '+') + Math.abs(netBatteryW / 1000).toFixed(2) + ' kW (' + (netBatteryW >= 0 ? 'Draw' : 'Charge') + ')';
+    els.lblLiveKW.style.color = netBatteryW > 50 ? 'var(--input)' : (netBatteryW < -50 ? 'var(--recover)' : 'var(--muted)');
+
+    els.stateChip.textContent = state.toUpperCase();
+    if (state === 'accel' || state.startsWith('cruise-catchup')) {
+      els.stateChip.style.color = 'var(--input)';
+      els.stateChip.style.borderColor = 'var(--input)';
+    } else if (state === 'brake' || state === 'one-pedal') {
+      els.stateChip.style.color = 'var(--recover)';
+      els.stateChip.style.borderColor = 'var(--recover)';
+    } else {
+      els.stateChip.style.color = 'var(--muted)';
+      els.stateChip.style.borderColor = 'var(--grid-line)';
+    }
+
+    // Wireless Infrastructure live status
+    var totalActiveExternalKW = (curSolarW + curDynamicW + curIntersectionW) / 1000;
+    els.lblInfraTotalActive.textContent = '+' + totalActiveExternalKW.toFixed(2) + ' kW Inflow';
+
+    if (isOverRoadCoil) {
+      els.lblDynamicStatus.textContent = '⚡ Active: +' + (curDynamicW / 1000).toFixed(1) + ' kW';
+      els.lblDynamicStatus.style.background = 'rgba(6,182,212,0.2)';
+    } else {
+      els.lblDynamicStatus.textContent = els.chkDynamicRoad.checked ? 'Coil Gap (0 W)' : 'Disabled';
+      els.lblDynamicStatus.style.background = 'rgba(6,182,212,0.08)';
+    }
+
+    if (isOverSignalPad) {
+      els.lblIntersectionStatus.textContent = '⚡ Active: +' + (curIntersectionW / 1000).toFixed(1) + ' kW';
+      els.lblIntersectionStatus.style.background = 'rgba(168,85,247,0.25)';
+    } else {
+      els.lblIntersectionStatus.textContent = els.chkIntersection.checked ? 'Standby (Rolling)' : 'Disabled';
+      els.lblIntersectionStatus.style.background = 'rgba(168,85,247,0.08)';
+    }
+
+    // Kinetic Brake Regen live readouts
+    var curBrakeRegenW = (state === 'brake' || state === 'one-pedal') ? Math.max(0, -currentPowerKW * 1000) : 0;
+    if (els.valRegenW) {
+      if (!els.toggleRegenBraking.checked) {
+        els.valRegenW.textContent = 'OFF (Friction 100%)';
+        els.valRegenW.style.color = 'var(--loss)';
+      } else {
+        els.valRegenW.textContent = curBrakeRegenW.toFixed(1) + ' W';
+        els.valRegenW.style.color = curBrakeRegenW > 0 ? 'var(--recover)' : 'var(--muted)';
+      }
+    }
+    if (els.lblBrakeRegenStatus) {
+      if (!els.toggleRegenBraking.checked) {
+        els.lblBrakeRegenStatus.textContent = 'Regen Disabled (Friction 100%)';
+        els.lblBrakeRegenStatus.style.background = 'rgba(244,63,94,0.12)';
+        els.lblBrakeRegenStatus.style.borderColor = 'rgba(244,63,94,0.3)';
+        els.lblBrakeRegenStatus.style.color = 'var(--loss)';
+      } else {
+        els.lblBrakeRegenStatus.textContent = curBrakeRegenW > 0 ? ('⚡ ' + curBrakeRegenW.toFixed(0) + ' W Active') : 'Standby';
+        els.lblBrakeRegenStatus.style.background = 'rgba(52,211,153,0.12)';
+        els.lblBrakeRegenStatus.style.borderColor = 'rgba(52,211,153,0.3)';
+        els.lblBrakeRegenStatus.style.color = 'var(--recover)';
+      }
+    }
+
+    // Harvesters live readouts
+    els.valSolarW.textContent = curSolarW.toFixed(1) + ' W';
+    els.valDownhillW.textContent = curDownhillW.toFixed(1) + ' W';
+    els.valSuspensionW.textContent = curSuspensionW.toFixed(1) + ' W';
+    els.valThermoW.textContent = curThermoW.toFixed(2) + ' W';
+    els.valPiezoW.textContent = curPiezoW.toFixed(2) + ' W';
+    els.valWakeW.textContent = curWakeW.toFixed(2) + ' W';
+    els.valTurbineNet.textContent = curTurbineNetW.toFixed(1) + ' W Gen';
+
+    // Joules to Wh
+    var whInput = J2Wh(totIn);
+    var whAux = J2Wh(totAux);
+    var whTotalOut = whInput + whAux;
+
+    var whDrag = J2Wh(totLossDrag);
+    var whRoll = J2Wh(totLossRoll);
+    var whGrade = J2Wh(totLossGrade);
+    var whFriction = J2Wh(totFriction);
+    var whConv = J2Wh(totConvLoss);
+
+    var whSolar = J2Wh(totSolar);
+    var whDynamic = J2Wh(totDynamic);
+    var whIntersection = J2Wh(totIntersection);
+    var whTotalExternal = whSolar + whDynamic + whIntersection;
+
+    var whRecover = J2Wh(totRecover);
+    var whDownhill = J2Wh(totDownhill);
+    var whSuspension = J2Wh(totSuspension);
+    var whMarginal = J2Wh(totMarginal);
+    var whTurbine = J2Wh(totTurbine);
+    var whRecoveredTotal = Math.max(0, whRecover + whDownhill + whSuspension + whMarginal + whTurbine);
+    var whTotalIn = whTotalExternal + whRecoveredTotal;
+
+    var netWh = whTotalIn - whTotalOut;
+
+    // Update Ledger Rows
+    els.valTotalOutflow.textContent = '−' + whTotalOut.toFixed(1) + ' Wh';
+    els.valInput.textContent = '−' + whInput.toFixed(1) + ' Wh';
+    els.valLossDrag.textContent = '−' + whDrag.toFixed(1) + ' Wh';
+    els.valLossRoll.textContent = '−' + whRoll.toFixed(1) + ' Wh';
+    els.valLossGrade.textContent = '−' + whGrade.toFixed(1) + ' Wh';
+    els.valFriction.textContent = '−' + whFriction.toFixed(1) + ' Wh';
+    els.valLossConv.textContent = '−' + whConv.toFixed(1) + ' Wh';
+    els.valLossRegen.textContent = '+' + whRecover.toFixed(1) + ' Wh';
+    var whKE = J2Wh(0.5 * mass * v * v);
+    if (els.rowLossKE && els.valLossKE) {
+      if (whKE > 0.05) {
+        els.rowLossKE.style.display = 'flex';
+        els.valLossKE.textContent = whKE.toFixed(1) + ' Wh';
+      } else {
+        els.rowLossKE.style.display = 'none';
+      }
+    }
+    els.valAux.textContent = '−' + whAux.toFixed(1) + ' Wh';
+
+    els.valTotalExternal.textContent = '+' + whTotalExternal.toFixed(1) + ' Wh';
+    els.valSolar.textContent = '+' + whSolar.toFixed(1) + ' Wh';
+    els.valDynamicDetail.textContent = '+' + whDynamic.toFixed(1) + ' Wh';
+    els.valIntersectionDetail.textContent = '+' + whIntersection.toFixed(1) + ' Wh';
+
+    els.valRecoveredTotal.textContent = '+' + whRecoveredTotal.toFixed(1) + ' Wh';
+    els.valRecover.textContent = '+' + whRecover.toFixed(1) + ' Wh';
+    els.valDownhill.textContent = '+' + whDownhill.toFixed(1) + ' Wh';
+    els.valSuspension.textContent = '+' + whSuspension.toFixed(2) + ' Wh';
+    els.valMarginal.textContent = '+' + whMarginal.toFixed(2) + ' Wh';
+    els.valTurbine.textContent = '+' + whTurbine.toFixed(2) + ' Wh';
+
+    var eff = distKm > 0.05 ? (Math.abs(netWh) / distKm).toFixed(1) : '—';
+    var effType = netWh >= 0 ? 'Surplus' : 'Net Draw';
+    els.valNet.textContent = (netWh >= 0 ? '+' : '−') + Math.abs(netWh).toFixed(1) + ' Wh (' + eff + ' Wh/km ' + effType + ')';
+    els.statEff.textContent = eff + ' Wh/km (' + effType + ')';
+
+    var rangeKm = (whInput > 0.1 && distKm > 0.1) ? ((whRecoveredTotal / whInput) * distKm).toFixed(2) : '—';
+    els.statRange.textContent = rangeKm + ' km';
+
+    // Hero Card
+    var isNetPositive = netWh > 0.01;
+    els.heroCard.classList.toggle('positive', isNetPositive);
+    els.heroBadge.textContent = isNetPositive ? 'NET ENERGY GAIN' : 'NET ENERGY LOSS';
+    els.heroBadge.style.color = isNetPositive ? 'var(--recover)' : 'var(--loss)';
+    els.heroNetWh.textContent = (netWh >= 0 ? '+' : '−') + Math.abs(netWh).toFixed(1) + ' Wh';
+
+    if (distKm < 0.05 && whTotalOut < 0.5) {
+      els.heroExplanation.innerHTML = 'Vehicle ready. Accelerate or hit <b>Play 30x Timelapse</b> to observe whether external wireless charging + solar + harvesters can overcome propulsion drain.';
+    } else if (isNetPositive) {
+      els.heroExplanation.innerHTML = '✨ <b>NET ENERGY GAIN ACHIEVED:</b> External energy (Solar ' + whSolar.toFixed(1) + ' Wh + Dynamic Road ' + whDynamic.toFixed(1) + ' Wh + Signals ' + whIntersection.toFixed(1) + ' Wh) exceeded vehicle drain (' + whTotalOut.toFixed(1) + ' Wh)! The battery ended with <b>+' + netWh.toFixed(1) + ' Wh net gain</b>.';
+    } else if (whRecoveredTotal === 0 && whTotalExternal === 0) {
+      els.heroExplanation.innerHTML = '🛑 <b>PURE BASELINE CONSUMPTION:</b> All regeneration and external charging are disabled. Vehicle consumed <b>' + whTotalOut.toFixed(1) + ' Wh</b> (' + eff + ' Wh/km) with 100% friction braking and zero recovery.';
+    } else {
+      var extShare = whTotalOut > 0 ? ((whTotalExternal / whTotalOut) * 100).toFixed(1) : 0;
+      var recShare = whTotalOut > 0 ? ((whRecoveredTotal / whTotalOut) * 100).toFixed(1) : 0;
+      els.heroExplanation.innerHTML = '<b>PHYSICS LEDGER:</b> Vehicle consumed <b>' + whTotalOut.toFixed(1) + ' Wh</b> to move. Harvesters recovered <b>' + whRecoveredTotal.toFixed(1) + ' Wh (' + recShare + '%)</b> and External infrastructure provided <b>' + whTotalExternal.toFixed(1) + ' Wh (' + extShare + '%)</b>, leaving a net battery deficit of <b>' + Math.abs(netWh).toFixed(1) + ' Wh</b>.';
+    }
+
+    // Stack Bar
+    var denom = Math.max(0.1, Math.max(whTotalOut, whTotalIn));
+    var pctSolar = Math.min(100, Math.round((whSolar / denom) * 100));
+    var pctDynamic = Math.min(100, Math.round((whDynamic / denom) * 100));
+    var pctJunc = Math.min(100, Math.round((whIntersection / denom) * 100));
+    var pctRegen = Math.min(100, Math.round((whRecoveredTotal / denom) * 100));
+    var pctNetDraw = Math.max(0, Math.round((Math.max(0, -netWh) / denom) * 100));
+
+    els.barSegSolar.style.width = pctSolar + '%';
+    els.barSegDynamic.style.width = pctDynamic + '%';
+    els.barSegIntersection.style.width = pctJunc + '%';
+    els.barSegRegen.style.width = pctRegen + '%';
+    els.barSegConsumed.style.width = pctNetDraw + '%';
+
+    els.legSolarPct.textContent = pctSolar + '%';
+    els.legDynamicPct.textContent = pctDynamic + '%';
+    els.legJuncPct.textContent = pctJunc + '%';
+    els.legRegenPct.textContent = pctRegen + '%';
+    els.legDrawPct.textContent = pctNetDraw + '%';
+    els.lblStackRatio.textContent = 'Solar ' + pctSolar + '% | Road Coils ' + pctDynamic + '% | Signals ' + pctJunc + '% | Regen ' + pctRegen + '% | Net Drain ' + pctNetDraw + '%';
+
+    // Solver
+    updateSolver(whTotalOut, whTotalExternal, whRecoveredTotal, netWh);
+
+    // Powertrain details
+    els.ptStatusPill.textContent = state.toUpperCase() + ' (' + (v*3.6).toFixed(0) + ' km/h)';
+    var netFlowW = netBatteryW;
+    els.ptFlowDetail.textContent = 'Net Battery: ' + (netFlowW >= 0 ? '−' : '+') + Math.abs(netFlowW).toFixed(0) + ' W';
+    els.lblNetFlowW.textContent = (netFlowW >= 0 ? '−' : '+') + Math.abs(netFlowW).toFixed(0) + ' W (' + (netFlowW >= 0 ? 'Draw' : 'Charge') + ')';
+
+    // Conservation audit - First Law of Thermodynamics
+    var curKE = 0.5 * mass * v * v;
+    var peReleasedJ = (gradePct < 0) ? (-fGrade * distance) : 0;
+    var totMechanicalDestJ = totLossDrag + totLossRoll + totLossGrade + totFriction + totConvLoss + totRecover + totDownhill + curKE;
+    var deltaCheck = Math.abs((totIn + peReleasedJ) - totMechanicalDestJ);
+    els.audConservation.textContent = 'ΔE = ' + J2Wh(deltaCheck).toFixed(4) + ' Wh (exact 0)';
+  }
+
+  // ---------- Analytical Solver ----------
+  function updateSolver(whTotalOut, whTotalExternal, whRecoveredTotal, netWh) {
+    var area = parseFloat(els.solarArea.value);
+    var irr = parseFloat(els.irradiance.value);
+    var roadPwrKW = parseFloat(els.sliderRoadPower.value);
+    var padPwrKW = parseFloat(els.sliderPadPower.value);
+
+    var avgNetDrainW = vehicleType === 'car' ? 1200 : 320;
+    if (distance > 50 && tlSimTime > 5) {
+      avgNetDrainW = Math.max(50, (totIn + totAux - (totRecover + totDownhill + totSuspension + totMarginal + totTurbine)) / tlSimTime);
+    } else if (v > 1) {
+      avgNetDrainW = Math.max(50, (currentPowerKW * 1000) + VEHICLES[vehicleType].auxWatts);
+    }
+
+    var totalExtPowerW = curSolarW + (els.chkDynamicRoad.checked ? (roadPwrKW * 1000 * 0.85 * (parseFloat(els.sliderRoadCoverage.value)/100)) : 0) + (els.chkIntersection.checked ? (padPwrKW * 1000 * 0.88 * 0.18 * (parseFloat(els.sliderIntersectionPct.value)/100)) : 0);
+    var extCoveragePct = avgNetDrainW > 0 ? ((totalExtPowerW / avgNetDrainW) * 100).toFixed(1) : 0;
+
+    if (netWh > 0.01) {
+      els.solverRatioPill.className = 'solver-ratio-pill surplus num';
+      els.solverRatioPill.textContent = 'External covers ' + extCoveragePct + '% (Net Surplus!)';
+      els.solverVerdict.innerHTML = '🎉 <b>NET POSITIVE ACHIEVED:</b> Smart-city wireless charging infrastructure delivers enough power to exceed vehicle resistance. The battery charges while rolling!';
+    } else {
+      els.solverRatioPill.className = 'solver-ratio-pill num';
+      els.solverRatioPill.textContent = 'External covers ' + extCoveragePct + '% of trip';
+      els.solverVerdict.innerHTML = 'To achieve a net-positive battery balance over this trip, smart-city wireless road coils or intersection charging pads can overcome the deficit:';
+    }
+
+    var reqCovPct = Math.round((avgNetDrainW / (roadPwrKW * 1000 * 0.85)) * 100);
+    if (reqCovPct <= 100) {
+      els.solReqRoad.textContent = reqCovPct + '% coverage';
+      els.solReqRoad.style.color = 'var(--dynamic-road)';
+      els.solReqRoadNote.textContent = reqCovPct <= 35 ? 'Feasible on arterial lanes' : 'Requires dedicated EV corridor';
+    } else {
+      els.solReqRoad.textContent = '>100%';
+      els.solReqRoad.style.color = 'var(--loss)';
+      els.solReqRoadNote.textContent = 'Requires higher coil kW';
+    }
+
+    var totalSignalDwellSec = tlCondition === 'city' ? 216 : 0;
+    if (totalSignalDwellSec > 0) {
+      var energyPer100PctJuncJ = (padPwrKW * 1000 * 0.88) * totalSignalDwellSec;
+      var totalEnergyDeficitJ = avgNetDrainW * 1200;
+      var reqJuncPct = Math.round((totalEnergyDeficitJ / energyPer100PctJuncJ) * 100);
+      if (reqJuncPct <= 100) {
+        els.solReqJunc.textContent = reqJuncPct + '% signals';
+        els.solReqJunc.style.color = 'var(--intersection)';
+        els.solReqJuncNote.textContent = 'Feasible smart-city grid (' + Math.round(12 * reqJuncPct / 100) + ' of 12)';
+      } else {
+        els.solReqJunc.textContent = '>100%';
+        els.solReqJunc.style.color = 'var(--loss)';
+        els.solReqJuncNote.textContent = 'Combine with road coils';
+      }
+    } else {
+      els.solReqJunc.textContent = 'N/A';
+      els.solReqJunc.style.color = 'var(--muted)';
+      els.solReqJuncNote.textContent = 'No signal stops on highway';
+    }
+
+    var panelEff = parseFloat(els.solarEff.value) / 100;
+    var ambT = parseFloat(els.ambientTemp.value);
+    var panelTemp = ambT + 25 * (irr / 800);
+    var tempDerate = Math.max(0.5, 1 - 0.004 * Math.max(0, panelTemp - 25));
+    var effPerM2 = (irr > 1) ? (irr * panelEff * tempDerate * 0.92) : 0;
+    var reqSolarArea = effPerM2 > 0 ? (avgNetDrainW / effPerM2) : 999;
+    els.solReqArea.textContent = (reqSolarArea > 20 ? '>20' : reqSolarArea.toFixed(1)) + ' m²';
+    els.solReqArea.style.color = 'var(--external)';
+    els.solReqAreaNote.textContent = vehicleType === 'car' ? 'Large car canopy' : 'Impractical on 2-wheeler';
+  }
+
+  // ---------- Road & Vehicle Animation Canvas ----------
+  var wheelRot = 0;
+  var roadScroll = 0;
+
+  function drawRoad() {
+    var dpr = window.devicePixelRatio || 1;
+    var w = els.road.width, h = els.road.height;
+    roadCtx.clearRect(0, 0, w, h);
+
+    var gradePct = parseFloat(els.grade.value);
+    var gradeRad = Math.atan(gradePct / 100);
+
+    roadCtx.save();
+    if (Math.abs(gradePct) > 0.1) {
+      roadCtx.translate(w * 0.5, h * 0.7);
+      roadCtx.rotate(-gradeRad * 0.5);
+      roadCtx.translate(-w * 0.5, -h * 0.7);
+    }
+
+    var roadY = h * 0.76;
+
+    // Road surface
+    roadCtx.fillStyle = '#101720';
+    roadCtx.fillRect(-50, roadY, w + 100, h - roadY + 50);
+
+    roadCtx.strokeStyle = '#1e293b';
+    roadCtx.lineWidth = 1.5 * dpr;
+    roadCtx.beginPath();
+    roadCtx.moveTo(-50, roadY);
+    roadCtx.lineTo(w + 50, roadY);
+    roadCtx.stroke();
+
+    // Embedded Dynamic Coils
+    var roadCovFrac = parseFloat(els.sliderRoadCoverage.value) / 100;
+    if (els.chkDynamicRoad.checked && roadCovFrac > 0) {
+      var coilSpacing = 70 * dpr;
+      var coilW = 46 * dpr;
+      var coilH = 6 * dpr;
+      var offC = ((roadScroll * 0.8 % coilSpacing) + coilSpacing) % coilSpacing;
+
+      for (var cx = -offC - 50; cx < w + coilSpacing + 50; cx += coilSpacing) {
+        roadCtx.fillStyle = isOverRoadCoil ? 'rgba(6, 182, 212, 0.4)' : 'rgba(30, 41, 59, 0.7)';
+        roadCtx.fillRect(cx, roadY + 4 * dpr, coilW, coilH);
+        roadCtx.strokeStyle = isOverRoadCoil ? 'rgba(6, 182, 212, 0.9)' : 'rgba(51, 65, 85, 0.6)';
+        roadCtx.lineWidth = 1 * dpr;
+        roadCtx.strokeRect(cx, roadY + 4 * dpr, coilW, coilH);
+      }
+    }
+
+    // Lane markers
+    roadScroll -= v * 2.8 * dpr * 0.05;
+    var dashLen = 28 * dpr, gapLen = 24 * dpr, totalLen = dashLen + gapLen;
+    var offset = ((roadScroll % totalLen) + totalLen) % totalLen;
+    roadCtx.strokeStyle = '#334155';
+    roadCtx.lineWidth = 3 * dpr;
+    roadCtx.setLineDash([dashLen, gapLen]);
+    roadCtx.lineDashOffset = offset;
+    roadCtx.beginPath();
+    roadCtx.moveTo(-50, roadY + (h - roadY) * 0.45);
+    roadCtx.lineTo(w + 50, roadY + (h - roadY) * 0.45);
+    roadCtx.stroke();
+    roadCtx.setLineDash([]);
+
+    // Vehicle
+    var scX = w * 0.44;
+    var isCar = vehicleType === 'car';
+    var wheelR = (isCar ? 16 : 12) * dpr;
+    wheelRot += (v / (wheelR / dpr)) * 0.06;
+
+    var rearX = scX - (isCar ? 50 : 28) * dpr;
+    var frontX = scX + (isCar ? 52 : 32) * dpr;
+    var wheelY = roadY - wheelR;
+
+    // Intersection Pad visual
+    if (isOverSignalPad) {
+      var padW = (isCar ? 110 : 75) * dpr;
+      var padH = 6 * dpr;
+      roadCtx.fillStyle = 'rgba(168, 85, 247, 0.45)';
+      roadCtx.fillRect(scX - padW / 2, roadY + 3 * dpr, padW, padH);
+      roadCtx.strokeStyle = 'rgba(168, 85, 247, 0.9)';
+      roadCtx.lineWidth = 1.5 * dpr;
+      roadCtx.strokeRect(scX - padW / 2, roadY + 3 * dpr, padW, padH);
+
+      var pulsePhase = (Date.now() / 250) % 3;
+      for (var f = 0; f < 3; f++) {
+        var waveY = roadY - ((f + pulsePhase) % 3) * 6 * dpr;
+        roadCtx.strokeStyle = 'rgba(168, 85, 247, ' + (0.7 - f * 0.2) + ')';
+        roadCtx.lineWidth = 1.2 * dpr;
+        roadCtx.beginPath();
+        roadCtx.arc(scX, waveY, (14 + f * 5) * dpr, Math.PI * 0.8, Math.PI * 0.2, true);
+        roadCtx.stroke();
+      }
+    } else if (isOverRoadCoil) {
+      var dynPhase = (Date.now() / 200) % 2;
+      for (var d = 0; d < 2; d++) {
+        var dY = roadY - ((d + dynPhase) % 2) * 5 * dpr;
+        roadCtx.strokeStyle = 'rgba(6, 182, 212, ' + (0.7 - d * 0.3) + ')';
+        roadCtx.lineWidth = 1.2 * dpr;
+        roadCtx.beginPath();
+        roadCtx.arc(scX, dY, (12 + d * 6) * dpr, Math.PI * 0.8, Math.PI * 0.2, true);
+        roadCtx.stroke();
+      }
+    }
+
+    // Wheels
+    [rearX, frontX].forEach(function(wx) {
+      roadCtx.save();
+      roadCtx.translate(wx, wheelY);
+      roadCtx.rotate(wheelRot);
+
+      roadCtx.beginPath();
+      roadCtx.arc(0, 0, wheelR, 0, Math.PI * 2);
+      roadCtx.fillStyle = '#05080c';
+      roadCtx.fill();
+      roadCtx.strokeStyle = '#475569';
+      roadCtx.lineWidth = 2 * dpr;
+      roadCtx.stroke();
+
+      roadCtx.beginPath();
+      roadCtx.arc(0, 0, 3 * dpr, 0, Math.PI * 2);
+      roadCtx.fillStyle = '#94a3b8';
+      roadCtx.fill();
+      for (var s = 0; s < 4; s++) {
+        var ang = s * (Math.PI / 2);
+        roadCtx.beginPath();
+        roadCtx.moveTo(0, 0);
+        roadCtx.lineTo(Math.cos(ang) * wheelR * 0.8, Math.sin(ang) * wheelR * 0.8);
+        roadCtx.strokeStyle = '#64748b';
+        roadCtx.lineWidth = 1 * dpr;
+        roadCtx.stroke();
+      }
+      roadCtx.restore();
+    });
+
+    if (isCar) {
+      // Car Body
+      roadCtx.fillStyle = '#38bdf8';
+      roadCtx.beginPath();
+      roadCtx.moveTo(rearX - 16 * dpr, wheelY - 2 * dpr);
+      roadCtx.lineTo(rearX - 16 * dpr, wheelY - 18 * dpr);
+      roadCtx.lineTo(rearX + 10 * dpr, wheelY - 26 * dpr);
+      roadCtx.lineTo(scX + 18 * dpr, wheelY - 26 * dpr);
+      roadCtx.lineTo(frontX + 8 * dpr, wheelY - 14 * dpr);
+      roadCtx.lineTo(frontX + 20 * dpr, wheelY - 14 * dpr);
+      roadCtx.lineTo(frontX + 20 * dpr, wheelY - 2 * dpr);
+      roadCtx.closePath();
+      roadCtx.fill();
+
+      // Windows
+      roadCtx.fillStyle = '#0b131e';
+      roadCtx.beginPath();
+      roadCtx.moveTo(rearX + 12 * dpr, wheelY - 24 * dpr);
+      roadCtx.lineTo(scX + 14 * dpr, wheelY - 24 * dpr);
+      roadCtx.lineTo(scX + 24 * dpr, wheelY - 16 * dpr);
+      roadCtx.lineTo(rearX + 6 * dpr, wheelY - 16 * dpr);
+      roadCtx.closePath();
+      roadCtx.fill();
+
+      // Roof solar panel
+      var pArea = parseFloat(els.solarArea.value);
+      var pW = (28 + pArea * 25) * dpr;
+      roadCtx.fillStyle = '#fbbf24';
+      roadCtx.fillRect(scX - pW * 0.5, wheelY - 28 * dpr, pW, 3 * dpr);
+    } else {
+      // Scooter Chassis
+      roadCtx.fillStyle = '#38bdf8';
+      roadCtx.beginPath();
+      roadCtx.roundRect ? roadCtx.roundRect(rearX + 4 * dpr, wheelY - 6 * dpr, (frontX - rearX - 8 * dpr), 8 * dpr, 3 * dpr) : roadCtx.rect(rearX + 4 * dpr, wheelY - 6 * dpr, (frontX - rearX - 8 * dpr), 8 * dpr);
+      roadCtx.fill();
+
+      // Handlebars
+      roadCtx.strokeStyle = '#cbd5e1';
+      roadCtx.lineWidth = 2.5 * dpr;
+      roadCtx.beginPath();
+      roadCtx.moveTo(frontX, wheelY);
+      roadCtx.lineTo(frontX - 4 * dpr, wheelY - 38 * dpr);
+      roadCtx.lineTo(frontX - 9 * dpr, wheelY - 38 * dpr);
+      roadCtx.stroke();
+
+      // Rider
+      roadCtx.fillStyle = '#e2e8f0';
+      roadCtx.fillRect(scX - 10 * dpr, wheelY - 34 * dpr, 10 * dpr, 20 * dpr);
+      roadCtx.beginPath();
+      roadCtx.arc(scX - 5 * dpr, wheelY - 40 * dpr, 6 * dpr, 0, Math.PI * 2);
+      roadCtx.fill();
+      roadCtx.strokeStyle = '#cbd5e1';
+      roadCtx.lineWidth = 2 * dpr;
+      roadCtx.beginPath();
+      roadCtx.moveTo(scX - 4 * dpr, wheelY - 28 * dpr);
+      roadCtx.lineTo(frontX - 7 * dpr, wheelY - 37 * dpr);
+      roadCtx.stroke();
+
+      // Solar Panel
+      var pArea2 = parseFloat(els.solarArea.value);
+      var pW2 = (18 + pArea2 * 50) * dpr;
+      roadCtx.fillStyle = '#fbbf24';
+      roadCtx.fillRect(scX - pW2 * 0.45, wheelY - 10 * dpr, pW2, 3 * dpr);
+    }
+
+    // Underside Receiver
+    roadCtx.fillStyle = isOverSignalPad ? '#a855f7' : (isOverRoadCoil ? '#06b6d4' : '#64748b');
+    roadCtx.fillRect(scX - (isCar ? 25 : 16) * dpr, wheelY + 1 * dpr, (isCar ? 50 : 32) * dpr, 3 * dpr);
+
+    roadCtx.restore();
+  }
+
+  // ---------- Live Power Meter Oscilloscope ----------
+  function drawMeter() {
+    var dpr = window.devicePixelRatio || 1;
+    var w = els.powerMeter.width, h = els.powerMeter.height;
+    meterCtx.clearRect(0, 0, w, h);
+
+    var midY = h * 0.55;
+
+    meterCtx.strokeStyle = 'rgba(255,255,255,0.15)';
+    meterCtx.lineWidth = 1 * dpr;
+    meterCtx.beginPath();
+    meterCtx.moveTo(0, midY);
+    meterCtx.lineTo(w, midY);
+    meterCtx.stroke();
+
+    if (powerHistory.length < 2) return;
+
+    var maxP = vehicleType === 'car' ? 25 : 4;
+    var scaleY = (h * 0.42) / maxP;
+    var stepX = w / (120 - 1);
+
+    meterCtx.beginPath();
+    for (var i = 0; i < powerHistory.length; i++) {
+      var pKW = powerHistory[i];
+      var x = i * stepX;
+      var y = midY - pKW * scaleY;
+      if (i === 0) meterCtx.moveTo(x, y);
+      else meterCtx.lineTo(x, y);
+    }
+
+    meterCtx.strokeStyle = curNetBatteryW > 50 ? '#38bdf8' : (curNetBatteryW < -50 ? '#34d399' : '#94a3b8');
+    meterCtx.lineWidth = 2 * dpr;
+    meterCtx.stroke();
+  }
+
+  // ---------- Powertrain Schematic Canvas ----------
+  var ptPhase = 0;
+  function drawPowertrain(dt) {
+    var dpr = window.devicePixelRatio || 1;
+    var w = els.powertrainCanvas.width, h = els.powertrainCanvas.height;
+    ptCtx.clearRect(0, 0, w, h);
+
+    ptPhase += (Math.abs(currentPowerKW) > 0.1 ? 3.5 : 0.8) * dt;
+
+    var nodes = {
+      solar:   { x: w * 0.16, y: h * 0.22, w: 74 * dpr, h: 26 * dpr, title: 'Solar Array', sub: curSolarW.toFixed(0) + ' W', col: 'var(--external)' },
+      roadIPT: { x: w * 0.16, y: h * 0.76, w: 86 * dpr, h: 28 * dpr, title: isOverSignalPad ? '🚦 Signal Pad' : '🛣️ Road Coils', sub: isOverSignalPad ? (curIntersectionW / 1000).toFixed(1) + ' kW' : (isOverRoadCoil ? (curDynamicW / 1000).toFixed(1) + ' kW' : '0 W'), col: isOverSignalPad ? 'var(--intersection)' : 'var(--dynamic-road)' },
+      battery: { x: w * 0.44, y: h * 0.45, w: 90 * dpr, h: 42 * dpr, title: 'Battery Pack', sub: currentPowerKW.toFixed(2) + ' kW', col: currentPowerKW > 0.05 ? 'var(--input)' : 'var(--recover)' },
+      inverter:{ x: w * 0.72, y: h * 0.45, w: 84 * dpr, h: 32 * dpr, title: 'Inverter / ECU', sub: state.startsWith('accel') ? 'DC ➔ AC' : (state === 'brake' ? 'AC ➔ DC' : 'Idle'), col: 'var(--muted)' },
+      motor:   { x: w * 0.90, y: h * 0.45, w: 46 * dpr, h: 46 * dpr, title: 'Motor', sub: (v*3.6).toFixed(0) + ' km/h', col: state.startsWith('accel') ? 'var(--input)' : (state === 'brake' ? 'var(--recover)' : 'var(--muted)') }
+    };
+
+    ptCtx.strokeStyle = '#1e293b';
+    ptCtx.lineWidth = 2 * dpr;
+    ptCtx.beginPath();
+    ptCtx.moveTo(nodes.solar.x + nodes.solar.w/2, nodes.solar.y);
+    ptCtx.lineTo(nodes.battery.x - nodes.battery.w/2, nodes.battery.y - 8 * dpr);
+    ptCtx.moveTo(nodes.roadIPT.x + nodes.roadIPT.w/2, nodes.roadIPT.y);
+    ptCtx.lineTo(nodes.battery.x - nodes.battery.w/2, nodes.battery.y + 8 * dpr);
+    ptCtx.moveTo(nodes.battery.x + nodes.battery.w/2, nodes.battery.y);
+    ptCtx.lineTo(nodes.inverter.x - nodes.inverter.w/2, nodes.inverter.y);
+    ptCtx.moveTo(nodes.inverter.x + nodes.inverter.w/2, nodes.inverter.y);
+    ptCtx.lineTo(nodes.motor.x - nodes.motor.w/2, nodes.motor.y);
+    ptCtx.stroke();
+
+    function drawParticles(x1, y1, x2, y2, color, reverse) {
+      var n = 5;
+      for (var i = 0; i < n; i++) {
+        var frac = ((ptPhase * 0.2 + (i / n)) % 1);
+        if (reverse) frac = 1 - frac;
+        var px = x1 + (x2 - x1) * frac;
+        var py = y1 + (y2 - y1) * frac;
+        ptCtx.beginPath();
+        ptCtx.arc(px, py, 2.5 * dpr, 0, Math.PI * 2);
+        ptCtx.fillStyle = color;
+        ptCtx.fill();
+      }
+    }
+
+    if (curSolarW > 1) {
+      drawParticles(nodes.solar.x + nodes.solar.w/2, nodes.solar.y, nodes.battery.x - nodes.battery.w/2, nodes.battery.y - 8 * dpr, '#fbbf24', false);
+    }
+    if (isOverSignalPad) {
+      drawParticles(nodes.roadIPT.x + nodes.roadIPT.w/2, nodes.roadIPT.y, nodes.battery.x - nodes.battery.w/2, nodes.battery.y + 8 * dpr, '#a855f7', false);
+    } else if (isOverRoadCoil) {
+      drawParticles(nodes.roadIPT.x + nodes.roadIPT.w/2, nodes.roadIPT.y, nodes.battery.x - nodes.battery.w/2, nodes.battery.y + 8 * dpr, '#06b6d4', false);
+    }
+
+    if (currentPowerKW > 0.05) {
+      drawParticles(nodes.battery.x + nodes.battery.w/2, nodes.battery.y, nodes.inverter.x - nodes.inverter.w/2, nodes.inverter.y, '#38bdf8', false);
+      drawParticles(nodes.inverter.x + nodes.inverter.w/2, nodes.inverter.y, nodes.motor.x - nodes.motor.w/2, nodes.motor.y, '#38bdf8', false);
+    } else if (currentPowerKW < -0.05) {
+      drawParticles(nodes.motor.x - nodes.motor.w/2, nodes.motor.y, nodes.inverter.x + nodes.inverter.w/2, nodes.inverter.y, '#34d399', true);
+      drawParticles(nodes.inverter.x - nodes.inverter.w/2, nodes.inverter.y, nodes.battery.x + nodes.battery.w/2, nodes.battery.y, '#34d399', true);
+    }
+
+    function drawNode(n, title, sub, borderCol) {
+      ptCtx.save();
+      ptCtx.fillStyle = '#0f172a';
+      ptCtx.strokeStyle = borderCol || '#334155';
+      ptCtx.lineWidth = 1.4 * dpr;
+
+      ptCtx.beginPath();
+      ptCtx.roundRect ? ptCtx.roundRect(n.x - n.w/2, n.y - n.h/2, n.w, n.h, 6 * dpr) : ptCtx.rect(n.x - n.w/2, n.y - n.h/2, n.w, n.h);
+      ptCtx.fill();
+      ptCtx.stroke();
+
+      ptCtx.fillStyle = '#f1f5f9';
+      ptCtx.font = '600 ' + (9.5 * dpr) + 'px "Space Grotesk", sans-serif';
+      ptCtx.textAlign = 'center';
+      ptCtx.fillText(title, n.x, n.y - 2 * dpr);
+
+      ptCtx.fillStyle = borderCol || '#94a3b8';
+      ptCtx.font = '500 ' + (8.5 * dpr) + 'px "IBM Plex Mono", monospace';
+      ptCtx.fillText(sub, n.x, n.y + 10 * dpr);
+      ptCtx.restore();
+    }
+
+    drawNode(nodes.solar, '☀️ Solar Array', curSolarW.toFixed(0) + ' W', curSolarW > 1 ? '#fbbf24' : '#475569');
+    drawNode(nodes.roadIPT, nodes.roadIPT.title, nodes.roadIPT.sub, isOverSignalPad ? '#a855f7' : (isOverRoadCoil ? '#06b6d4' : '#475569'));
+    var bKW = Math.abs(curNetBatteryW / 1000);
+    var bSub = bKW > 0.05 ? (bKW.toFixed(2) + ' kW ' + (curNetBatteryW > 0 ? 'Draw' : 'Charge')) : '0.00 kW Idle';
+    drawNode(nodes.battery, '🔋 Battery Pack', bSub, curNetBatteryW > 50 ? '#38bdf8' : (curNetBatteryW < -50 ? '#34d399' : '#64748b'));
+    drawNode(nodes.inverter, '⚡ Inverter / ECU', nodes.inverter.sub, '#475569');
+    drawNode(nodes.motor, '⚙️ Motor', (v*3.6).toFixed(0) + ' km/h', currentPowerKW > 0.05 ? '#38bdf8' : (currentPowerKW < -0.05 ? '#34d399' : '#475569'));
+  }
+
+  // ---------- Main Animation Loop ----------
+  var lastTs = null;
+  function mainLoop(ts) {
+    if (!lastTs) lastTs = ts;
+    var dt = Math.min(0.08, (ts - lastTs) / 1000);
+    lastTs = ts;
+
+    if (running) {
+      if (tlActive) {
+        var simDt = dt * tlSpeedMult;
+        tlSimTime += simDt;
+        if (tlSimTime >= 1200) {
+          tlSimTime = 1200;
+          tlActive = false;
+          els.timelapseStatusChip.textContent = 'Finished';
+          els.btnPlayTimelapse.textContent = '▶ Play 30x Timelapse';
+          els.tlEventText.innerHTML = '✅ <b>20-Min Commute Completed!</b> <button class="jump-pill-btn" onclick="window.__jumpToOutputs && window.__jumpToOutputs()">📋 View Commute Report &amp; Ledger →</button>';
+          showReportCard();
+        }
+        stepPhysics(simDt);
+
+        var mins = Math.floor(tlSimTime / 60);
+        var secs = Math.floor(tlSimTime % 60);
+        els.tlTimeElapsed.textContent = (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs + ' / 20:00 (' + Math.round((tlSimTime / 1200) * 100) + '%)';
+        els.tlDistanceCovered.textContent = (distance / 1000).toFixed(2) + ' km';
+        els.tlProgressBar.style.width = ((tlSimTime / 1200) * 100) + '%';
+      } else {
+        stepPhysics(dt);
+      }
+
+      updateUI();
+      drawRoad();
+      drawMeter();
+      drawPowertrain(dt);
+    }
+
+    requestAnimationFrame(mainLoop);
+  }
+
+  function showReportCard() {
+    els.tlReportCard.style.display = 'block';
+    var whInput = J2Wh(totIn);
+    var whRec = J2Wh(totRecover);
+    var whD = J2Wh(totLossDrag);
+    var whR = J2Wh(totLossRoll);
+    var whF = J2Wh(totFriction);
+    var distKm = distance / 1000;
+    var pctRec = whInput > 0 ? ((whRec / whInput) * 100).toFixed(1) : 0;
+
+    els.tlReportTitle.textContent = (tlCondition === 'city' ? '🏙️ 20-Min City Commute' : '🛣️ 20-Min Highway Cruise') + ' (' + VEHICLES[vehicleType].label.toUpperCase() + ')';
+    
+    var netCommuteWh = J2Wh((totIn + totAux) - (totSolar + totDynamic + totIntersection + totRecover + totDownhill + totSuspension + totMarginal + totTurbine));
+    if (netCommuteWh <= 0) {
+      els.tlReportNet.textContent = '+' + Math.abs(netCommuteWh).toFixed(1) + ' Wh surplus';
+      els.tlReportNet.className = 'solver-ratio-pill num surplus';
+    } else {
+      els.tlReportNet.textContent = '−' + netCommuteWh.toFixed(1) + ' Wh draw';
+      els.tlReportNet.className = 'solver-ratio-pill num';
+    }
+
+    var eff = distKm > 0 ? (Math.abs(netCommuteWh) / distKm).toFixed(1) : '—';
+    var effLabel = netCommuteWh <= 0 ? ' (Surplus)' : ' (Net)';
+    els.tlRepEff.textContent = eff + ' Wh/km' + effLabel;
+
+    els.tlRepDrawn.textContent = whInput.toFixed(1) + ' Wh';
+    els.tlRepRegen.textContent = whRec.toFixed(1) + ' Wh (' + pctRec + '%)';
+    els.tlRepDrag.textContent = whD.toFixed(1) + ' Wh';
+    els.tlRepRoll.textContent = whR.toFixed(1) + ' Wh';
+    els.tlRepFriction.textContent = whF.toFixed(1) + ' Wh';
+
+    if (whRec <= 0.05) {
+      els.tlComparisonVerdict.innerHTML = '<b>Baseline Mode Verdict:</b> Regenerative braking was disabled. 100% of deceleration kinetic energy (' + whF.toFixed(1) + ' Wh) was dissipated as friction disc heat. Demonstrating pure unassisted vehicle consumption.';
+    } else if (tlCondition === 'city') {
+      els.tlComparisonVerdict.innerHTML = '<b>City Verdict:</b> Frequent red light stops and speed humps create frequent kinetic recovery events. Regen reclaimed <b>' + pctRec + '%</b> of drawn power!';
+    } else {
+      els.tlComparisonVerdict.innerHTML = '<b>Highway Verdict:</b> Sustained speed means aerodynamic drag dominates (>60% of total loss). Regen opportunities are sparse.';
+    }
+  }
+
+  // ---------- Instant Numeric Solver ----------
+  function runInstantTimelapse() {
+    resetTrip();
+    tlActive = true;
+    var dt = 0.2;
+    var totalSteps = 1200 / dt;
+
+    for (var s = 0; s < totalSteps; s++) {
+      tlSimTime = s * dt;
+      stepPhysics(dt);
+    }
+
+    tlSimTime = 1200;
+    tlActive = false;
+    v = 0;
+    els.accelPedal.value = 0;
+    els.brakePedal.value = 0;
+    els.accelVal.textContent = '0%';
+    els.brakeVal.textContent = '0%';
+    els.tlProgressBar.style.width = '100%';
+    els.tlTimeElapsed.textContent = '20:00 / 20:00 (100%)';
+    els.tlDistanceCovered.textContent = (distance / 1000).toFixed(2) + ' km';
+    els.timelapseStatusChip.textContent = 'Completed';
+    els.tlEventText.innerHTML = '✅ <b>20-Min Commute Completed!</b> <button class="jump-pill-btn" onclick="window.__jumpToOutputs && window.__jumpToOutputs()">📋 View Commute Report &amp; Ledger →</button>';
+
+    showReportCard();
+    updateUI();
+    drawRoad();
+  }
+
+  function resetTrip() {
+    v = 0;
+    distance = 0;
+    tlSimTime = 0;
+    tlActive = false;
+    totIn = 0;
+    totLossDrag = 0;
+    totLossRoll = 0;
+    totLossGrade = 0;
+    totFriction = 0;
+    totConvLoss = 0;
+    totAux = 0;
+    totSolar = 0;
+    totDynamic = 0;
+    totIntersection = 0;
+    totRecover = 0;
+    totDownhill = 0;
+    totSuspension = 0;
+    totMarginal = 0;
+    totTurbine = 0;
+    curNetBatteryW = 0;
+    powerHistory = [];
+
+    els.accelPedal.value = 0;
+    els.brakePedal.value = 0;
+    els.accelVal.textContent = '0%';
+    els.brakeVal.textContent = '0%';
+    els.tlProgressBar.style.width = '0%';
+    els.tlTimeElapsed.textContent = '00:00 / 20:00 (0%)';
+    els.tlDistanceCovered.textContent = '0.00 km';
+    els.timelapseStatusChip.textContent = 'Ready';
+    els.tlEventText.innerHTML = 'Hit <b>Play 30x Timelapse</b> or <b>Instant Result</b> to simulate the complete 20-minute ride.';
+    els.btnPlayTimelapse.textContent = '▶ Play 30x Timelapse';
+    els.tlReportCard.style.display = 'none';
+
+    updateUI();
+  }
+
+  // ---------- Event Listeners ----------
+  els.accelPedal.addEventListener('input', function() {
+    if (tlActive) tlActive = false;
+    els.accelVal.textContent = els.accelPedal.value + '%';
+    if (parseInt(els.accelPedal.value) > 0) {
+      els.brakePedal.value = 0;
+      els.brakeVal.textContent = '0%';
+    }
+  });
+
+  els.brakePedal.addEventListener('input', function() {
+    if (tlActive) tlActive = false;
+    els.brakeVal.textContent = els.brakePedal.value + '%';
+    if (parseInt(els.brakePedal.value) > 0) {
+      els.accelPedal.value = 0;
+      els.accelVal.textContent = '0%';
+    }
+  });
+
+  els.modeManual.addEventListener('click', function() {
+    mode = 'manual';
+    els.modeManual.classList.add('active');
+    els.modeCruise.classList.remove('active');
+    els.wrapCruiseField.style.display = 'none';
+  });
+  els.modeCruise.addEventListener('click', function() {
+    mode = 'cruise';
+    els.modeCruise.classList.add('active');
+    els.modeManual.classList.remove('active');
+    els.wrapCruiseField.style.display = 'block';
+  });
+  els.cruiseTarget.addEventListener('input', function() {
+    els.lblCruise.textContent = els.cruiseTarget.value + ' km/h';
+  });
+
+  els.simCityBtn.addEventListener('click', function() {
+    tlCondition = 'city';
+    els.simCityBtn.classList.add('active');
+    els.simHwyBtn.classList.remove('active');
+    resetTrip();
+  });
+  els.simHwyBtn.addEventListener('click', function() {
+    tlCondition = 'highway';
+    els.simHwyBtn.classList.add('active');
+    els.simCityBtn.classList.remove('active');
+    resetTrip();
+  });
+
+  els.btnPlayTimelapse.addEventListener('click', function() {
+    if (tlSimTime >= 1200) resetTrip();
+    tlActive = !tlActive;
+    els.timelapseStatusChip.textContent = tlActive ? 'Running' : 'Paused';
+    els.btnPlayTimelapse.textContent = tlActive ? '⏸ Pause Simulation' : '▶ Resume Timelapse';
+  });
+
+  els.btnInstantTimelapse.addEventListener('click', runInstantTimelapse);
+  els.btnResetTimelapse.addEventListener('click', resetTrip);
+
+  els.pauseBtn.addEventListener('click', function() {
+    running = !running;
+    els.pauseBtn.textContent = running ? 'Pause' : 'Resume';
+    if (running) { lastTs = null; requestAnimationFrame(mainLoop); }
+  });
+  els.resetBtn.addEventListener('click', resetTrip);
+
+  // All parameter sliders
+  var allSliders = [
+    els.mass, els.drag, els.roll, els.airDensity, els.maxAccel, els.maxBrake, els.maxRegen, els.regenEff,
+    els.grade, els.solarArea, els.solarEff, els.irradiance, els.ambientTemp, els.windSpeed,
+    els.sliderRoadPower, els.sliderRoadCoverage, els.sliderPadPower, els.sliderIntersectionPct
+  ];
+  allSliders.forEach(function(s) {
+    if (s) {
+      s.addEventListener('input', function() {
+        syncLabels();
+        updateUI();
+      });
+    }
+  });
+
+  // Master Regeneration Mode Logic
+  function updateMasterPresetButtons() {
+    if (!els.toggleRegenBraking) return;
+    var isRegenOn = els.toggleRegenBraking.checked;
+    var isDownhillOn = els.toggleDownhill.checked;
+    var isSuspOn = els.toggleSuspension.checked;
+    var isThermoOn = els.toggleThermo.checked;
+    var isPiezoOn = els.togglePiezo.checked;
+    var isWakeOn = els.toggleWake.checked;
+    var isTurbOn = els.toggleTurbine.checked;
+    var isSolarOn = els.toggleSolar.checked;
+    var isRoadOn = els.chkDynamicRoad.checked;
+    var isJuncOn = els.chkIntersection.checked;
+
+    var allOff = !isRegenOn && !isDownhillOn && !isSuspOn && !isThermoOn && !isPiezoOn && !isWakeOn && !isTurbOn && !isSolarOn && !isRoadOn && !isJuncOn;
+    var factoryOn = isRegenOn && isDownhillOn && !isSuspOn && !isThermoOn && !isPiezoOn && !isWakeOn && !isTurbOn && !isSolarOn && !isRoadOn && !isJuncOn;
+    var fullOn = isRegenOn && isDownhillOn && isSuspOn && isThermoOn && isPiezoOn && isWakeOn && isSolarOn && isRoadOn && isJuncOn;
+
+    if (els.btnModeBaseline) els.btnModeBaseline.classList.toggle('active', allOff);
+    if (els.btnModeFactory) els.btnModeFactory.classList.toggle('active', factoryOn);
+    if (els.btnModeFull) els.btnModeFull.classList.toggle('active', fullOn);
+  }
+
+  function applyRegenPreset(preset) {
+    if (preset === 'baseline') {
+      // Switch OFF all battery regeneration & external assist
+      els.toggleRegenBraking.checked = false;
+      els.toggleDownhill.checked = false;
+      els.toggleSuspension.checked = false;
+      els.toggleThermo.checked = false;
+      els.togglePiezo.checked = false;
+      els.toggleWake.checked = false;
+      els.toggleTurbine.checked = false;
+      els.toggleSolar.checked = false;
+      els.chkDynamicRoad.checked = false;
+      els.chkIntersection.checked = false;
+      els.onePedal.checked = false;
+    } else if (preset === 'factory') {
+      // Standard showroom EV: kinetic brake regen & downhill gravity ON, experimental/wireless OFF
+      els.toggleRegenBraking.checked = true;
+      els.toggleDownhill.checked = true;
+      els.toggleSuspension.checked = false;
+      els.toggleThermo.checked = false;
+      els.togglePiezo.checked = false;
+      els.toggleWake.checked = false;
+      els.toggleTurbine.checked = false;
+      els.toggleSolar.checked = false;
+      els.chkDynamicRoad.checked = false;
+      els.chkIntersection.checked = false;
+      els.onePedal.checked = false;
+    } else if (preset === 'full') {
+      // Full smart-city harvest suite
+      els.toggleRegenBraking.checked = true;
+      els.toggleDownhill.checked = true;
+      els.toggleSuspension.checked = true;
+      els.toggleThermo.checked = true;
+      els.togglePiezo.checked = true;
+      els.toggleWake.checked = true;
+      els.toggleTurbine.checked = false;
+      els.toggleSolar.checked = true;
+      els.chkDynamicRoad.checked = true;
+      els.chkIntersection.checked = true;
+      els.onePedal.checked = false;
+    }
+    updateMasterPresetButtons();
+    syncLabels();
+    updateUI();
+  }
+
+  if (els.btnModeBaseline) els.btnModeBaseline.addEventListener('click', function() { applyRegenPreset('baseline'); });
+  if (els.btnModeFactory) els.btnModeFactory.addEventListener('click', function() { applyRegenPreset('factory'); });
+  if (els.btnModeFull) els.btnModeFull.addEventListener('click', function() { applyRegenPreset('full'); });
+
+  // Toggles
+  var allToggles = [
+    els.toggleRegenBraking, els.onePedal, els.toggleDownhill, els.toggleSuspension, els.toggleThermo, els.togglePiezo, els.toggleWake,
+    els.toggleTurbine, els.toggleSolar, els.toggleWind, els.chkDynamicRoad, els.chkIntersection
+  ];
+  allToggles.forEach(function(t) {
+    if (t) {
+      t.addEventListener('change', function() {
+        if (t === els.toggleWind) els.wrapWindSlider.style.display = els.toggleWind.checked ? 'block' : 'none';
+        updateMasterPresetButtons();
+        updateUI();
+      });
+    }
+  });
+
+  // Grade Preset Pills
+  document.querySelectorAll('[data-grade]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('[data-grade]').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      els.grade.value = btn.getAttribute('data-grade');
+      syncLabels();
+      updateUI();
+    });
+  });
+
+  // Road Coverage preset pills
+  document.querySelectorAll('[data-rcov]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('[data-rcov]').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      els.sliderRoadCoverage.value = btn.getAttribute('data-rcov');
+      syncLabels();
+      updateUI();
+    });
+  });
+
+  // Intersection Preset pills
+  document.querySelectorAll('[data-junc]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('[data-junc]').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      els.sliderIntersectionPct.value = btn.getAttribute('data-junc');
+      syncLabels();
+      updateUI();
+    });
+  });
+
+  // Irradiance Preset pills
+  document.querySelectorAll('[data-irr]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('[data-irr]').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      els.irradiance.value = btn.getAttribute('data-irr');
+      syncLabels();
+      updateUI();
+    });
+  });
+
+  // Initial setup
+  applyVehicle('scooter');
+  updateMasterPresetButtons();
+  resizeCanvases();
+  updateUI();
+  requestAnimationFrame(mainLoop);
+
+})();
+</script>
+</body>
+</html>

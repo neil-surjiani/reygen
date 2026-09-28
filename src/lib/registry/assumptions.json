@@ -1,0 +1,690 @@
+{
+  "metadata": {
+    "title": "Dubai RTA Dynamic Wireless Charging Corridor Assumptions Registry",
+    "version": "1.0.0",
+    "lastUpdated": "2026-09-28",
+    "description": "Standardized, published, and measured parameters for dynamic wireless power transfer and vehicle energy modeling.",
+    "jurisdiction": "Dubai, United Arab Emirates (RTA)"
+  },
+  "environment": {
+    "airDensity_kg_m3": {
+      "id": "env_air_density",
+      "name": "Ambient Air Density",
+      "category": "environment",
+      "value": 1.184,
+      "range": {
+        "min": 1.116,
+        "typical": 1.184,
+        "max": 1.225
+      },
+      "unit": "kg/m³",
+      "sourceName": "U.S. Standard Atmosphere (COESA 1976) & Dubai Climate Meteorological Data",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Density_of_air",
+      "dateAccessed": "2026-09-28",
+      "confidence": "published",
+      "note": "Standard air density at sea level (1.204 kg/m³ at 20°C, 1.225 kg/m³ at 15°C); Dubai summer ambient (38°C–43°C) reduces density to 1.116–1.134 kg/m³.",
+      "rangeBasis": "Calculated across Dubai seasonal temperatures: 43°C summer extreme (min: 1.116 kg/m³), 28°C annual mean (typical: 1.184 kg/m³), and 15°C ISA sea level (max: 1.225 kg/m³)."
+    }
+  },
+  "corridor": {
+    "costPerKm_USD": {
+      "id": "corridor_cost_per_km",
+      "name": "Electrified Road Infrastructure Cost per Lane-Km",
+      "category": "corridor",
+      "value": 1600000,
+      "range": {
+        "min": 1100000,
+        "typical": 1600000,
+        "max": 3000000
+      },
+      "unit": "USD/lane-km",
+      "sourceName": "Swedish Transport Administration (Trafikverket) & French Ministry/Cerema ERS Studies",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Electric_road",
+      "dateAccessed": "2026-09-28",
+      "confidence": "published",
+      "note": "Estimated capital expenditure per electrified lane-km based on European ERS pilot benchmarks (€1.0M–€2.7M/km).",
+      "rangeBasis": "Trafikverket large-scale mature rollout projection (€1.0M/km or ~$1.1M) up to high-complexity highway retrofit pilots (€2.7M/km or ~$3.0M)."
+    },
+    "coilPower_kW": {
+      "id": "corridor_coil_power",
+      "name": "Dynamic Inductive Coil Power",
+      "category": "corridor",
+      "value": 75,
+      "range": {
+        "min": 20,
+        "typical": 75,
+        "max": 200
+      },
+      "unit": "kW",
+      "sourceName": "ElectReon & Vinci Autoroutes Dynamic Induction Pilots (Electric Road)",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Electric_road",
+      "dateAccessed": "2026-09-28",
+      "confidence": "published",
+      "note": "Nominal power delivered per vehicle receiver; transit buses typically operate with a 75 kW receiver assembly.",
+      "rangeBasis": "20 kW for light-duty EV coils up to 200 kW for multi-receiver heavy commercial vehicle assemblies."
+    },
+    "couplingEfficiency": {
+      "id": "corridor_coupling_efficiency",
+      "name": "Magnetic Induction Transmission Coupling Efficiency",
+      "category": "corridor",
+      "value": 0.80,
+      "range": {
+        "min": 0.643,
+        "typical": 0.80,
+        "max": 0.90
+      },
+      "unit": "dimensionless",
+      "sourceName": "BMWK German ERS Road Trial & Arena del Futuro / Vinci A10 Pilot Evaluations",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Electric_road",
+      "dateAccessed": "2026-09-28",
+      "confidence": "measured",
+      "note": "Grid-to-battery induction efficiency: 64.3% measured in German BMWK trials; 75%–85% reported in French highway trials; 90% peak on bench.",
+      "rangeBasis": "Empirical range between 64.3% measured in German highway pilot and 90% theoretical peak bench coupling."
+    }
+  },
+  "vehicles": {
+    "transit_bus": {
+      "mass_kg": {
+        "id": "bus_mass",
+        "name": "12m Transit Bus Total Mass",
+        "category": "vehicle",
+        "vehicleType": "transit_bus",
+        "value": 15500,
+        "range": {
+          "min": 13500,
+          "typical": 15500,
+          "max": 18000
+        },
+        "unit": "kg",
+        "sourceName": "BYD Auto K-Series 12m Transit Bus Datasheet",
+        "sourceUrl": "https://en.wikipedia.org/wiki/BYD_K9",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "12-meter electric transit bus: 13,500 kg curb weight, 18,000 kg gross vehicle weight limit.",
+        "rangeBasis": "Empty curb weight (13,500 kg) to fully loaded passenger gross weight (18,000 kg); typical reflects ~25 seated passengers."
+      },
+      "crr": {
+        "id": "bus_crr",
+        "name": "Rolling Resistance Coefficient (Class C3)",
+        "category": "vehicle",
+        "vehicleType": "transit_bus",
+        "value": 0.0060,
+        "range": {
+          "min": 0.0045,
+          "typical": 0.0060,
+          "max": 0.0080
+        },
+        "unit": "dimensionless",
+        "sourceName": "ISO 28580 / UNECE R117 Rolling Resistance Standards (Class C3 Commercial Tires)",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Rolling_resistance",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "Rolling resistance coefficient for Class C3 transit bus and heavy commercial vehicle radial tires.",
+        "rangeBasis": "UNECE R117 Class C3 grading bands: low-resistance radial (0.0045) to standard transit radial (0.0080)."
+      },
+      "cda_m2": {
+        "id": "bus_cda",
+        "name": "Aerodynamic Drag Area (Cd * A)",
+        "category": "vehicle",
+        "vehicleType": "transit_bus",
+        "value": 4.875,
+        "range": {
+          "min": 4.125,
+          "typical": 4.875,
+          "max": 5.712
+        },
+        "unit": "m²",
+        "sourceName": "Engineering ToolBox Vehicle Drag & BYD K-Series Bus Body Dimensions",
+        "sourceUrl": "https://www.engineeringtoolbox.com/drag-coefficient-d_627.html",
+        "dateAccessed": "2026-09-28",
+        "confidence": "estimated",
+        "note": "Effective drag area Cd * A for 12m city transit bus (width 2.55m, height 3.20m, frontal area ~7.5 m², Cd ~0.55–0.70).",
+        "rangeBasis": "Frontal area ~7.5 m² multiplied by Cd range of 0.55 (streamlined coach) to 0.70 (boxy city transit bus)."
+      },
+      "motorEfficiency": {
+        "id": "bus_motor_efficiency",
+        "name": "Electric Drive Powertrain Efficiency",
+        "category": "vehicle",
+        "vehicleType": "transit_bus",
+        "value": 0.91,
+        "range": {
+          "min": 0.85,
+          "typical": 0.91,
+          "max": 0.95
+        },
+        "unit": "dimensionless",
+        "sourceName": "U.S. Department of Energy / EPA Vehicle Efficiency & Electric Traction Motor Ratings",
+        "sourceUrl": "https://www.fueleconomy.gov/feg/atv-ev.shtml",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "Combined inverter and traction motor efficiency across typical urban transit duty cycles.",
+        "rangeBasis": "85% during low-speed high-torque operation to 95% peak efficiency at nominal operating speed."
+      },
+      "regenEfficiency": {
+        "id": "bus_regen_efficiency",
+        "name": "Regenerative Braking Round-Trip Efficiency",
+        "category": "vehicle",
+        "vehicleType": "transit_bus",
+        "value": 0.70,
+        "range": {
+          "min": 0.50,
+          "typical": 0.70,
+          "max": 0.85
+        },
+        "unit": "dimensionless",
+        "sourceName": "Regenerative Braking Systems Thermodynamic and Electrical Recapture Evaluations",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Regenerative_brake",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "Round-trip electrical and electrochemical recapture efficiency from wheel kinetic energy back to traction battery.",
+        "rangeBasis": "50% typical real-world urban cycle recapture to 85% optimal electrical generator recovery."
+      },
+      "regenCeiling_mps2": {
+        "id": "bus_regen_ceiling",
+        "name": "Maximum Regenerative Deceleration Ceiling",
+        "category": "vehicle",
+        "vehicleType": "transit_bus",
+        "value": 2.0,
+        "range": {
+          "min": 1.0,
+          "typical": 2.0,
+          "max": 3.0
+        },
+        "unit": "m/s²",
+        "sourceName": "Electric Vehicle Regenerative Deceleration Comfort Limits and Brake Blending Controls",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Regenerative_brake",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "Software and stability ceiling for pure regenerative deceleration before friction mechanical braking engages.",
+        "rangeBasis": "1.0 m/s² (~0.10g) passenger comfort threshold, 2.0 m/s² (~0.20g) typical limit, up to 3.0 m/s² (~0.31g) maximum blend ceiling."
+      },
+      "auxiliaryLoad_W": {
+        "id": "bus_aux_load",
+        "name": "Auxiliary Electrical Load (HVAC & Subsystems)",
+        "category": "vehicle",
+        "vehicleType": "transit_bus",
+        "value": 12000,
+        "range": {
+          "min": 3000,
+          "typical": 12000,
+          "max": 22000
+        },
+        "unit": "W",
+        "sourceName": "Electric Bus Auxiliary Loads & HVAC Thermal Management in High Ambient Climates",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Electric_bus",
+        "dateAccessed": "2026-09-28",
+        "confidence": "estimated",
+        "note": "Auxiliary electrical power draw including passenger cabin AC, battery thermal management, and power steering.",
+        "rangeBasis": "3,000 W idle electronics up to 22,000 W during peak Dubai summer cabin pull-down at 40°C–45°C ambient."
+      },
+      "solarPanelArea_m2": {
+        "id": "bus_solar_area",
+        "name": "Usable Rooftop Solar Panel Area",
+        "category": "vehicle",
+        "vehicleType": "transit_bus",
+        "value": 16.0,
+        "range": {
+          "min": 10.0,
+          "typical": 16.0,
+          "max": 22.0
+        },
+        "unit": "m²",
+        "sourceName": "BYD K-Series Transit Bus Rooftop Dimensions and Solar Demo Evaluations",
+        "sourceUrl": "https://en.wikipedia.org/wiki/BYD_K9",
+        "dateAccessed": "2026-09-28",
+        "confidence": "estimated",
+        "note": "Net usable rooftop surface area for photovoltaic cells on a 12m transit bus.",
+        "rangeBasis": "Total roof footprint (30.6 m²) less HVAC units, escape hatches, and maintenance walkways yields 10 to 22 m²."
+      },
+      "solarPanelEfficiency": {
+        "id": "bus_solar_efficiency",
+        "name": "Solar Cell Conversion Efficiency",
+        "category": "vehicle",
+        "vehicleType": "transit_bus",
+        "value": 0.215,
+        "range": {
+          "min": 0.180,
+          "typical": 0.215,
+          "max": 0.245
+        },
+        "unit": "dimensionless",
+        "sourceName": "NREL & Standard Commercial Silicon Photovoltaic Module Efficiency Ratings",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Solar_cell_efficiency",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "Efficiency of commercial monocrystalline silicon solar cells at STC (Standard Test Conditions, 25°C, 1000 W/m²).",
+        "rangeBasis": "18% standard commercial silicon module to 24.5% high-efficiency production silicon cell."
+      }
+    },
+    "passenger_taxi": {
+      "mass_kg": {
+        "id": "taxi_mass",
+        "name": "Passenger EV / Taxi Total Mass",
+        "category": "vehicle",
+        "vehicleType": "passenger_taxi",
+        "value": 1847,
+        "range": {
+          "min": 1610,
+          "typical": 1847,
+          "max": 2060
+        },
+        "unit": "kg",
+        "sourceName": "Tesla Model 3 Specifications & Curb Weights",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Tesla_Model_3",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "Tesla Model 3 electric taxi: 1,610 kg base curb weight, 1,847 kg Long Range with driver and luggage, 2,060 kg GVWR.",
+        "rangeBasis": "Base curb weight empty (1,610 kg) to fully loaded Gross Vehicle Weight Rating (2,060 kg)."
+      },
+      "crr": {
+        "id": "taxi_crr",
+        "name": "Rolling Resistance Coefficient (Class C1)",
+        "category": "vehicle",
+        "vehicleType": "passenger_taxi",
+        "value": 0.0088,
+        "range": {
+          "min": 0.0065,
+          "typical": 0.0088,
+          "max": 0.0120
+        },
+        "unit": "dimensionless",
+        "sourceName": "ISO 28580 / UNECE R117 Rolling Resistance Standards (Class C1 Passenger Tires)",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Rolling_resistance",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "Rolling resistance coefficient for Class C1 passenger car EV-grade low rolling resistance radial tires.",
+        "rangeBasis": "0.0065 (top-tier EV tire) to 0.0120 (standard all-season passenger tire)."
+      },
+      "cda_m2": {
+        "id": "taxi_cda",
+        "name": "Aerodynamic Drag Area (Cd * A)",
+        "category": "vehicle",
+        "vehicleType": "passenger_taxi",
+        "value": 0.5106,
+        "range": {
+          "min": 0.490,
+          "typical": 0.5106,
+          "max": 0.580
+        },
+        "unit": "m²",
+        "sourceName": "Tesla Model 3 Aerodynamic Drag Coefficient and Frontal Area Specifications",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Tesla_Model_3",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "Aerodynamic drag area: Cd = 0.23, Frontal Area A = 2.22 m² yields CdA = 0.5106 m².",
+        "rangeBasis": "Cd 0.23 with base aerodynamic wheels (0.490 m²) to Cd 0.25 with accessories and wide tires (0.580 m²)."
+      },
+      "motorEfficiency": {
+        "id": "taxi_motor_efficiency",
+        "name": "Electric Drive Powertrain Efficiency",
+        "category": "vehicle",
+        "vehicleType": "passenger_taxi",
+        "value": 0.92,
+        "range": {
+          "min": 0.86,
+          "typical": 0.92,
+          "max": 0.96
+        },
+        "unit": "dimensionless",
+        "sourceName": "U.S. Department of Energy / EPA Vehicle Efficiency (fueleconomy.gov)",
+        "sourceUrl": "https://www.fueleconomy.gov/feg/atv-ev.shtml",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "Permanent magnet synchronous motor and SiC inverter combined drivetrain efficiency.",
+        "rangeBasis": "86% under mixed stop-and-go load to 96% peak efficiency on highway cruise."
+      },
+      "regenEfficiency": {
+        "id": "taxi_regen_efficiency",
+        "name": "Regenerative Braking Round-Trip Efficiency",
+        "category": "vehicle",
+        "vehicleType": "passenger_taxi",
+        "value": 0.75,
+        "range": {
+          "min": 0.55,
+          "typical": 0.75,
+          "max": 0.88
+        },
+        "unit": "dimensionless",
+        "sourceName": "Electric Car Energy Efficiency & Regenerative Brake Evaluations",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Electric_car",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "Passenger car regenerative braking recovery efficiency back to the battery pack.",
+        "rangeBasis": "55% in aggressive braking events to 88% in gradual highway regeneration."
+      },
+      "regenCeiling_mps2": {
+        "id": "taxi_regen_ceiling",
+        "name": "Maximum Regenerative Deceleration Ceiling",
+        "category": "vehicle",
+        "vehicleType": "passenger_taxi",
+        "value": 2.0,
+        "range": {
+          "min": 1.0,
+          "typical": 2.0,
+          "max": 3.0
+        },
+        "unit": "m/s²",
+        "sourceName": "Regenerative Braking Deceleration Limits & One-Pedal Driving Benchmarks",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Regenerative_brake",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "One-pedal driving and blended regen limit: typically up to 2.0 m/s² (0.2g) before hydraulic brakes engage.",
+        "rangeBasis": "Comfortable throttle lift-off (1.0 m/s²) to full blended regen threshold (3.0 m/s²)."
+      },
+      "auxiliaryLoad_W": {
+        "id": "taxi_aux_load",
+        "name": "Auxiliary Electrical Load (HVAC & Subsystems)",
+        "category": "vehicle",
+        "vehicleType": "passenger_taxi",
+        "value": 2000,
+        "range": {
+          "min": 400,
+          "typical": 2000,
+          "max": 4500
+        },
+        "unit": "W",
+        "sourceName": "Electric Car Cabin Heating and Cooling Power Demands (Electric Car)",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Electric_car",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "Passenger vehicle auxiliary electrical load including air conditioning, cabin blower, computers, and lights.",
+        "rangeBasis": "400 W baseline electronics up to 4,500 W maximum AC compressor draw under high desert heat."
+      },
+      "solarPanelArea_m2": {
+        "id": "taxi_solar_area",
+        "name": "Usable Rooftop Solar Panel Area",
+        "category": "vehicle",
+        "vehicleType": "passenger_taxi",
+        "value": 1.8,
+        "range": {
+          "min": 1.2,
+          "typical": 1.8,
+          "max": 2.4
+        },
+        "unit": "m²",
+        "sourceName": "Passenger EV Glass Roof Solar Integration Dimensions",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Tesla_Model_3",
+        "dateAccessed": "2026-09-28",
+        "confidence": "estimated",
+        "note": "Available roof area for embedded solar photovoltaic cells on a compact executive sedan.",
+        "rangeBasis": "1.2 m² for partial roof glass to 2.4 m² for entire panoramic roof canopy."
+      },
+      "solarPanelEfficiency": {
+        "id": "taxi_solar_efficiency",
+        "name": "Solar Cell Conversion Efficiency",
+        "category": "vehicle",
+        "vehicleType": "passenger_taxi",
+        "value": 0.215,
+        "range": {
+          "min": 0.180,
+          "typical": 0.215,
+          "max": 0.245
+        },
+        "unit": "dimensionless",
+        "sourceName": "Commercial Solar Cell Efficiency Records and Production Modules",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Solar_cell_efficiency",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "Efficiency of production monocrystalline photovoltaic cells.",
+        "rangeBasis": "18% standard commercial panels to 24.5% high-efficiency IBC cells."
+      }
+    },
+    "scooter": {
+      "mass_kg": {
+        "id": "scooter_mass",
+        "name": "Electric Scooter / Moped Total Mass (with Rider)",
+        "category": "vehicle",
+        "vehicleType": "scooter",
+        "value": 190,
+        "range": {
+          "min": 170,
+          "typical": 190,
+          "max": 220
+        },
+        "unit": "kg",
+        "sourceName": "NIU NQi GTS Electric Scooter Technical Specifications",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Electric_motorcycles_and_scooters",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "115 kg NIU NQi GTS dual-battery electric scooter curb weight plus 75 kg rider (total 190 kg).",
+        "rangeBasis": "170 kg (light rider 55 kg) to 220 kg (heavy rider plus delivery cargo payload)."
+      },
+      "crr": {
+        "id": "scooter_crr",
+        "name": "Rolling Resistance Coefficient (Two-Wheeler / Moped)",
+        "category": "vehicle",
+        "vehicleType": "scooter",
+        "value": 0.015,
+        "range": {
+          "min": 0.012,
+          "typical": 0.015,
+          "max": 0.020
+        },
+        "unit": "dimensionless",
+        "sourceName": "ISO 28580 / Motorcycle Tire Rolling Resistance Standards",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Rolling_resistance",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "Rolling resistance coefficient for 14-inch pneumatic moped/scooter road tires.",
+        "rangeBasis": "0.012 for high-pressure low-rolling-resistance tires to 0.020 for lower-pressure urban commuting tires."
+      },
+      "cda_m2": {
+        "id": "scooter_cda",
+        "name": "Aerodynamic Drag Area (Cd * A)",
+        "category": "vehicle",
+        "vehicleType": "scooter",
+        "value": 0.55,
+        "range": {
+          "min": 0.45,
+          "typical": 0.55,
+          "max": 0.70
+        },
+        "unit": "m²",
+        "sourceName": "Motorcycle & Scooter Aerodynamic Drag Area Benchmarks",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Automobile_drag_coefficient",
+        "dateAccessed": "2026-09-28",
+        "confidence": "estimated",
+        "note": "Aerodynamic drag area for upright commuting rider on a step-through electric scooter.",
+        "rangeBasis": "0.45 m² for compact rider tuck to 0.70 m² for upright rider with delivery top box."
+      },
+      "motorEfficiency": {
+        "id": "scooter_motor_efficiency",
+        "name": "Electric Drive Powertrain Efficiency",
+        "category": "vehicle",
+        "vehicleType": "scooter",
+        "value": 0.85,
+        "range": {
+          "min": 0.80,
+          "typical": 0.85,
+          "max": 0.90
+        },
+        "unit": "dimensionless",
+        "sourceName": "Electric Vehicle Powertrain Ratings",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Electric_vehicle",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "Efficiency of brushless DC (BLDC) permanent-magnet hub or mid-drive motor including inverter.",
+        "rangeBasis": "80% low-cost hub motor to 90% premium liquid/air-cooled synchronous drive."
+      },
+      "regenEfficiency": {
+        "id": "scooter_regen_efficiency",
+        "name": "Regenerative Braking Round-Trip Efficiency",
+        "category": "vehicle",
+        "vehicleType": "scooter",
+        "value": 0.60,
+        "range": {
+          "min": 0.45,
+          "typical": 0.60,
+          "max": 0.75
+        },
+        "unit": "dimensionless",
+        "sourceName": "Electric Two-Wheeler Regenerative Braking Systems",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Regenerative_brake",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "Net mechanical-to-battery energy recovery efficiency for light electric two-wheelers.",
+        "rangeBasis": "45% simple BLDC regenerative braking to 75% advanced field-oriented controller recovery."
+      },
+      "regenCeiling_mps2": {
+        "id": "scooter_regen_ceiling",
+        "name": "Maximum Regenerative Deceleration Ceiling",
+        "category": "vehicle",
+        "vehicleType": "scooter",
+        "value": 1.5,
+        "range": {
+          "min": 1.0,
+          "typical": 1.5,
+          "max": 2.0
+        },
+        "unit": "m/s²",
+        "sourceName": "Electric Two-Wheeler Braking Dynamics and Stability Guidelines",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Regenerative_brake",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "Maximum deceleration ceiling for electric two-wheeler regenerative braking to maintain rear-wheel tire traction.",
+        "rangeBasis": "1.0 m/s² conservative wet pavement limit to 2.0 m/s² dry pavement maximum."
+      },
+      "auxiliaryLoad_W": {
+        "id": "scooter_aux_load",
+        "name": "Auxiliary Electrical Load (Lighting & Electronics)",
+        "category": "vehicle",
+        "vehicleType": "scooter",
+        "value": 45,
+        "range": {
+          "min": 20,
+          "typical": 45,
+          "max": 80
+        },
+        "unit": "W",
+        "sourceName": "Electric Scooter Auxiliary Power Consumption",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Electric_motorcycles_and_scooters",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "Continuous electrical power drawn by LED headlight, taillight, instrument cluster, and BMS logic.",
+        "rangeBasis": "20 W daytime running lights to 80 W high-beam and connected telemetry load."
+      },
+      "solarPanelArea_m2": {
+        "id": "scooter_solar_area",
+        "name": "Usable Solar Panel Area (Delivery Top Box)",
+        "category": "vehicle",
+        "vehicleType": "scooter",
+        "value": 0.20,
+        "range": {
+          "min": 0.10,
+          "typical": 0.20,
+          "max": 0.30
+        },
+        "unit": "m²",
+        "sourceName": "Commercial Delivery Box Dimensions",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Electric_motorcycles_and_scooters",
+        "dateAccessed": "2026-09-28",
+        "confidence": "estimated",
+        "note": "Usable surface area on the lid of a rear delivery box for flexible solar photovoltaic cells.",
+        "rangeBasis": "0.10 m² small parcel box lid to 0.30 m² full-size thermal delivery carrier lid."
+      },
+      "solarPanelEfficiency": {
+        "id": "scooter_solar_efficiency",
+        "name": "Solar Cell Conversion Efficiency",
+        "category": "vehicle",
+        "vehicleType": "scooter",
+        "value": 0.215,
+        "range": {
+          "min": 0.180,
+          "typical": 0.215,
+          "max": 0.245
+        },
+        "unit": "dimensionless",
+        "sourceName": "NREL Solar Cell Efficiency Records",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Solar_cell_efficiency",
+        "dateAccessed": "2026-09-28",
+        "confidence": "published",
+        "note": "Efficiency of monocrystalline solar cells.",
+        "rangeBasis": "18% standard commercial panels to 24.5% high-efficiency IBC cells."
+      }
+    }
+  },
+  "trafficControl": {
+    "signalStopProbability": {
+      "id": "traffic_signal_stop_probability",
+      "name": "Traffic Signal Stop Probability",
+      "category": "traffic_control",
+      "value": 0.50,
+      "range": {
+        "min": 0.30,
+        "typical": 0.50,
+        "max": 0.70
+      },
+      "unit": "dimensionless",
+      "sourceName": "Highway Capacity Manual (HCM 6th Edition) & FHWA Traffic Signal Timing Manual",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Traffic_light_control_and_coordination",
+      "dateAccessed": "2026-09-28",
+      "confidence": "estimated",
+      "note": "Probability that an arriving vehicle encounters an uncoordinated red signal phase; equal to red clearance ratio (1 - g/C).",
+      "rangeBasis": "0.30 for coordinated arterial progression green band up to 0.70 for uncoordinated or minor street phases."
+    },
+    "signalAverageWait_s": {
+      "id": "traffic_signal_average_wait",
+      "name": "Average Signal Stopped Wait Delay",
+      "category": "traffic_control",
+      "value": 30.0,
+      "range": {
+        "min": 15.0,
+        "typical": 30.0,
+        "max": 60.0
+      },
+      "unit": "s",
+      "sourceName": "Highway Capacity Manual (HCM) Uniform Delay Formulation for Signalized Intersections",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Traffic_light_control_and_coordination",
+      "dateAccessed": "2026-09-28",
+      "confidence": "estimated",
+      "note": "Average stopped dwell delay experienced by vehicles arriving during the red phase for a 60–120s cycle length.",
+      "rangeBasis": "15s for short cycle minor phases up to 60s for long 120s arterial red phases."
+    },
+    "junctionSlowdownSpeed_kmh": {
+      "id": "traffic_junction_slowdown_speed",
+      "name": "Motorway Junction / Interchange Advisory Speed",
+      "category": "traffic_control",
+      "value": 60.0,
+      "range": {
+        "min": 40.0,
+        "typical": 60.0,
+        "max": 80.0
+      },
+      "unit": "km/h",
+      "sourceName": "AASHTO Green Book / UAE Road Design Guidelines for Motorway Interchange Ramps and Junctions",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Interchange_(road)",
+      "dateAccessed": "2026-09-28",
+      "confidence": "published",
+      "note": "Advisory safe speed limit for vehicles negotiating motorway interchange slip roads and arterial weaving segments.",
+      "rangeBasis": "40 km/h for tight loop slip ramps to 80 km/h for high-speed directional interchange ramps."
+    }
+  },
+  "speculativeHarvesters": {
+    "roadway_piezoelectric": {
+      "id": "spec_piezoelectric_road",
+      "name": "Roadway Piezoelectric Harvester Power Output",
+      "category": "speculative",
+      "value": null,
+      "range": null,
+      "unit": "W/lane-km",
+      "sourceName": "None verified (commercial roadway piezoelectric viability not demonstrated in peer-reviewed literature)",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Electric_road",
+      "dateAccessed": "2026-09-28",
+      "confidence": "unsourced",
+      "note": "No verified or measured field deployment has demonstrated net-positive electrical harvest from roadway embedded piezoelectric elements."
+    },
+    "vehicle_mounted_wind_turbine": {
+      "id": "spec_vehicle_wind_turbine",
+      "name": "Vehicle-Mounted Wind Turbine Net Power",
+      "category": "speculative",
+      "value": null,
+      "range": null,
+      "unit": "W",
+      "sourceName": "Excluded by First and Second Laws of Thermodynamics",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Automobile_drag_coefficient",
+      "dateAccessed": "2026-09-28",
+      "confidence": "unsourced",
+      "note": "Mounting a wind turbine on a moving vehicle increases aerodynamic drag power proportionally higher than turbine output, causing net battery loss."
+    }
+  }
+}

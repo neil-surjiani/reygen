@@ -1,0 +1,27 @@
+{
+  "dataset_name": "Dubai Solar Irradiance and Ambient Temperature",
+  "source": "NASA Prediction Of Worldwide Energy Resources (POWER) Project",
+  "source_urls": [
+    "https://power.larc.nasa.gov/api/temporal/climatology/point",
+    "https://power.larc.nasa.gov/api/temporal/monthly/point"
+  ],
+  "retrieval_date": "2026-09-28T13:48:08.210979+00:00",
+  "licence": "NASA Open Data Policy (Public Domain / Free for all research and commercial use: https://open.nasa.gov/open-data/)",
+  "location": {
+    "name": "Dubai Silicon Oasis, Dubai, UAE",
+    "latitude": 25.1217,
+    "longitude": 55.3855
+  },
+  "date_ranges": {
+    "climatology": "2001-01 to 2020-12 (20-year meteorological climatology)",
+    "monthly_time_series": "2020-01 to 2024-12"
+  },
+  "parameters": {
+    "ALLSKY_SFC_SW_DWN": "All Sky Surface Shortwave Downward Irradiance (Global Horizontal Irradiance, kWh/m\u00b2/day)",
+    "T2M": "Air Temperature at 2 Meters (\u00b0C)",
+    "T2M_MAX": "Maximum Air Temperature at 2 Meters (\u00b0C)",
+    "T2M_MIN": "Minimum Air Temperature at 2 Meters (\u00b0C)"
+  },
+  "status": "found",
+  "notes": "Official public data from NASA Langley Research Center POWER Project."
+}

@@ -1,0 +1,1377 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "corridorId": "E311",
+    "placeName": "Dubai Silicon Oasis",
+    "geocoding": {
+      "query": "Dubai Silicon Oasis",
+      "displayName": "واحة دبي للسيليكون, المدينة الدولية, دبي, الإمارات العربية المتحدة",
+      "latitude": 25.1217058,
+      "longitude": 55.3855055,
+      "boundingBox": {
+        "minLat": 25.1037774,
+        "maxLat": 25.138728,
+        "minLon": 55.3648828,
+        "maxLon": 55.4083445
+      },
+      "osmType": "way",
+      "osmId": 364819827,
+      "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright"
+    },
+    "searchBoundingBox": {
+      "minLat": 25.073777399999997,
+      "minLon": 55.334882799999995,
+      "maxLat": 25.168728,
+      "maxLon": 55.4383445
+    },
+    "query": "[out:json][timeout:90];\n(\n  \n          way[\"highway\"~\"^(motorway|trunk|primary)\"][\"ref\"~\"311\"](25.073777399999997,55.334882799999995,25.168728,55.4383445);\n          way[\"highway\"~\"^(motorway|trunk|primary)\"][\"name:en\"~\"Mohammed Bin Zayed\",i](25.073777399999997,55.334882799999995,25.168728,55.4383445);\n          way[\"highway\"~\"^(motorway|trunk|primary)\"][\"name\"~\"محمد بن زايد\"](25.073777399999997,55.334882799999995,25.168728,55.4383445);\n        \n)->.corridor_ways;\n\n(\n  .corridor_ways;\n  node(w.corridor_ways)[\"highway\"=\"traffic_signals\"];\n  node(w.corridor_ways)[\"highway\"=\"motorway_junction\"];\n);\nout body geom;",
+    "timestamp": "2026-09-28T12:27:44.327757+00:00",
+    "attribution": "Data © OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright",
+    "statistics": {
+      "totalSegments": 14,
+      "totalLengthKm": 29.217,
+      "segmentsWithMaxspeed": 14,
+      "segmentsMissingMaxspeed": 0,
+      "segmentsMissingMaxspeedPct": 0.0,
+      "trafficSignalsCount": 0,
+      "junctionsCount": 12,
+      "governanceNote": "Per AGENTS.md, missing tags are preserved as null/empty without invented gap-filling."
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "way/4009554",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            55.3654066,
+            25.1201526
+          ],
+          [
+            55.3683512,
+            25.1222283
+          ],
+          [
+            55.3692286,
+            25.1228725
+          ],
+          [
+            55.3700309,
+            25.1234919
+          ],
+          [
+            55.3708174,
+            25.1241277
+          ],
+          [
+            55.3715875,
+            25.1247798
+          ],
+          [
+            55.3725702,
+            25.1256564
+          ],
+          [
+            55.3730771,
+            25.126131
+          ],
+          [
+            55.3745297,
+            25.1275952
+          ],
+          [
+            55.3759606,
+            25.1291602
+          ],
+          [
+            55.3767921,
+            25.1301559
+          ],
+          [
+            55.3776108,
+            25.1312
+          ],
+          [
+            55.3784819,
+            25.1323923
+          ],
+          [
+            55.3790157,
+            25.1331742
+          ],
+          [
+            55.3801018,
+            25.1348814
+          ],
+          [
+            55.3803684,
+            25.1353365
+          ],
+          [
+            55.3806277,
+            25.1357951
+          ],
+          [
+            55.3808795,
+            25.136257
+          ],
+          [
+            55.3815651,
+            25.1375924
+          ],
+          [
+            55.382125,
+            25.1387585
+          ],
+          [
+            55.3824206,
+            25.1393608
+          ],
+          [
+            55.383033,
+            25.1406942
+          ],
+          [
+            55.3832725,
+            25.1412447
+          ],
+          [
+            55.3842956,
+            25.143602
+          ],
+          [
+            55.3851069,
+            25.1454957
+          ],
+          [
+            55.385294,
+            25.1459323
+          ],
+          [
+            55.3862172,
+            25.1480908
+          ],
+          [
+            55.38739,
+            25.1509321
+          ],
+          [
+            55.3876249,
+            25.151455
+          ],
+          [
+            55.3883417,
+            25.1531827
+          ],
+          [
+            55.3904814,
+            25.1585682
+          ],
+          [
+            55.3913874,
+            25.160925
+          ],
+          [
+            55.3917574,
+            25.161916
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": 4009554,
+        "osm_type": "way",
+        "name": "شارع الشيخ محمد بن زايد",
+        "name_en": "Sheikh Mohammed Bin Zayed Road",
+        "ref": "E311",
+        "highway": "motorway",
+        "lanes": "6",
+        "maxspeed": "80",
+        "has_maxspeed": true,
+        "oneway": "yes",
+        "surface": "asphalt",
+        "bridge": null,
+        "tunnel": null,
+        "length_m": 5455.31
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/10478201",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            55.3645228,
+            25.1195323
+          ],
+          [
+            55.3654066,
+            25.1201526
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": 10478201,
+        "osm_type": "way",
+        "name": "شارع الشيخ محمد بن زايد",
+        "name_en": "Sheikh Mohammed Bin Zayed Road",
+        "ref": "E311",
+        "highway": "motorway",
+        "lanes": "6",
+        "maxspeed": "120",
+        "has_maxspeed": true,
+        "oneway": "yes",
+        "surface": "asphalt",
+        "bridge": "yes",
+        "tunnel": null,
+        "length_m": 112.58
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/10478981",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            55.3652275,
+            25.1203582
+          ],
+          [
+            55.3643547,
+            25.1197498
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": 10478981,
+        "osm_type": "way",
+        "name": "شارع الشيخ محمد بن زايد",
+        "name_en": "Sheikh Mohammed Bin Zayed Road",
+        "ref": "E311",
+        "highway": "motorway",
+        "lanes": "6",
+        "maxspeed": "120",
+        "has_maxspeed": true,
+        "oneway": "yes",
+        "surface": "asphalt",
+        "bridge": "yes",
+        "tunnel": null,
+        "length_m": 110.9
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/10611120",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            55.3963996,
+            25.1772268
+          ],
+          [
+            55.3961214,
+            25.1758423
+          ],
+          [
+            55.3958157,
+            25.1744672
+          ],
+          [
+            55.3955126,
+            25.1731958
+          ],
+          [
+            55.395214,
+            25.172163
+          ],
+          [
+            55.3947908,
+            25.1708519
+          ],
+          [
+            55.3943785,
+            25.1696846
+          ],
+          [
+            55.3937268,
+            25.1679966
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": 10611120,
+        "osm_type": "way",
+        "name": "شارع الشيخ محمد بن زايد",
+        "name_en": "Sheikh Mohammed Bin Zayed Road",
+        "ref": "E311",
+        "highway": "motorway",
+        "lanes": "6",
+        "maxspeed": "110",
+        "has_maxspeed": true,
+        "oneway": "yes",
+        "surface": "asphalt",
+        "bridge": null,
+        "tunnel": null,
+        "length_m": 1062.75
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/499936483",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            55.3937268,
+            25.1679966
+          ],
+          [
+            55.3927432,
+            25.1652267
+          ],
+          [
+            55.3916844,
+            25.1624301
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": 499936483,
+        "osm_type": "way",
+        "name": "شارع الشيخ محمد بن زايد",
+        "name_en": "Sheikh Mohammed Bin Zayed Road",
+        "ref": "E311",
+        "highway": "motorway",
+        "lanes": "6",
+        "maxspeed": "110",
+        "has_maxspeed": true,
+        "oneway": "yes",
+        "surface": "asphalt",
+        "bridge": null,
+        "tunnel": null,
+        "length_m": 652.23
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/499936487",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            55.3916844,
+            25.1624301
+          ],
+          [
+            55.3915038,
+            25.1619672
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": 499936487,
+        "osm_type": "way",
+        "name": "شارع الشيخ محمد بن زايد",
+        "name_en": "Sheikh Mohammed Bin Zayed Road",
+        "ref": "E311",
+        "highway": "motorway",
+        "lanes": "6",
+        "maxspeed": "120",
+        "has_maxspeed": true,
+        "oneway": "yes",
+        "surface": "asphalt",
+        "bridge": null,
+        "tunnel": null,
+        "length_m": 54.59
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/499936492",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            55.3915038,
+            25.1619672
+          ],
+          [
+            55.3911325,
+            25.1610122
+          ],
+          [
+            55.3902159,
+            25.1586398
+          ],
+          [
+            55.3897489,
+            25.1574566
+          ],
+          [
+            55.3893191,
+            25.1563678
+          ],
+          [
+            55.3887514,
+            25.1549296
+          ],
+          [
+            55.3886086,
+            25.1545678
+          ],
+          [
+            55.3881727,
+            25.1534907
+          ],
+          [
+            55.3880344,
+            25.1531564
+          ],
+          [
+            55.3877758,
+            25.1525315
+          ],
+          [
+            55.3859722,
+            25.1481726
+          ],
+          [
+            55.3859629,
+            25.1481501
+          ],
+          [
+            55.3856819,
+            25.1474964
+          ],
+          [
+            55.3850439,
+            25.1460118
+          ],
+          [
+            55.3836214,
+            25.1428282
+          ],
+          [
+            55.3831409,
+            25.1416304
+          ],
+          [
+            55.3818763,
+            25.1388073
+          ],
+          [
+            55.381323,
+            25.1376889
+          ],
+          [
+            55.3806505,
+            25.1363637
+          ],
+          [
+            55.3804037,
+            25.1359291
+          ],
+          [
+            55.3801542,
+            25.1354701
+          ],
+          [
+            55.3798639,
+            25.1349696
+          ],
+          [
+            55.3787836,
+            25.1332744
+          ],
+          [
+            55.3782472,
+            25.1325222
+          ],
+          [
+            55.3773929,
+            25.1313372
+          ],
+          [
+            55.3766911,
+            25.1304361
+          ],
+          [
+            55.3757143,
+            25.1292849
+          ],
+          [
+            55.375233,
+            25.1287642
+          ],
+          [
+            55.374287,
+            25.1277409
+          ],
+          [
+            55.3728908,
+            25.1262826
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": 499936492,
+        "osm_type": "way",
+        "name": "شارع الشيخ محمد بن زايد",
+        "name_en": "Sheikh Mohammed Bin Zayed Road",
+        "ref": "E311",
+        "highway": "motorway",
+        "lanes": "6",
+        "maxspeed": "110",
+        "has_maxspeed": true,
+        "oneway": "yes",
+        "surface": "asphalt",
+        "bridge": null,
+        "tunnel": null,
+        "length_m": 4421.5
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/499936499",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            55.391912,
+            25.1623297
+          ],
+          [
+            55.393002,
+            25.1651515
+          ],
+          [
+            55.3948132,
+            25.1700646
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": 499936499,
+        "osm_type": "way",
+        "name": "شارع الشيخ محمد بن زايد",
+        "name_en": "Sheikh Mohammed Bin Zayed Road",
+        "ref": "E311",
+        "highway": "motorway",
+        "lanes": "6",
+        "maxspeed": "110",
+        "has_maxspeed": true,
+        "oneway": "yes",
+        "surface": "asphalt",
+        "bridge": null,
+        "tunnel": null,
+        "length_m": 908.31
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/499936502",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            55.3917574,
+            25.161916
+          ],
+          [
+            55.391912,
+            25.1623297
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": 499936502,
+        "osm_type": "way",
+        "name": "شارع الشيخ محمد بن زايد",
+        "name_en": "Sheikh Mohammed Bin Zayed Road",
+        "ref": "E311",
+        "highway": "motorway",
+        "lanes": "6",
+        "maxspeed": "120",
+        "has_maxspeed": true,
+        "oneway": "yes",
+        "surface": "asphalt",
+        "bridge": null,
+        "tunnel": null,
+        "length_m": 48.56
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/499943582",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            55.3000183,
+            25.0696461
+          ],
+          [
+            55.3021189,
+            25.0715057
+          ],
+          [
+            55.3040244,
+            25.0732513
+          ],
+          [
+            55.3047699,
+            25.0739963
+          ],
+          [
+            55.3062159,
+            25.0753104
+          ],
+          [
+            55.3081182,
+            25.0770391
+          ],
+          [
+            55.3094524,
+            25.078199
+          ],
+          [
+            55.3101341,
+            25.0788163
+          ],
+          [
+            55.3108471,
+            25.0794209
+          ],
+          [
+            55.3147575,
+            25.0829656
+          ],
+          [
+            55.3180448,
+            25.0859393
+          ],
+          [
+            55.3186246,
+            25.0864638
+          ],
+          [
+            55.3209494,
+            25.0886134
+          ],
+          [
+            55.3213516,
+            25.0889832
+          ],
+          [
+            55.3260935,
+            25.0932344
+          ],
+          [
+            55.3273539,
+            25.0943647
+          ],
+          [
+            55.328275,
+            25.0952146
+          ],
+          [
+            55.3301208,
+            25.0968743
+          ],
+          [
+            55.3302474,
+            25.0969881
+          ],
+          [
+            55.3324324,
+            25.0989499
+          ],
+          [
+            55.3357307,
+            25.1019379
+          ],
+          [
+            55.336465,
+            25.1026037
+          ],
+          [
+            55.3384746,
+            25.1044171
+          ],
+          [
+            55.3393057,
+            25.105167
+          ],
+          [
+            55.3395651,
+            25.105401
+          ],
+          [
+            55.3421447,
+            25.1077367
+          ],
+          [
+            55.3431302,
+            25.1085728
+          ],
+          [
+            55.3435205,
+            25.1088726
+          ],
+          [
+            55.3439181,
+            25.1091643
+          ],
+          [
+            55.344323,
+            25.1094477
+          ],
+          [
+            55.3447348,
+            25.1097228
+          ],
+          [
+            55.3451535,
+            25.1099894
+          ],
+          [
+            55.3455243,
+            25.1102139
+          ],
+          [
+            55.3460113,
+            25.110496
+          ],
+          [
+            55.3464165,
+            25.11072
+          ],
+          [
+            55.3468279,
+            25.1109357
+          ],
+          [
+            55.3472443,
+            25.1111435
+          ],
+          [
+            55.3476648,
+            25.1113455
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": 499943582,
+        "osm_type": "way",
+        "name": "شارع الشيخ محمد بن زايد",
+        "name_en": "Sheikh Mohammed Bin Zayed Road",
+        "ref": "E311",
+        "highway": "motorway",
+        "lanes": "6",
+        "maxspeed": "110",
+        "has_maxspeed": true,
+        "oneway": "yes",
+        "surface": "asphalt",
+        "bridge": null,
+        "tunnel": null,
+        "length_m": 6683.19
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/1065334552",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            55.3728908,
+            25.1262826
+          ],
+          [
+            55.3723772,
+            25.1258103
+          ],
+          [
+            55.3710529,
+            25.1246677
+          ],
+          [
+            55.3705732,
+            25.1242625
+          ],
+          [
+            55.3700672,
+            25.1238543
+          ],
+          [
+            55.369039,
+            25.123052
+          ],
+          [
+            55.3681553,
+            25.1224056
+          ],
+          [
+            55.3652275,
+            25.1203582
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": 1065334552,
+        "osm_type": "way",
+        "name": "شارع الشيخ محمد بن زايد",
+        "name_en": "Sheikh Mohammed Bin Zayed Road",
+        "ref": "E311",
+        "highway": "motorway",
+        "lanes": "6",
+        "maxspeed": "110",
+        "has_maxspeed": true,
+        "oneway": "yes",
+        "surface": "asphalt",
+        "bridge": null,
+        "tunnel": null,
+        "length_m": 1015.61
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/1072807097",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            55.3476648,
+            25.1113455
+          ],
+          [
+            55.3490533,
+            25.1119681
+          ],
+          [
+            55.3508882,
+            25.1127667
+          ],
+          [
+            55.3535951,
+            25.1139419
+          ],
+          [
+            55.3581595,
+            25.1159336
+          ],
+          [
+            55.3602536,
+            25.1168714
+          ],
+          [
+            55.3607094,
+            25.1170898
+          ],
+          [
+            55.3612585,
+            25.1173783
+          ],
+          [
+            55.3615871,
+            25.1175705
+          ],
+          [
+            55.3623211,
+            25.1180137
+          ],
+          [
+            55.3631071,
+            25.1185434
+          ],
+          [
+            55.3640488,
+            25.1192019
+          ],
+          [
+            55.3645228,
+            25.1195323
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": 1072807097,
+        "osm_type": "way",
+        "name": "شارع الشيخ محمد بن زايد",
+        "name_en": "Sheikh Mohammed Bin Zayed Road",
+        "ref": "E311",
+        "highway": "motorway",
+        "lanes": "6",
+        "maxspeed": "110",
+        "has_maxspeed": true,
+        "oneway": "yes",
+        "surface": "asphalt",
+        "bridge": null,
+        "tunnel": null,
+        "length_m": 1931.3
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/1134931059",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            55.3643547,
+            25.1197498
+          ],
+          [
+            55.3638795,
+            25.1194124
+          ],
+          [
+            55.3631493,
+            25.1188856
+          ],
+          [
+            55.3629413,
+            25.1187355
+          ],
+          [
+            55.3621687,
+            25.1182239
+          ],
+          [
+            55.3614339,
+            25.1177789
+          ],
+          [
+            55.3611007,
+            25.1175845
+          ],
+          [
+            55.360551,
+            25.117299
+          ],
+          [
+            55.3600996,
+            25.1170787
+          ],
+          [
+            55.3593848,
+            25.1167683
+          ],
+          [
+            55.3580206,
+            25.116176
+          ],
+          [
+            55.3561426,
+            25.1153879
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": 1134931059,
+        "osm_type": "way",
+        "name": "شارع الشيخ محمد بن زايد",
+        "name_en": "Sheikh Mohammed Bin Zayed Road",
+        "ref": "E311",
+        "highway": "motorway",
+        "lanes": "6",
+        "maxspeed": "110",
+        "has_maxspeed": true,
+        "oneway": "yes",
+        "surface": "asphalt",
+        "bridge": null,
+        "tunnel": null,
+        "length_m": 962.82
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/1134931060",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            55.3561426,
+            25.1153879
+          ],
+          [
+            55.3534669,
+            25.1141995
+          ],
+          [
+            55.350789,
+            25.1129905
+          ],
+          [
+            55.3489455,
+            25.1121973
+          ],
+          [
+            55.3475917,
+            25.1115984
+          ],
+          [
+            55.3470858,
+            25.1113659
+          ],
+          [
+            55.346592,
+            25.1111206
+          ],
+          [
+            55.3461056,
+            25.1108633
+          ],
+          [
+            55.3456272,
+            25.1105943
+          ],
+          [
+            55.3451569,
+            25.1103137
+          ],
+          [
+            55.3446951,
+            25.1100217
+          ],
+          [
+            55.3442422,
+            25.1097186
+          ],
+          [
+            55.3438956,
+            25.1094733
+          ],
+          [
+            55.3437984,
+            25.1094045
+          ],
+          [
+            55.3433642,
+            25.1090796
+          ],
+          [
+            55.3429398,
+            25.1087444
+          ],
+          [
+            55.3429045,
+            25.108714
+          ],
+          [
+            55.3419629,
+            25.1079026
+          ],
+          [
+            55.3393676,
+            25.1055674
+          ],
+          [
+            55.3363109,
+            25.1028111
+          ],
+          [
+            55.3355397,
+            25.1020944
+          ],
+          [
+            55.3328134,
+            25.0996567
+          ],
+          [
+            55.3322308,
+            25.0991013
+          ],
+          [
+            55.3300602,
+            25.0971592
+          ],
+          [
+            55.3280851,
+            25.0953828
+          ],
+          [
+            55.3271085,
+            25.0944989
+          ],
+          [
+            55.324448,
+            25.0920934
+          ],
+          [
+            55.3165023,
+            25.0849495
+          ],
+          [
+            55.3145285,
+            25.0831801
+          ],
+          [
+            55.3128669,
+            25.0816587
+          ]
+        ]
+      },
+      "properties": {
+        "osm_id": 1134931060,
+        "osm_type": "way",
+        "name": "شارع الشيخ محمد بن زايد",
+        "name_en": "Sheikh Mohammed Bin Zayed Road",
+        "ref": "E311",
+        "highway": "motorway",
+        "lanes": "6",
+        "maxspeed": "110",
+        "has_maxspeed": true,
+        "oneway": "yes",
+        "surface": "asphalt",
+        "bridge": null,
+        "tunnel": null,
+        "length_m": 5797.15
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/90038261",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          55.3476648,
+          25.1113455
+        ]
+      },
+      "properties": {
+        "osm_id": 90038261,
+        "osm_type": "node",
+        "point_type": "junction",
+        "highway": "motorway_junction",
+        "name": null,
+        "name_en": null,
+        "ref": "44"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/90038896",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          55.3728908,
+          25.1262826
+        ]
+      },
+      "properties": {
+        "osm_id": 90038896,
+        "osm_type": "node",
+        "point_type": "junction",
+        "highway": "motorway_junction",
+        "name": "Exit 44",
+        "name_en": null,
+        "ref": "44"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/95108965",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          55.3937268,
+          25.1679966
+        ]
+      },
+      "properties": {
+        "osm_id": 95108965,
+        "osm_type": "node",
+        "point_type": "junction",
+        "highway": "motorway_junction",
+        "name": "Exit 50",
+        "name_en": null,
+        "ref": "50"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/95110025",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          55.3883417,
+          25.1531827
+        ]
+      },
+      "properties": {
+        "osm_id": 95110025,
+        "osm_type": "node",
+        "point_type": "junction",
+        "highway": "motorway_junction",
+        "name": "Exit 50",
+        "name_en": null,
+        "ref": "50"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/533856342",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          55.3273539,
+          25.0943647
+        ]
+      },
+      "properties": {
+        "osm_id": 533856342,
+        "osm_type": "node",
+        "point_type": "junction",
+        "highway": "motorway_junction",
+        "name": null,
+        "name_en": null,
+        "ref": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/1036688049",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          55.3836214,
+          25.1428282
+        ]
+      },
+      "properties": {
+        "osm_id": 1036688049,
+        "osm_type": "node",
+        "point_type": "junction",
+        "highway": "motorway_junction",
+        "name": null,
+        "name_en": null,
+        "ref": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/1620582431",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          55.3328134,
+          25.0996567
+        ]
+      },
+      "properties": {
+        "osm_id": 1620582431,
+        "osm_type": "node",
+        "point_type": "junction",
+        "highway": "motorway_junction",
+        "name": null,
+        "name_en": null,
+        "ref": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/1625214030",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          55.3128669,
+          25.0816587
+        ]
+      },
+      "properties": {
+        "osm_id": 1625214030,
+        "osm_type": "node",
+        "point_type": "junction",
+        "highway": "motorway_junction",
+        "name": null,
+        "name_en": null,
+        "ref": "37"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/2330969717",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          55.3876249,
+          25.151455
+        ]
+      },
+      "properties": {
+        "osm_id": 2330969717,
+        "osm_type": "node",
+        "point_type": "junction",
+        "highway": "motorway_junction",
+        "name": null,
+        "name_en": null,
+        "ref": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/3144102521",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          55.336465,
+          25.1026037
+        ]
+      },
+      "properties": {
+        "osm_id": 3144102521,
+        "osm_type": "node",
+        "point_type": "junction",
+        "highway": "motorway_junction",
+        "name": null,
+        "name_en": null,
+        "ref": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/5451287318",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          55.3213516,
+          25.0889832
+        ]
+      },
+      "properties": {
+        "osm_id": 5451287318,
+        "osm_type": "node",
+        "point_type": "junction",
+        "highway": "motorway_junction",
+        "name": null,
+        "name_en": null,
+        "ref": "40"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/6064193983",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          55.324448,
+          25.0920934
+        ]
+      },
+      "properties": {
+        "osm_id": 6064193983,
+        "osm_type": "node",
+        "point_type": "junction",
+        "highway": "motorway_junction",
+        "name": null,
+        "name_en": null,
+        "ref": null
+      }
+    }
+  ]
+}

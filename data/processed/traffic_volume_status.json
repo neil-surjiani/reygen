@@ -1,0 +1,47 @@
+{
+  "metric": "Dubai Corridor-Specific Traffic Volume (AADT / Hourly)",
+  "status": "not found",
+  "retrieval_date": "2026-09-28T13:48:08.213736+00:00",
+  "governance_note": "No corridor-specific traffic volume dataset was found in public open data portals. Commercial purchase required per RTA Resolution No. 740 of 2019.",
+  "search_summary": [
+    {
+      "portal_name": "Dubai Pulse (Digital Dubai Authority)",
+      "url": "https://www.dubaipulse.gov.ae",
+      "queries": [
+        "traffic volume site:dubaipulse.gov.ae",
+        "vehicle count site:dubaipulse.gov.ae",
+        "rta site:dubaipulse.gov.ae/data/"
+      ],
+      "result": "Not found. Portal redirects to data.dubai/services or timed out. No open hourly or AADT road traffic volume datasets exist for download."
+    },
+    {
+      "portal_name": "Dubai Statistics Center / Dubai Data and Statistics Establishment (DDSE)",
+      "url": "https://www.dsc.gov.ae",
+      "queries": [
+        "site:dsc.gov.ae vehicles OR traffic OR transport",
+        "site:dsc.gov.ae/en-us/themes/transport"
+      ],
+      "result": "Not found. Direct HTTP access blocked by F5 ASM Web Application Firewall (Request Rejected, Support ID: 2831694023450823383). No open sensor-level traffic volume counts are hosted."
+    },
+    {
+      "portal_name": "Roads and Transport Authority (RTA) Open Data Portal",
+      "url": "https://www.rta.ae/wps/portal/rta/ae/home/open-data",
+      "queries": [
+        "open-data site:rta.ae",
+        "traffic count site:rta.ae",
+        "AADT site:rta.ae"
+      ],
+      "result": "Not found as open data. Audited all categories (legislation, reports, statistics).",
+      "governance_barrier": "RTA classifies granular road traffic count volume as a restricted commercial asset under Administrative Resolution No. 740 of 2019 ('Sale of Traffic Count Data'). Third parties must apply for a Traffic Counts Permit and purchase sensor data commercially. No free open data exists."
+    },
+    {
+      "portal_name": "RTA General Publications & News Announcements",
+      "url": "https://www.rta.ae",
+      "queries": [
+        "3.5 million vehicles site:rta.ae",
+        "vehicles per day site:rta.ae"
+      ],
+      "result": "City-wide aggregate published only. RTA reported ~3.5 million daytime vehicles network-wide across Dubai's 25,000 lane-km road system (November 2024 / 2025), but no segment-level volume is published."
+    }
+  ]
+}

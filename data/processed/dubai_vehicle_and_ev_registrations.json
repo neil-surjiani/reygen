@@ -1,0 +1,53 @@
+{
+  "metadata": {
+    "dataset_name": "Dubai Vehicle Fleet and Electric Vehicle Registrations",
+    "retrieval_date": "2026-09-28T13:48:08.213736+00:00",
+    "status": "found",
+    "sources": [
+      {
+        "source": "Dubai Roads and Transport Authority (RTA) Annual Statistics Book (2014-2016)",
+        "url": "https://www.rta.ae/wps/wcm/connect/rta/21b8adb0-675a-4af9-8097-beae73d46782/statistics-book-2014-2016-updated.PDF?MOD=AJPERES&CACHEID=ROOTWORKSPACE.Z18_N004G041LOBR60AUHP2NT32000-21b8adb0-675a-4af9-8097-beae73d46782-mrzb45x",
+        "date_range": "2014 to 2016",
+        "licence": "Official Publication \u00a9 Roads and Transport Authority (RTA), Government of Dubai"
+      },
+      {
+        "source": "Emirates News Agency (WAM) & Dubai Electricity and Water Authority (DEWA)",
+        "url": "https://www.wam.ae/en/article/bysbi1o-dewa-accelerates-dubai%E2%80%99s-shift-sustainable",
+        "date_range": "October 2024 to February 2026",
+        "licence": "Official Public Announcement \u00a9 Emirates News Agency (WAM) & DEWA"
+      }
+    ]
+  },
+  "ev_registrations": {
+    "current_ev_fleet_2025": 47944,
+    "previous_ev_fleet_2024": 37486,
+    "ev_growth_rate_pct": 27.9,
+    "ev_green_chargers_network": 2223
+  },
+  "total_registered_fleet_historical": [
+    {
+      "year": 2014,
+      "total_registered_vehicles": 1413150
+    },
+    {
+      "year": 2015,
+      "total_registered_vehicles": 1482705
+    },
+    {
+      "year": 2016,
+      "total_registered_vehicles": 1570636
+    }
+  ],
+  "fleet_breakdown_2016": {
+    "light_vehicle": 1358352,
+    "heavy_vehicle": 65704,
+    "light_bus": 34052,
+    "heavy_bus": 27174,
+    "motorcycle": 27395,
+    "mechanical_heavy": 16783,
+    "mechanical_light": 9247,
+    "trailer": 4919,
+    "people_of_determination_vehicle": 70,
+    "total": 1570636
+  }
+}

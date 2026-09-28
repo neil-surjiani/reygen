@@ -1,0 +1,445 @@
+{
+  "metadata": {
+    "dataset_name": "Dubai Solar Irradiance and Ambient Temperature",
+    "source": "NASA Prediction Of Worldwide Energy Resources (POWER) Project",
+    "source_urls": [
+      "https://power.larc.nasa.gov/api/temporal/climatology/point",
+      "https://power.larc.nasa.gov/api/temporal/monthly/point"
+    ],
+    "retrieval_date": "2026-09-28T13:48:08.210979+00:00",
+    "licence": "NASA Open Data Policy (Public Domain / Free for all research and commercial use: https://open.nasa.gov/open-data/)",
+    "location": {
+      "name": "Dubai Silicon Oasis, Dubai, UAE",
+      "latitude": 25.1217,
+      "longitude": 55.3855
+    },
+    "date_ranges": {
+      "climatology": "2001-01 to 2020-12 (20-year meteorological climatology)",
+      "monthly_time_series": "2020-01 to 2024-12"
+    },
+    "parameters": {
+      "ALLSKY_SFC_SW_DWN": "All Sky Surface Shortwave Downward Irradiance (Global Horizontal Irradiance, kWh/m\u00b2/day)",
+      "T2M": "Air Temperature at 2 Meters (\u00b0C)",
+      "T2M_MAX": "Maximum Air Temperature at 2 Meters (\u00b0C)",
+      "T2M_MIN": "Minimum Air Temperature at 2 Meters (\u00b0C)"
+    },
+    "status": "found",
+    "notes": "Official public data from NASA Langley Research Center POWER Project."
+  },
+  "climatology_summary": {
+    "annual_avg_t2m_c": 28.66,
+    "annual_avg_solar_ghi_kwh_m2_day": 5.6748,
+    "monthly_climatology": [
+      {
+        "month_index": 1,
+        "month_code": "JAN",
+        "t2m_avg_c": 18.59,
+        "t2m_max_c": 30.82,
+        "t2m_min_c": 8.12,
+        "solar_ghi_kwh_per_m2_day": 3.9235,
+        "average_insolation_w_per_m2": 163.48
+      },
+      {
+        "month_index": 2,
+        "month_code": "FEB",
+        "t2m_avg_c": 20.33,
+        "t2m_max_c": 36.55,
+        "t2m_min_c": 7.07,
+        "solar_ghi_kwh_per_m2_day": 4.7306,
+        "average_insolation_w_per_m2": 197.11
+      },
+      {
+        "month_index": 3,
+        "month_code": "MAR",
+        "t2m_avg_c": 23.66,
+        "t2m_max_c": 41.14,
+        "t2m_min_c": 11.01,
+        "solar_ghi_kwh_per_m2_day": 5.6206,
+        "average_insolation_w_per_m2": 234.19
+      },
+      {
+        "month_index": 4,
+        "month_code": "APR",
+        "t2m_avg_c": 28.27,
+        "t2m_max_c": 43.31,
+        "t2m_min_c": 14.49,
+        "solar_ghi_kwh_per_m2_day": 6.4231,
+        "average_insolation_w_per_m2": 267.63
+      },
+      {
+        "month_index": 5,
+        "month_code": "MAY",
+        "t2m_avg_c": 32.87,
+        "t2m_max_c": 46.75,
+        "t2m_min_c": 18.68,
+        "solar_ghi_kwh_per_m2_day": 7.2451,
+        "average_insolation_w_per_m2": 301.88
+      },
+      {
+        "month_index": 6,
+        "month_code": "JUN",
+        "t2m_avg_c": 35.43,
+        "t2m_max_c": 48.4,
+        "t2m_min_c": 22.49,
+        "solar_ghi_kwh_per_m2_day": 7.3495,
+        "average_insolation_w_per_m2": 306.23
+      },
+      {
+        "month_index": 7,
+        "month_code": "JUL",
+        "t2m_avg_c": 37.02,
+        "t2m_max_c": 48.67,
+        "t2m_min_c": 25.7,
+        "solar_ghi_kwh_per_m2_day": 6.8486,
+        "average_insolation_w_per_m2": 285.36
+      },
+      {
+        "month_index": 8,
+        "month_code": "AUG",
+        "t2m_avg_c": 36.89,
+        "t2m_max_c": 47.59,
+        "t2m_min_c": 26.88,
+        "solar_ghi_kwh_per_m2_day": 6.5227,
+        "average_insolation_w_per_m2": 271.78
+      },
+      {
+        "month_index": 9,
+        "month_code": "SEP",
+        "t2m_avg_c": 34.23,
+        "t2m_max_c": 47.23,
+        "t2m_min_c": 23.73,
+        "solar_ghi_kwh_per_m2_day": 6.1046,
+        "average_insolation_w_per_m2": 254.36
+      },
+      {
+        "month_index": 10,
+        "month_code": "OCT",
+        "t2m_avg_c": 30.27,
+        "t2m_max_c": 42.48,
+        "t2m_min_c": 19.2,
+        "solar_ghi_kwh_per_m2_day": 5.2829,
+        "average_insolation_w_per_m2": 220.12
+      },
+      {
+        "month_index": 11,
+        "month_code": "NOV",
+        "t2m_avg_c": 25.12,
+        "t2m_max_c": 37.35,
+        "t2m_min_c": 14.64,
+        "solar_ghi_kwh_per_m2_day": 4.2929,
+        "average_insolation_w_per_m2": 178.87
+      },
+      {
+        "month_index": 12,
+        "month_code": "DEC",
+        "t2m_avg_c": 20.76,
+        "t2m_max_c": 34.19,
+        "t2m_min_c": 9.39,
+        "solar_ghi_kwh_per_m2_day": 3.7147,
+        "average_insolation_w_per_m2": 154.78
+      }
+    ]
+  },
+  "monthly_time_series": [
+    {
+      "year_month": "2020-01",
+      "t2m_avg_c": 18.18,
+      "solar_ghi_kwh_per_m2_day": 3.8798
+    },
+    {
+      "year_month": "2020-02",
+      "t2m_avg_c": 20.13,
+      "solar_ghi_kwh_per_m2_day": 4.8842
+    },
+    {
+      "year_month": "2020-03",
+      "t2m_avg_c": 22.68,
+      "solar_ghi_kwh_per_m2_day": 5.6882
+    },
+    {
+      "year_month": "2020-04",
+      "t2m_avg_c": 28.84,
+      "solar_ghi_kwh_per_m2_day": 5.8001
+    },
+    {
+      "year_month": "2020-05",
+      "t2m_avg_c": 33.07,
+      "solar_ghi_kwh_per_m2_day": 7.146
+    },
+    {
+      "year_month": "2020-06",
+      "t2m_avg_c": 36.72,
+      "solar_ghi_kwh_per_m2_day": 7.3034
+    },
+    {
+      "year_month": "2020-07",
+      "t2m_avg_c": 38.01,
+      "solar_ghi_kwh_per_m2_day": 6.9312
+    },
+    {
+      "year_month": "2020-08",
+      "t2m_avg_c": 37.2,
+      "solar_ghi_kwh_per_m2_day": 6.203
+    },
+    {
+      "year_month": "2020-09",
+      "t2m_avg_c": 34.28,
+      "solar_ghi_kwh_per_m2_day": 6.301
+    },
+    {
+      "year_month": "2020-10",
+      "t2m_avg_c": 29.59,
+      "solar_ghi_kwh_per_m2_day": 5.4703
+    },
+    {
+      "year_month": "2020-11",
+      "t2m_avg_c": 25.59,
+      "solar_ghi_kwh_per_m2_day": 4.2713
+    },
+    {
+      "year_month": "2020-12",
+      "t2m_avg_c": 21.16,
+      "solar_ghi_kwh_per_m2_day": 3.8882
+    },
+    {
+      "year_month": "2021-01",
+      "t2m_avg_c": 18.66,
+      "solar_ghi_kwh_per_m2_day": 4.3714
+    },
+    {
+      "year_month": "2021-02",
+      "t2m_avg_c": 21.81,
+      "solar_ghi_kwh_per_m2_day": 4.9452
+    },
+    {
+      "year_month": "2021-03",
+      "t2m_avg_c": 25.58,
+      "solar_ghi_kwh_per_m2_day": 5.975
+    },
+    {
+      "year_month": "2021-04",
+      "t2m_avg_c": 29.83,
+      "solar_ghi_kwh_per_m2_day": 6.7862
+    },
+    {
+      "year_month": "2021-05",
+      "t2m_avg_c": 33.89,
+      "solar_ghi_kwh_per_m2_day": 7.1467
+    },
+    {
+      "year_month": "2021-06",
+      "t2m_avg_c": 36.76,
+      "solar_ghi_kwh_per_m2_day": 7.2725
+    },
+    {
+      "year_month": "2021-07",
+      "t2m_avg_c": 37.48,
+      "solar_ghi_kwh_per_m2_day": 6.541
+    },
+    {
+      "year_month": "2021-08",
+      "t2m_avg_c": 37.52,
+      "solar_ghi_kwh_per_m2_day": 6.5587
+    },
+    {
+      "year_month": "2021-09",
+      "t2m_avg_c": 35.36,
+      "solar_ghi_kwh_per_m2_day": 6.0168
+    },
+    {
+      "year_month": "2021-10",
+      "t2m_avg_c": 31.06,
+      "solar_ghi_kwh_per_m2_day": 5.1869
+    },
+    {
+      "year_month": "2021-11",
+      "t2m_avg_c": 25.98,
+      "solar_ghi_kwh_per_m2_day": 4.3277
+    },
+    {
+      "year_month": "2021-12",
+      "t2m_avg_c": 22.04,
+      "solar_ghi_kwh_per_m2_day": 3.6847
+    },
+    {
+      "year_month": "2022-01",
+      "t2m_avg_c": 19.54,
+      "solar_ghi_kwh_per_m2_day": 3.7421
+    },
+    {
+      "year_month": "2022-02",
+      "t2m_avg_c": 20.4,
+      "solar_ghi_kwh_per_m2_day": 5.0902
+    },
+    {
+      "year_month": "2022-03",
+      "t2m_avg_c": 25.49,
+      "solar_ghi_kwh_per_m2_day": 5.9498
+    },
+    {
+      "year_month": "2022-04",
+      "t2m_avg_c": 30.25,
+      "solar_ghi_kwh_per_m2_day": 6.3338
+    },
+    {
+      "year_month": "2022-05",
+      "t2m_avg_c": 31.65,
+      "solar_ghi_kwh_per_m2_day": 6.9238
+    },
+    {
+      "year_month": "2022-06",
+      "t2m_avg_c": 36.49,
+      "solar_ghi_kwh_per_m2_day": 6.6506
+    },
+    {
+      "year_month": "2022-07",
+      "t2m_avg_c": 36.04,
+      "solar_ghi_kwh_per_m2_day": 5.699
+    },
+    {
+      "year_month": "2022-08",
+      "t2m_avg_c": 37.11,
+      "solar_ghi_kwh_per_m2_day": 6.1848
+    },
+    {
+      "year_month": "2022-09",
+      "t2m_avg_c": 34.46,
+      "solar_ghi_kwh_per_m2_day": 5.7818
+    },
+    {
+      "year_month": "2022-10",
+      "t2m_avg_c": 30.69,
+      "solar_ghi_kwh_per_m2_day": 5.1914
+    },
+    {
+      "year_month": "2022-11",
+      "t2m_avg_c": 27.19,
+      "solar_ghi_kwh_per_m2_day": 4.1467
+    },
+    {
+      "year_month": "2022-12",
+      "t2m_avg_c": 22.47,
+      "solar_ghi_kwh_per_m2_day": 3.474
+    },
+    {
+      "year_month": "2023-01",
+      "t2m_avg_c": 19.08,
+      "solar_ghi_kwh_per_m2_day": 3.4385
+    },
+    {
+      "year_month": "2023-02",
+      "t2m_avg_c": 21.24,
+      "solar_ghi_kwh_per_m2_day": 4.9452
+    },
+    {
+      "year_month": "2023-03",
+      "t2m_avg_c": 24.19,
+      "solar_ghi_kwh_per_m2_day": 5.6911
+    },
+    {
+      "year_month": "2023-04",
+      "t2m_avg_c": 26.54,
+      "solar_ghi_kwh_per_m2_day": 6.4322
+    },
+    {
+      "year_month": "2023-05",
+      "t2m_avg_c": 32.56,
+      "solar_ghi_kwh_per_m2_day": 6.87
+    },
+    {
+      "year_month": "2023-06",
+      "t2m_avg_c": 35.75,
+      "solar_ghi_kwh_per_m2_day": 6.8102
+    },
+    {
+      "year_month": "2023-07",
+      "t2m_avg_c": 38.25,
+      "solar_ghi_kwh_per_m2_day": 6.2285
+    },
+    {
+      "year_month": "2023-08",
+      "t2m_avg_c": 38.5,
+      "solar_ghi_kwh_per_m2_day": 6.2035
+    },
+    {
+      "year_month": "2023-09",
+      "t2m_avg_c": 35.93,
+      "solar_ghi_kwh_per_m2_day": 5.5903
+    },
+    {
+      "year_month": "2023-10",
+      "t2m_avg_c": 31.94,
+      "solar_ghi_kwh_per_m2_day": 4.9049
+    },
+    {
+      "year_month": "2023-11",
+      "t2m_avg_c": 26.38,
+      "solar_ghi_kwh_per_m2_day": 4.1035
+    },
+    {
+      "year_month": "2023-12",
+      "t2m_avg_c": 22.51,
+      "solar_ghi_kwh_per_m2_day": 3.7819
+    },
+    {
+      "year_month": "2024-01",
+      "t2m_avg_c": 20.82,
+      "solar_ghi_kwh_per_m2_day": 4.0241
+    },
+    {
+      "year_month": "2024-02",
+      "t2m_avg_c": 20.14,
+      "solar_ghi_kwh_per_m2_day": 4.4981
+    },
+    {
+      "year_month": "2024-03",
+      "t2m_avg_c": 22.68,
+      "solar_ghi_kwh_per_m2_day": 5.0242
+    },
+    {
+      "year_month": "2024-04",
+      "t2m_avg_c": 26.66,
+      "solar_ghi_kwh_per_m2_day": 5.9335
+    },
+    {
+      "year_month": "2024-05",
+      "t2m_avg_c": 32.35,
+      "solar_ghi_kwh_per_m2_day": 6.9857
+    },
+    {
+      "year_month": "2024-06",
+      "t2m_avg_c": 37.01,
+      "solar_ghi_kwh_per_m2_day": 6.9036
+    },
+    {
+      "year_month": "2024-07",
+      "t2m_avg_c": 37.56,
+      "solar_ghi_kwh_per_m2_day": 6.2117
+    },
+    {
+      "year_month": "2024-08",
+      "t2m_avg_c": 34.92,
+      "solar_ghi_kwh_per_m2_day": 5.7799
+    },
+    {
+      "year_month": "2024-09",
+      "t2m_avg_c": 32.81,
+      "solar_ghi_kwh_per_m2_day": 5.9503
+    },
+    {
+      "year_month": "2024-10",
+      "t2m_avg_c": 30.8,
+      "solar_ghi_kwh_per_m2_day": 5.1583
+    },
+    {
+      "year_month": "2024-11",
+      "t2m_avg_c": 26.77,
+      "solar_ghi_kwh_per_m2_day": 4.3502
+    },
+    {
+      "year_month": "2024-12",
+      "t2m_avg_c": 21.08,
+      "solar_ghi_kwh_per_m2_day": 3.6384
+    }
+  ]
+}

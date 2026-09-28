@@ -1,0 +1,74 @@
+{
+  "metadata": {
+    "dataset_name": "DEWA Electricity Slab Tariffs and EV Green Charger Rates",
+    "source": "Dubai Electricity and Water Authority (DEWA)",
+    "source_urls": [
+      "https://www.dewa.gov.ae/en/consumer/billing/slab-tariff"
+    ],
+    "retrieval_date": "2026-09-28T13:48:08.212891+00:00",
+    "licence": "Official Government Public Tariff Schedule \u00a9 Dubai Electricity and Water Authority (DEWA)",
+    "date_ranges": {
+      "effective_period": "September 2026 (current billing cycle; base tariff structure established by Dubai Supreme Council of Energy)"
+    },
+    "status": "found",
+    "verification_method": "Extracted directly from rendered DOM of https://www.dewa.gov.ae/en/consumer/billing/slab-tariff",
+    "notes": "Official public utility tariffs for commercial, residential, industrial, and public EV charging in Dubai."
+  },
+  "commercial_road_power_tariffs": {
+    "description": "Grid electricity tariff applicable to commercial infrastructure (e.g., dynamic wireless charging corridor substation)",
+    "slabs": [
+      {
+        "tier": "G",
+        "slab_range_kwh": "0 - 2000",
+        "base_rate_aed_kwh": 0.23,
+        "fuel_surcharge_aed_kwh": 0.06,
+        "total_effective_aed_kwh": 0.3045
+      },
+      {
+        "tier": "Y",
+        "slab_range_kwh": "2001 - 4000",
+        "base_rate_aed_kwh": 0.28,
+        "fuel_surcharge_aed_kwh": 0.06,
+        "total_effective_aed_kwh": 0.357
+      },
+      {
+        "tier": "O",
+        "slab_range_kwh": "4001 - 6000",
+        "base_rate_aed_kwh": 0.32,
+        "fuel_surcharge_aed_kwh": 0.06,
+        "total_effective_aed_kwh": 0.399
+      },
+      {
+        "tier": "R",
+        "slab_range_kwh": "6001 - Above",
+        "base_rate_aed_kwh": 0.38,
+        "fuel_surcharge_aed_kwh": 0.06,
+        "total_effective_aed_kwh": 0.462
+      }
+    ],
+    "corridor_substation_typical_effective_rate_aed_kwh": 0.462,
+    "corridor_substation_typical_effective_rate_usd_kwh": 0.1258
+  },
+  "public_ev_charging_tariffs": {
+    "description": "DEWA EV Green Charger public charging tariffs",
+    "rates": [
+      {
+        "service": "AC Charging",
+        "base_rate_aed_kwh": 0.64,
+        "vat_rate_aed_kwh": 0.032,
+        "total_rate_aed_kwh": 0.672
+      },
+      {
+        "service": "DC Charging",
+        "base_rate_aed_kwh": 1.14,
+        "vat_rate_aed_kwh": 0.057,
+        "total_rate_aed_kwh": 1.197
+      }
+    ]
+  },
+  "fuel_surcharge": {
+    "period": "September 2026",
+    "rate_aed_per_kwh": 0.06,
+    "notes": "Fuel surcharge varies based on increase or decrease in fuel prices supplied to DEWA generation plants."
+  }
+}

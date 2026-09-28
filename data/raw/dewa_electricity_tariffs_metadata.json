@@ -1,0 +1,15 @@
+{
+  "dataset_name": "DEWA Electricity Slab Tariffs and EV Green Charger Rates",
+  "source": "Dubai Electricity and Water Authority (DEWA)",
+  "source_urls": [
+    "https://www.dewa.gov.ae/en/consumer/billing/slab-tariff"
+  ],
+  "retrieval_date": "2026-09-28T13:48:08.212891+00:00",
+  "licence": "Official Government Public Tariff Schedule \u00a9 Dubai Electricity and Water Authority (DEWA)",
+  "date_ranges": {
+    "effective_period": "September 2026 (current billing cycle; base tariff structure established by Dubai Supreme Council of Energy)"
+  },
+  "status": "found",
+  "verification_method": "Extracted directly from rendered DOM of https://www.dewa.gov.ae/en/consumer/billing/slab-tariff",
+  "notes": "Official public utility tariffs for commercial, residential, industrial, and public EV charging in Dubai."
+}

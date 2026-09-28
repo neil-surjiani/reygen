@@ -1,0 +1,81 @@
+{
+  "page_title": "Dubai Electricity & Water Authority | Slab Tariff",
+  "url": "https://www.dewa.gov.ae/en/consumer/billing/slab-tariff",
+  "retrieval_date": "2026-09-28T13:48:08.212891+00:00",
+  "policy_framework": "Dubai Supreme Council of Energy Directive on Slab Tariffs and Fuel Surcharge",
+  "currency": "AED",
+  "tables": {
+    "residential_commercial_electricity": [
+      {
+        "tier": "G",
+        "slab_range_kwh": "0 - 2000",
+        "min_kwh": 0,
+        "max_kwh": 2000,
+        "rate_aed_per_kwh": 0.23
+      },
+      {
+        "tier": "Y",
+        "slab_range_kwh": "2001 - 4000",
+        "min_kwh": 2001,
+        "max_kwh": 4000,
+        "rate_aed_per_kwh": 0.28
+      },
+      {
+        "tier": "O",
+        "slab_range_kwh": "4001 - 6000",
+        "min_kwh": 4001,
+        "max_kwh": 6000,
+        "rate_aed_per_kwh": 0.32
+      },
+      {
+        "tier": "R",
+        "slab_range_kwh": "6001 - Above",
+        "min_kwh": 6001,
+        "max_kwh": null,
+        "rate_aed_per_kwh": 0.38
+      }
+    ],
+    "industrial_electricity": [
+      {
+        "tier": "G",
+        "slab_range_kwh": "0 - 10000",
+        "min_kwh": 0,
+        "max_kwh": 10000,
+        "rate_aed_per_kwh": 0.23
+      },
+      {
+        "tier": "Y",
+        "slab_range_kwh": "10001 - Above",
+        "min_kwh": 10001,
+        "max_kwh": null,
+        "rate_aed_per_kwh": 0.38
+      }
+    ],
+    "fuel_surcharge": {
+      "period": "September 2026",
+      "rate_aed_per_kwh": 0.06,
+      "notes": "Fuel surcharge varies based on increase or decrease in fuel prices supplied to DEWA generation plants."
+    },
+    "ev_green_charger_tariffs": [
+      {
+        "service": "AC Charging",
+        "base_rate_aed_per_kwh": 0.64,
+        "vat_pct": 5.0
+      },
+      {
+        "service": "DC Charging",
+        "base_rate_aed_per_kwh": 1.14,
+        "vat_pct": 5.0
+      }
+    ],
+    "meter_service_charges_monthly_aed": {
+      "meter_type_1": 5.0,
+      "meter_type_2": 6.0,
+      "meter_type_3": 35.0
+    },
+    "vat": {
+      "rate_pct": 5.0,
+      "note": "5% VAT is applicable on all electricity, water, and EV charging tariffs."
+    }
+  }
+}

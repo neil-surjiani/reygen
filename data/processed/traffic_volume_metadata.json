@@ -1,0 +1,11 @@
+{
+  "dataset_name": "Dubai Corridor Traffic Volumes",
+  "status": "not found",
+  "retrieval_date": "2026-09-28T13:48:08.213736+00:00",
+  "searched_urls": [
+    "https://www.dubaipulse.gov.ae",
+    "https://www.dsc.gov.ae",
+    "https://www.rta.ae/wps/portal/rta/ae/home/open-data"
+  ],
+  "reason": "Restricted commercial asset governed by RTA Resolution No. 740 of 2019; not published as open data."
+}
