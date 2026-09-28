@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useSyncExternalStore } from "react";
 import dynamic from "next/dynamic";
 import type { SupportedVehicleType } from "@/lib/registry/loader";
 import type {
@@ -67,16 +67,14 @@ const INITIAL_ZONES: ActiveCoilZone[] = [
   },
 ];
 
+const emptySubscribe = () => () => {};
+
 interface CorridorExplorerProps {
   route: CorridorRoute;
 }
 
 export function CorridorExplorer({ route }: CorridorExplorerProps) {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isMounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
 
   // 1. Interactive Control States
   const [vehicleType, setVehicleType] =
