@@ -259,25 +259,25 @@ export default function HomePage() {
       {/* ========================================================================= */}
       {/* PAGE 1 (PRINT PAGE 1): EXECUTIVE BRIEF, TOP RESULT & CORRIDOR PROFILE    */}
       {/* ========================================================================= */}
-      <div className="print-page-1 print-page-break space-y-6">
+      <div className="print-page-1 print-page-break space-y-8">
         {/* Document Header & Direct Action */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-800 pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 border-b border-slate-800 pb-6">
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center rounded-md bg-emerald-950/90 px-2.5 py-0.5 text-xs font-semibold text-emerald-400 border border-emerald-800">
+              <span className="inline-flex items-center rounded-md bg-emerald-950/90 px-3 py-1 text-sm font-semibold text-emerald-400 border border-emerald-800">
                 Corridor Code: E311
               </span>
-              <span className="inline-flex items-center rounded-md bg-sky-950/80 px-2.5 py-0.5 text-xs font-medium text-sky-400 border border-sky-800/80">
+              <span className="inline-flex items-center rounded-md bg-sky-950/80 px-3 py-1 text-sm font-medium text-sky-400 border border-sky-800/80">
                 29.22 km Highway Alignment
               </span>
-              <span className="inline-flex items-center rounded-md bg-purple-950/80 px-2.5 py-0.5 text-xs font-medium text-purple-400 border border-purple-800/80">
+              <span className="inline-flex items-center rounded-md bg-purple-950/80 px-3 py-1 text-sm font-medium text-purple-400 border border-purple-800/80">
                 Net-Zero Depletion at 12.5% Coverage
               </span>
             </div>
-            <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-white sm:text-4xl print:text-black">
+            <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-white sm:text-5xl print:text-black">
               Dubai E311 Dynamic Wireless Charging Expressway
             </h1>
-            <p className="mt-1.5 text-sm text-slate-300 max-w-3xl leading-relaxed print:text-slate-800">
+            <p className="mt-2 text-base sm:text-lg text-slate-300 max-w-4xl leading-relaxed print:text-slate-800">
               Technical evaluation of dynamic in-road inductive power transfer along Dubai&apos;s primary arterial corridor, enabling commercial electric fleets and passenger EVs to charge continuously at highway speeds.
             </p>
           </div>
@@ -285,7 +285,7 @@ export default function HomePage() {
           <div className="flex items-center gap-3">
             <Link
               href="/corridor"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold px-4 py-2 text-xs shadow-lg transition-colors print:hidden"
+              className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-5 py-2.5 text-sm shadow-lg transition-colors print:hidden"
             >
               <span>Launch Simulator</span>
               <span>→</span>
@@ -297,82 +297,82 @@ export default function HomePage() {
         {/* Core Value Proposition & Primary Benefits Obtained */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Benefit 1 */}
-          <div className="rounded-xl border border-emerald-800/80 bg-emerald-950/30 p-4 print:bg-white print:border-slate-300">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 print:text-emerald-800">
+          <div className="rounded-xl border border-emerald-800/80 bg-emerald-950/30 p-5 print:bg-white print:border-slate-300">
+            <div className="text-xs font-bold uppercase tracking-wider text-emerald-400 print:text-emerald-800">
               1. Zero Highway Depletion
             </div>
-            <div className="mt-1 font-mono text-2xl font-bold text-white print:text-black">
+            <div className="mt-2 font-mono text-3xl font-extrabold text-white print:text-black">
               +3.30 kWh
             </div>
-            <div className="text-xs text-emerald-300/90 mt-0.5">
+            <div className="text-sm font-semibold text-emerald-300 mt-1">
               Net gain at 25% coverage
             </div>
-            <p className="mt-2 text-[11px] text-slate-400 leading-relaxed print:text-slate-700">
+            <p className="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed print:text-slate-700">
               Vehicles exit the 29.2 km corridor with more stored charge than when they entered. Net-positive balance reached at only 12.5% coil coverage (3.65 km).
             </p>
           </div>
 
           {/* Benefit 2 */}
-          <div className="rounded-xl border border-sky-800/80 bg-sky-950/30 p-4 print:bg-white print:border-slate-300">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-sky-400 print:text-sky-800">
+          <div className="rounded-xl border border-sky-800/80 bg-sky-950/30 p-5 print:bg-white print:border-slate-300">
+            <div className="text-xs font-bold uppercase tracking-wider text-sky-400 print:text-sky-800">
               2. Battery Downsizing
             </div>
-            <div className="mt-1 font-mono text-2xl font-bold text-white print:text-black">
+            <div className="mt-2 font-mono text-3xl font-extrabold text-white print:text-black">
               Compact Packs
             </div>
-            <div className="text-xs text-sky-300/90 mt-0.5">
+            <div className="text-sm font-semibold text-sky-300 mt-1">
               Lower capital purchase cost
             </div>
-            <p className="mt-2 text-[11px] text-slate-400 leading-relaxed print:text-slate-700">
+            <p className="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed print:text-slate-700">
               Enables taxis and transit fleets to operate on smaller onboard battery packs, reducing upfront vehicle procurement expense, decreasing curb weight, and extending tyre life.
             </p>
           </div>
 
           {/* Benefit 3 */}
-          <div className="rounded-xl border border-purple-800/80 bg-purple-950/30 p-4 print:bg-white print:border-slate-300">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-purple-400 print:text-purple-800">
+          <div className="rounded-xl border border-purple-800/80 bg-purple-950/30 p-5 print:bg-white print:border-slate-300">
+            <div className="text-xs font-bold uppercase tracking-wider text-purple-400 print:text-purple-800">
               3. Zero Charging Downtime
             </div>
-            <div className="mt-1 font-mono text-2xl font-bold text-white print:text-black">
+            <div className="mt-2 font-mono text-3xl font-extrabold text-white print:text-black">
               100% In-Service
             </div>
-            <div className="text-xs text-purple-300/90 mt-0.5">
+            <div className="text-sm font-semibold text-purple-300 mt-1">
               Continuous fleet availability
             </div>
-            <p className="mt-2 text-[11px] text-slate-400 leading-relaxed print:text-slate-700">
+            <p className="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed print:text-slate-700">
               Eliminates midday stationary charging queues that idle commercial taxis and delivery vans, preserving active operational hours along Dubai&apos;s primary economic corridor.
             </p>
           </div>
 
           {/* Benefit 4 */}
-          <div className="rounded-xl border border-amber-800/80 bg-amber-950/30 p-4 print:bg-white print:border-slate-300">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-amber-400 print:text-amber-800">
+          <div className="rounded-xl border border-amber-800/80 bg-amber-950/30 p-5 print:bg-white print:border-slate-300">
+            <div className="text-xs font-bold uppercase tracking-wider text-amber-400 print:text-amber-800">
               4. Grid &amp; Tariff Economy
             </div>
-            <div className="mt-1 font-mono text-2xl font-bold text-white print:text-black">
-              {d.wholesaleRateAed.toFixed(2)} AED/kWh
+            <div className="mt-2 font-mono text-3xl font-extrabold text-white print:text-black">
+              {d.wholesaleRateAed.toFixed(2)} AED
             </div>
-            <div className="text-xs text-amber-300/90 mt-0.5">
+            <div className="text-sm font-semibold text-amber-300 mt-1">
               DEWA commercial base slab
             </div>
-            <p className="mt-2 text-[11px] text-slate-400 leading-relaxed print:text-slate-700">
+            <p className="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed print:text-slate-700">
               Draws electricity at base non-residential commercial tariffs, circumventing expensive demand-charge spikes and substation stress from stationary high-power fast-charging plazas.
             </p>
           </div>
         </div>
 
         {/* Top-of-Page Primary Result & Uncertainty Range */}
-        <div className="rounded-xl border border-emerald-800/80 bg-emerald-950/30 p-5 backdrop-blur print:bg-slate-50 print:border-emerald-600">
-          <div className="flex items-center justify-between border-b border-emerald-900/60 pb-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 print:text-emerald-800">
+        <div className="rounded-xl border border-emerald-800/80 bg-emerald-950/30 p-6 backdrop-blur print:bg-slate-50 print:border-emerald-600">
+          <div className="flex items-center justify-between border-b border-emerald-900/60 pb-3">
+            <span className="text-sm font-bold uppercase tracking-wider text-emerald-400 print:text-emerald-800">
               Primary Analytical Finding
             </span>
-            <span className="font-mono text-xs text-emerald-300 print:text-emerald-700">
+            <span className="font-mono text-sm font-semibold text-emerald-300 print:text-emerald-700">
               Corridor Length: {d.corridorLengthKm.toFixed(2)} km
             </span>
           </div>
 
-          <div className="mt-3 text-xs sm:text-sm text-emerald-100 leading-relaxed print:text-slate-900">
+          <div className="mt-4 text-base sm:text-lg text-emerald-100 leading-relaxed print:text-slate-900 font-medium">
             On Dubai&apos;s Sheikh Mohammed Bin Zayed Road (E311, spanning {d.corridorLengthKm.toFixed(2)} km
             across {d.junctionCount} interchanges), an electric passenger taxi requires {d.taxiCrossoverPct.toFixed(1)}% dynamic
             inductive coverage ({d.taxiCrossoverKm.toFixed(2)} km of road coils at {d.coilPowerKw.toFixed(0)} kW with {d.couplingPct.toFixed(0)}% magnetic
@@ -380,73 +380,73 @@ export default function HomePage() {
           </div>
 
           {/* Uncertainty Range Callout */}
-          <div className="mt-4 rounded-lg bg-slate-950/80 p-3.5 border border-emerald-900/60 print:bg-white print:border-slate-300">
-            <div className="text-[11px] font-semibold text-emerald-300 print:text-emerald-800 uppercase tracking-wider">
+          <div className="mt-4 rounded-lg bg-slate-950/80 p-4 border border-emerald-900/60 print:bg-white print:border-slate-300">
+            <div className="text-xs font-bold text-emerald-300 print:text-emerald-800 uppercase tracking-wider">
               Monte Carlo Uncertainty Bounds ({d.mcRunsCount.toLocaleString()} Iterations, Seeded PRNG)
             </div>
-            <div className="mt-1 text-xs text-slate-300 leading-relaxed print:text-slate-700">
-              Under {d.mcRunsCount.toLocaleString()} Monte Carlo runs across verified parameter distributions, the vehicle&apos;s gross
-              electrical consumption exhibits a 90% credible interval of {d.taxiP5WhKm.toFixed(1)} Wh/km to {d.taxiP95WhKm.toFixed(1)} Wh/km
-              (median: {d.taxiP50WhKm.toFixed(1)} Wh/km), resulting in a net trip battery change between {d.taxiP5NetKwh.toFixed(2)} kWh
+            <div className="mt-1.5 text-sm sm:text-base text-slate-200 leading-relaxed print:text-slate-700">
+              Under {d.mcRunsCount.toLocaleString()} Monte Carlo runs across verified parameter distributions, gross electrical consumption
+              exhibits a 90% credible interval of {d.taxiP5WhKm.toFixed(1)} Wh/km to {d.taxiP95WhKm.toFixed(1)} Wh/km
+              (median: {d.taxiP50WhKm.toFixed(1)} Wh/km), yielding a net trip battery change between {d.taxiP5NetKwh.toFixed(2)} kWh
               and +{d.taxiP95NetKwh.toFixed(2)} kWh.
             </div>
           </div>
         </div>
 
         {/* Corridor Profile & Grid Summary (Page 1 bottom) */}
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-3.5 print:bg-white print:border-slate-300">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 print:text-slate-600">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4 print:bg-white print:border-slate-300">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 print:text-slate-600">
               Corridor Length
             </span>
-            <div className="font-mono text-xl font-bold text-white print:text-black mt-1">
+            <div className="font-mono text-2xl font-extrabold text-white print:text-black mt-1">
               {d.corridorLengthKm.toFixed(2)} km
             </div>
-            <div className="text-[11px] text-slate-500 print:text-slate-600">
+            <div className="text-xs text-slate-400 print:text-slate-600 mt-0.5">
               {d.segmentCount} verified OSM ways
             </div>
           </div>
 
-          <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-3.5 print:bg-white print:border-slate-300">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 print:text-slate-600">
+          <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4 print:bg-white print:border-slate-300">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 print:text-slate-600">
               Tagged Maxspeed
             </span>
-            <div className="font-mono text-xl font-bold text-emerald-400 print:text-emerald-700 mt-1">
+            <div className="font-mono text-2xl font-extrabold text-emerald-400 print:text-emerald-700 mt-1">
               {d.speedLimitMinKmh.toFixed(0)} – {d.speedLimitMaxKmh.toFixed(0)} km/h
             </div>
-            <div className="text-[11px] text-slate-500 print:text-slate-600">
+            <div className="text-xs text-slate-400 print:text-slate-600 mt-0.5">
               100% segment coverage
             </div>
           </div>
 
-          <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-3.5 print:bg-white print:border-slate-300">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 print:text-slate-600">
+          <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4 print:bg-white print:border-slate-300">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 print:text-slate-600">
               Registered Dubai EVs
             </span>
-            <div className="font-mono text-xl font-bold text-sky-400 print:text-sky-700 mt-1">
+            <div className="font-mono text-2xl font-extrabold text-sky-400 print:text-sky-700 mt-1">
               {d.evFleetCurrent.toLocaleString()}
             </div>
-            <div className="text-[11px] text-slate-500 print:text-slate-600">
+            <div className="text-xs text-slate-400 print:text-slate-600 mt-0.5">
               +{d.evGrowthRatePct.toFixed(1)}% YoY growth
             </div>
           </div>
 
-          <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-3.5 print:bg-white print:border-slate-300">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 print:text-slate-600">
+          <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4 print:bg-white print:border-slate-300">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 print:text-slate-600">
               DEWA Wholesale Grid
             </span>
-            <div className="font-mono text-xl font-bold text-amber-400 print:text-amber-700 mt-1">
+            <div className="font-mono text-2xl font-extrabold text-amber-400 print:text-amber-700 mt-1">
               {d.wholesaleRateAed.toFixed(3)} AED
             </div>
-            <div className="text-[11px] text-slate-500 print:text-slate-600">
+            <div className="text-xs text-slate-400 print:text-slate-600 mt-0.5">
               {d.wholesaleRateUsd.toFixed(3)} USD / kWh
             </div>
           </div>
         </div>
 
         {/* Narrative Summary of Physical Feasibility */}
-        <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4 text-xs text-slate-300 leading-relaxed space-y-2 print:bg-white print:border-slate-300 print:text-slate-800">
-          <div className="font-semibold text-white print:text-black">
+        <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-5 text-sm sm:text-base text-slate-200 leading-relaxed space-y-2 print:bg-white print:border-slate-300 print:text-slate-800">
+          <div className="font-bold text-white print:text-black">
             Corridor Energy Ledger Summary
           </div>
           <p>
@@ -462,85 +462,85 @@ export default function HomePage() {
       {/* ========================================================================= */}
       {/* PAGE 2 (PRINT PAGE 2): COMPARATIVE MATRIX, ECONOMICS & DIRECTORY          */}
       {/* ========================================================================= */}
-      <div className="print-page-2 space-y-6">
+      <div className="print-page-2 space-y-8">
         {/* Comparative Fleet Matrix */}
-        <div className="space-y-3">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-            <h2 className="text-base font-bold text-white print:text-black sm:text-lg">
+        <div className="space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h2 className="text-lg font-bold text-white print:text-black sm:text-xl">
               Fleet Class Electrification Feasibility Matrix
             </h2>
-            <span className="text-xs text-slate-400 print:text-slate-600">
+            <span className="text-sm font-medium text-slate-400 print:text-slate-600">
               Evaluated along E311 ({d.corridorLengthKm.toFixed(2)} km)
             </span>
           </div>
 
           <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950 print:bg-white print:border-slate-300">
-            <table className="min-w-full divide-y divide-slate-800 print:divide-slate-300 text-left text-xs">
-              <thead className="bg-slate-900/80 text-[11px] font-semibold uppercase tracking-wider text-slate-400 print:bg-slate-100 print:text-slate-700">
+            <table className="min-w-full divide-y divide-slate-800 print:divide-slate-300 text-left text-sm">
+              <thead className="bg-slate-900/80 text-xs font-bold uppercase tracking-wider text-slate-400 print:bg-slate-100 print:text-slate-700">
                 <tr>
-                  <th scope="col" className="px-3.5 py-3">Vehicle Class</th>
-                  <th scope="col" className="px-3 py-3">Mass (kg)</th>
-                  <th scope="col" className="px-3 py-3">CdA (m²)</th>
-                  <th scope="col" className="px-3 py-3">Gross Wh/km</th>
-                  <th scope="col" className="px-3 py-3">Crossover %</th>
-                  <th scope="col" className="px-3 py-3">Required Coils</th>
-                  <th scope="col" className="px-3 py-3">Feasibility Status</th>
+                  <th scope="col" className="px-4 py-3.5">Vehicle Class</th>
+                  <th scope="col" className="px-3.5 py-3.5">Mass (kg)</th>
+                  <th scope="col" className="px-3.5 py-3.5">CdA (m²)</th>
+                  <th scope="col" className="px-3.5 py-3.5">Gross Wh/km</th>
+                  <th scope="col" className="px-3.5 py-3.5">Crossover %</th>
+                  <th scope="col" className="px-3.5 py-3.5">Required Coils</th>
+                  <th scope="col" className="px-4 py-3.5">Feasibility Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60 print:divide-slate-300 text-slate-300 print:text-slate-800">
+              <tbody className="divide-y divide-slate-800/60 print:divide-slate-300 text-slate-200 print:text-slate-800">
                 {/* Passenger Taxi */}
                 <tr>
-                  <td className="px-3.5 py-3 font-medium text-white print:text-black">
+                  <td className="px-4 py-3.5 font-semibold text-white print:text-black">
                     Passenger Taxi / EV (Tesla Model 3 class)
                   </td>
-                  <td className="px-3 py-3 font-mono">{d.taxiMassKg.toLocaleString()}</td>
-                  <td className="px-3 py-3 font-mono">{d.taxiCdaM2.toFixed(2)}</td>
-                  <td className="px-3 py-3 font-mono text-emerald-400 print:text-emerald-700 font-semibold">
+                  <td className="px-3.5 py-3.5 font-mono">{d.taxiMassKg.toLocaleString()}</td>
+                  <td className="px-3.5 py-3.5 font-mono">{d.taxiCdaM2.toFixed(2)}</td>
+                  <td className="px-3.5 py-3.5 font-mono text-emerald-400 print:text-emerald-700 font-bold">
                     {d.taxiGrossWhKm.toFixed(1)}
                   </td>
-                  <td className="px-3 py-3 font-mono font-bold text-emerald-400 print:text-emerald-700">
+                  <td className="px-3.5 py-3.5 font-mono font-bold text-emerald-400 print:text-emerald-700">
                     {d.taxiCrossoverPct.toFixed(1)}%
                   </td>
-                  <td className="px-3 py-3 font-mono">{d.taxiCrossoverKm.toFixed(2)} km</td>
-                  <td className="px-3 py-3 text-emerald-400 print:text-emerald-700 font-medium">
+                  <td className="px-3.5 py-3.5 font-mono">{d.taxiCrossoverKm.toFixed(2)} km</td>
+                  <td className="px-4 py-3.5 text-emerald-400 print:text-emerald-700 font-semibold">
                     Highly Viable (Low track cost)
                   </td>
                 </tr>
 
                 {/* Scooter */}
                 <tr>
-                  <td className="px-3.5 py-3 font-medium text-white print:text-black">
+                  <td className="px-4 py-3.5 font-semibold text-white print:text-black">
                     Electric Delivery Scooter (Super Soco CPx)
                   </td>
-                  <td className="px-3 py-3 font-mono">{d.scooterMassKg.toLocaleString()}</td>
-                  <td className="px-3 py-3 font-mono">{d.scooterCdaM2.toFixed(2)}</td>
-                  <td className="px-3 py-3 font-mono text-emerald-400 print:text-emerald-700 font-semibold">
+                  <td className="px-3.5 py-3.5 font-mono">{d.scooterMassKg.toLocaleString()}</td>
+                  <td className="px-3.5 py-3.5 font-mono">{d.scooterCdaM2.toFixed(2)}</td>
+                  <td className="px-3.5 py-3.5 font-mono text-emerald-400 print:text-emerald-700 font-bold">
                     {d.scooterGrossWhKm.toFixed(1)}
                   </td>
-                  <td className="px-3 py-3 font-mono font-bold text-emerald-400 print:text-emerald-700">
+                  <td className="px-3.5 py-3.5 font-mono font-bold text-emerald-400 print:text-emerald-700">
                     {d.scooterCrossoverPct.toFixed(1)}%
                   </td>
-                  <td className="px-3 py-3 font-mono">{d.scooterCrossoverKm.toFixed(2)} km</td>
-                  <td className="px-3 py-3 text-emerald-400 print:text-emerald-700 font-medium">
+                  <td className="px-3.5 py-3.5 font-mono">{d.scooterCrossoverKm.toFixed(2)} km</td>
+                  <td className="px-4 py-3.5 text-emerald-400 print:text-emerald-700 font-semibold">
                     Immediate Viability (Minimal coils)
                   </td>
                 </tr>
 
                 {/* Bus */}
                 <tr>
-                  <td className="px-3.5 py-3 font-medium text-white print:text-black">
+                  <td className="px-4 py-3.5 font-semibold text-white print:text-black">
                     Transit Bus (Yutong / BYD K-Series 12m)
                   </td>
-                  <td className="px-3 py-3 font-mono">{d.busMassKg.toLocaleString()}</td>
-                  <td className="px-3 py-3 font-mono">{d.busCdaM2.toFixed(2)}</td>
-                  <td className="px-3 py-3 font-mono text-amber-400 print:text-amber-700 font-semibold">
+                  <td className="px-3.5 py-3.5 font-mono">{d.busMassKg.toLocaleString()}</td>
+                  <td className="px-3.5 py-3.5 font-mono">{d.busCdaM2.toFixed(2)}</td>
+                  <td className="px-3.5 py-3.5 font-mono text-amber-400 print:text-amber-700 font-bold">
                     {d.busGrossWhKm.toFixed(1)}
                   </td>
-                  <td className="px-3 py-3 font-mono font-bold text-amber-400 print:text-amber-700">
+                  <td className="px-3.5 py-3.5 font-mono font-bold text-amber-400 print:text-amber-700">
                     {d.busCrossoverPct.toFixed(1)}%
                   </td>
-                  <td className="px-3 py-3 font-mono">{d.busCrossoverKm.toFixed(2)} km</td>
-                  <td className="px-3 py-3 text-amber-400 print:text-amber-700 font-medium">
+                  <td className="px-3.5 py-3.5 font-mono">{d.busCrossoverKm.toFixed(2)} km</td>
+                  <td className="px-4 py-3.5 text-amber-400 print:text-amber-700 font-semibold">
                     High CapEx (Heavy HVAC demand)
                   </td>
                 </tr>
@@ -549,90 +549,65 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Economic Framework & Data Governance Notice */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4 space-y-2 print:bg-white print:border-slate-300 print:text-slate-800">
-            <div className="font-semibold text-white print:text-black">
-              Capital Expenditure & DEWA Electricity Costs
-            </div>
-            <p className="text-slate-400 print:text-slate-600 leading-relaxed">
-              Installed inductive coil capital cost is benchmarked at ${(d.costPerKmTypicalUsd / 1e6).toFixed(2)}M USD per lane-km
-              (published range: ${(d.costPerKmMinUsd / 1e6).toFixed(2)}M to ${(d.costPerKmMaxUsd / 1e6).toFixed(2)}M USD/km). Wholesale electricity
-              from the DEWA commercial grid is evaluated at the verified tariff of {d.wholesaleRateAed.toFixed(3)} AED/kWh ({d.wholesaleRateUsd.toFixed(3)} USD/kWh).
-            </p>
-          </div>
-
-          <div className="rounded-xl border border-amber-900/60 bg-amber-950/20 p-4 space-y-2 print:bg-white print:border-slate-300 print:text-slate-800">
-            <div className="font-semibold text-amber-300 print:text-amber-800">
-              Data Governance & Traffic Count Limitation
-            </div>
-            <p className="text-slate-300 print:text-slate-600 leading-relaxed">
-              In accordance with AGENTS.md Rule 1, this analysis DOES NOT fabricate corridor traffic volumes or commercial payback
-              periods. Corridor-specific sensor volumes remain classified under Dubai RTA Administrative Resolution No. 740 of 2019.
-              Payback figures default to &ldquo;insufficient data&rdquo; unless an exploratory scenario is supplied.
-            </p>
-          </div>
-        </div>
-
-        {/* Directory Navigation Links (Clickable on Web, Clean URLs in Print) */}
-        <div className="space-y-3">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 print:text-slate-700">
-            Detailed Platform Modules & Verification Directory
+        {/* Directory Navigation Links */}
+        <div className="space-y-4">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 print:text-slate-700">
+            Platform Modules &amp; Documentation Directory
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
             <Link
               href="/corridor"
-              className="rounded-lg border border-slate-800 bg-slate-900/60 p-3 hover:border-emerald-500 transition-colors print:bg-white print:border-slate-300"
+              className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 hover:border-emerald-500 transition-colors print:bg-white print:border-slate-300"
             >
-              <div className="font-semibold text-emerald-400 print:text-emerald-700">
+              <div className="font-bold text-base text-emerald-400 print:text-emerald-700">
                 1. /corridor
               </div>
-              <div className="text-[11px] text-slate-400 print:text-slate-600 mt-1">
-                Interactive MapLibre digital twin, custom coil placement & 2,000-run Monte Carlo tool.
+              <div className="text-xs sm:text-sm text-slate-300 print:text-slate-600 mt-1">
+                Interactive MapLibre digital twin, custom coil placement &amp; 2,000-run Monte Carlo tool.
               </div>
             </Link>
 
             <Link
               href="/method"
-              className="rounded-lg border border-slate-800 bg-slate-900/60 p-3 hover:border-emerald-500 transition-colors print:bg-white print:border-slate-300"
+              className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 hover:border-emerald-500 transition-colors print:bg-white print:border-slate-300"
             >
-              <div className="font-semibold text-sky-400 print:text-sky-700">
+              <div className="font-bold text-base text-sky-400 print:text-sky-700">
                 2. /method
               </div>
-              <div className="text-[11px] text-slate-400 print:text-slate-600 mt-1">
+              <div className="text-xs sm:text-sm text-slate-300 print:text-slate-600 mt-1">
                 Mathematical physics equations and the complete 32-item assumptions registry table.
               </div>
             </Link>
 
             <Link
               href="/data"
-              className="rounded-lg border border-slate-800 bg-slate-900/60 p-3 hover:border-emerald-500 transition-colors print:bg-white print:border-slate-300"
+              className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 hover:border-emerald-500 transition-colors print:bg-white print:border-slate-300"
             >
-              <div className="font-semibold text-purple-400 print:text-purple-700">
+              <div className="font-bold text-base text-purple-400 print:text-purple-700">
                 3. /data
               </div>
-              <div className="text-[11px] text-slate-400 print:text-slate-600 mt-1">
+              <div className="text-xs sm:text-sm text-slate-300 print:text-slate-600 mt-1">
                 Audited datasets: OSM, NASA POWER, DEWA tariffs, and Resolution 740/2019 status.
               </div>
             </Link>
 
             <Link
               href="/limits"
-              className="rounded-lg border border-slate-800 bg-slate-900/60 p-3 hover:border-emerald-500 transition-colors print:bg-white print:border-slate-300"
+              className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 hover:border-emerald-500 transition-colors print:bg-white print:border-slate-300"
             >
-              <div className="font-semibold text-amber-400 print:text-amber-700">
+              <div className="font-bold text-base text-amber-400 print:text-amber-700">
                 4. /limits
               </div>
-              <div className="text-[11px] text-slate-400 print:text-slate-600 mt-1">
-                Unsolved vehicle retrofit R&D, lack of OSM signal timing, and required RTA testbed data.
+              <div className="text-xs sm:text-sm text-slate-300 print:text-slate-600 mt-1">
+                Engineering unknowns, CapEx notes, lack of signal timing, and required RTA testbed data.
               </div>
             </Link>
           </div>
         </div>
 
         {/* Print Footer Notice */}
-        <div className="border-t border-slate-800 pt-3 text-[10px] text-slate-500 print:text-slate-600 flex flex-wrap justify-between">
+        <div className="border-t border-slate-800 pt-4 text-xs text-slate-400 print:text-slate-600 flex flex-wrap justify-between">
           <span>Prepared for technical evaluation by Dubai Roads and Transport Authority (RTA)</span>
           <span>OpenStreetMap ODbL 1.0 • NASA POWER • DEWA • RTA Statistics</span>
         </div>

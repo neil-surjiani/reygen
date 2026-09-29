@@ -84,26 +84,26 @@ export function CorridorControls({
   const hasOverrides = Object.keys(overrides).length > 0;
 
   return (
-    <div className="space-y-6 rounded-xl border border-slate-800 bg-slate-900/60 p-5 backdrop-blur">
+    <div className="space-y-6 rounded-xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur">
       {/* 1. Vehicle Selection */}
       <div>
-        <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-400">
+        <label className="mb-2.5 block text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300">
           Target Vehicle Fleet Class
         </label>
-        <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           {vehicleOptions.map((v) => (
             <button
               key={v.id}
               type="button"
               onClick={() => onVehicleChange(v.id)}
-              className={`rounded-lg border p-3 text-left transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500 ${
+              className={`rounded-xl border p-3.5 text-left transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500 ${
                 vehicleType === v.id
                   ? "border-emerald-500 bg-emerald-950/40 text-white shadow-[0_0_12px_rgba(16,185,129,0.2)]"
                   : "border-slate-800 bg-slate-950/60 text-slate-300 hover:border-slate-700 hover:bg-slate-800/60"
               }`}
             >
-              <div className="text-sm font-semibold">{v.name}</div>
-              <div className="mt-1 text-[11px] text-slate-400">{v.specs}</div>
+              <div className="text-sm sm:text-base font-bold">{v.name}</div>
+              <div className="mt-1 text-xs text-slate-400 leading-snug">{v.specs}</div>
             </button>
           ))}
         </div>
@@ -114,15 +114,15 @@ export function CorridorControls({
         <div className="flex items-center justify-between">
           <label
             htmlFor="coverage-slider"
-            className="text-xs font-semibold uppercase tracking-wider text-slate-400"
+            className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300"
           >
             Corridor Inductive Coverage
           </label>
           <div className="flex items-center gap-2">
-            <span className="font-mono text-base font-bold text-emerald-400">
+            <span className="font-mono text-xl font-extrabold text-emerald-400">
               {coveragePct.toFixed(0)}%
             </span>
-            <span className="text-xs text-slate-400">
+            <span className="text-xs sm:text-sm font-medium text-slate-300">
               ({((29.217 * coveragePct) / 100).toFixed(1)} km of 29.2 km)
             </span>
           </div>
@@ -136,16 +136,16 @@ export function CorridorControls({
           step="1"
           value={coveragePct}
           onChange={(e) => onCoverageChange(parseFloat(e.target.value))}
-          className="mt-2 h-2 w-full appearance-none rounded-lg bg-slate-800 accent-emerald-500 cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="mt-2.5 h-2.5 w-full appearance-none rounded-lg bg-slate-800 accent-emerald-500 cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500"
           aria-label="Electrified roadway coverage percentage slider"
         />
 
         {/* Quick select presets */}
-        <div className="mt-2 flex flex-wrap gap-2 text-xs">
+        <div className="mt-2.5 flex flex-wrap gap-2 text-xs sm:text-sm">
           <button
             type="button"
             onClick={() => onCoverageChange(0)}
-            className="rounded border border-slate-700 bg-slate-800 px-2.5 py-1 text-slate-300 hover:bg-slate-700 hover:text-white"
+            className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-slate-200 hover:bg-slate-700 hover:text-white font-medium"
           >
             0% (Baseline)
           </button>
@@ -153,7 +153,7 @@ export function CorridorControls({
             <button
               type="button"
               onClick={() => onCoverageChange(Math.round(crossoverCoveragePct))}
-              className="rounded border border-emerald-600 bg-emerald-950/60 px-2.5 py-1 font-medium text-emerald-300 hover:bg-emerald-900/60"
+              className="rounded-lg border border-emerald-600 bg-emerald-950/60 px-3 py-1.5 font-bold text-emerald-300 hover:bg-emerald-900/60"
             >
               ★ Net-Positive ({crossoverCoveragePct.toFixed(1)}%)
             </button>
@@ -161,21 +161,21 @@ export function CorridorControls({
           <button
             type="button"
             onClick={() => onCoverageChange(25)}
-            className="rounded border border-slate-700 bg-slate-800 px-2.5 py-1 text-slate-300 hover:bg-slate-700 hover:text-white"
+            className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-slate-200 hover:bg-slate-700 hover:text-white font-medium"
           >
             25%
           </button>
           <button
             type="button"
             onClick={() => onCoverageChange(50)}
-            className="rounded border border-slate-700 bg-slate-800 px-2.5 py-1 text-slate-300 hover:bg-slate-700 hover:text-white"
+            className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-slate-200 hover:bg-slate-700 hover:text-white font-medium"
           >
             50%
           </button>
           <button
             type="button"
             onClick={() => onCoverageChange(100)}
-            className="rounded border border-slate-700 bg-slate-800 px-2.5 py-1 text-slate-300 hover:bg-slate-700 hover:text-white"
+            className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-slate-200 hover:bg-slate-700 hover:text-white font-medium"
           >
             100% (Full)
           </button>
@@ -184,14 +184,14 @@ export function CorridorControls({
 
       {/* 3. Sectional Zone Switches & Signal Pads */}
       <div>
-        <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-400">
+        <label className="mb-2.5 block text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300">
           Corridor Segment Activation &amp; Infrastructure
         </label>
-        <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {activeZones.map((zone) => (
             <label
               key={zone.id}
-              className={`flex items-center gap-3 rounded-lg border p-3 text-xs cursor-pointer transition-all ${
+              className={`flex items-center gap-3 rounded-xl border p-3.5 text-xs sm:text-sm cursor-pointer transition-all ${
                 zone.active
                   ? "border-emerald-500/80 bg-emerald-950/30 text-white"
                   : "border-slate-800 bg-slate-950/40 text-slate-300 hover:border-slate-700"
@@ -204,8 +204,8 @@ export function CorridorControls({
                 className="h-4 w-4 rounded border-slate-700 bg-slate-800 text-emerald-500 focus:ring-emerald-500"
               />
               <div className="flex-1">
-                <div className="font-medium text-slate-200">{zone.name}</div>
-                <div className="text-[11px] text-slate-400">
+                <div className="font-semibold text-slate-200">{zone.name}</div>
+                <div className="text-xs text-slate-400 mt-0.5">
                   km {zone.startKm} to {zone.endKm} ({zone.endKm - zone.startKm} km)
                 </div>
               </div>
@@ -213,7 +213,7 @@ export function CorridorControls({
           ))}
 
           {/* Stationary Signal-Pad Location Toggle */}
-          <label className="col-span-full flex items-center gap-3 rounded-lg border border-purple-950/80 bg-purple-950/20 p-2.5 text-xs text-purple-200 hover:bg-purple-950/30 cursor-pointer">
+          <label className="col-span-full flex items-center gap-3.5 rounded-xl border border-purple-950/80 bg-purple-950/20 p-3.5 text-xs sm:text-sm text-purple-200 hover:bg-purple-950/30 cursor-pointer">
             <input
               type="checkbox"
               checked={enableSignalPads}
@@ -221,10 +221,10 @@ export function CorridorControls({
               className="h-4 w-4 rounded border-purple-700 bg-slate-800 text-purple-500 focus:ring-purple-500"
             />
             <div className="flex-1">
-              <div className="font-semibold text-purple-300">
+              <div className="font-bold text-purple-300 text-sm">
                 Stationary Wireless Pads at Signalized Ramps &amp; Dwells
               </div>
-              <div className="text-[11px] text-purple-400/80">
+              <div className="text-xs text-purple-300/80 mt-0.5">
                 Transfers 50 kW stationary induction power during traffic signal red phases and dwell stops
               </div>
             </div>
@@ -233,12 +233,12 @@ export function CorridorControls({
       </div>
 
       {/* 4. Complete Interactive Physics Parameter Controls (Instant Simulation on Change) */}
-      <div className="border-t border-slate-800 pt-4">
-        <div className="flex items-center justify-between mb-3">
+      <div className="border-t border-slate-800 pt-5">
+        <div className="flex items-center justify-between mb-4">
           <button
             type="button"
             onClick={() => setShowAdvanced(!showAdvanced)}
-            className="flex items-center gap-2 text-xs font-semibold text-emerald-400 hover:text-emerald-300 focus:outline-none"
+            className="flex items-center gap-2.5 text-sm sm:text-base font-bold text-emerald-400 hover:text-emerald-300 focus:outline-none"
             aria-expanded={showAdvanced}
           >
             <span>{showAdvanced ? "▼" : "▶"}</span>
@@ -248,7 +248,7 @@ export function CorridorControls({
             <button
               type="button"
               onClick={onResetOverrides}
-              className="rounded bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 text-[11px] font-medium text-amber-300 hover:bg-amber-500/20"
+              className="rounded-lg bg-amber-500/10 border border-amber-500/30 px-3 py-1 text-xs font-semibold text-amber-300 hover:bg-amber-500/20"
             >
               Reset to Defaults
             </button>
@@ -256,7 +256,7 @@ export function CorridorControls({
         </div>
 
         {showAdvanced && (
-          <div className="grid grid-cols-1 gap-4 rounded-xl border border-slate-800 bg-slate-950/80 p-4 text-xs sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 rounded-xl border border-slate-800 bg-slate-950/80 p-5 text-sm sm:grid-cols-2 lg:grid-cols-3">
             {/* 1. Vehicle Mass */}
             <div className="rounded-lg border border-slate-800/80 bg-slate-900/40 p-3 space-y-1.5">
               <div className="flex justify-between items-center">

@@ -262,48 +262,48 @@ export function CorridorExplorer({ route }: CorridorExplorerProps) {
   return (
     <div className="space-y-8">
       {/* Corridor Header Stats Bar */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 rounded-xl border border-slate-800 bg-slate-900/60 p-5">
         <div>
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+          <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
             Corridor Route
           </span>
-          <div className="font-mono text-base font-bold text-sky-400 truncate">
+          <div className="font-mono text-lg sm:text-xl font-bold text-sky-400 truncate mt-1">
             {route.name}
           </div>
-          <div className="text-[11px] text-slate-500">
+          <div className="text-xs text-slate-400 mt-0.5">
             Expressway Highway E311
           </div>
         </div>
         <div>
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+          <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
             Total Length
           </span>
-          <div className="font-mono text-base font-bold text-white">
+          <div className="font-mono text-lg sm:text-xl font-bold text-white mt-1">
             {route.totalLengthKm.toFixed(2)} km
           </div>
-          <div className="text-[11px] text-slate-500">
+          <div className="text-xs text-slate-400 mt-0.5">
             14 verified OSM LineStrings
           </div>
         </div>
         <div>
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+          <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
             Speed Limits
           </span>
-          <div className="font-mono text-base font-bold text-emerald-400">
+          <div className="font-mono text-lg sm:text-xl font-bold text-emerald-400 mt-1">
             100 – 110 km/h
           </div>
-          <div className="text-[11px] text-slate-500">
+          <div className="text-xs text-slate-400 mt-0.5">
             100% tagged OSM maxspeed
           </div>
         </div>
         <div>
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+          <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
             Interchanges
           </span>
-          <div className="font-mono text-base font-bold text-amber-400">
+          <div className="font-mono text-lg sm:text-xl font-bold text-amber-400 mt-1">
             {route.junctionCount} Nodes
           </div>
-          <div className="text-[11px] text-slate-500">
+          <div className="text-xs text-slate-400 mt-0.5">
             Click map junctions for exits
           </div>
         </div>
@@ -327,25 +327,6 @@ export function CorridorExplorer({ route }: CorridorExplorerProps) {
             onOverrideChange={handleOverrideChange}
             onResetOverrides={handleResetOverrides}
           />
-
-          {/* Methodological Context Note */}
-          <div className="rounded-xl border border-slate-800/80 bg-slate-950/40 p-4 text-xs text-slate-400 space-y-2">
-            <div className="font-semibold text-slate-300 flex items-center gap-1.5">
-              <span>📋</span>
-              <span>RTA Dubai Evaluation Protocol</span>
-            </div>
-            <p>
-              In accordance with AGENTS.md, all vehicle physics, air densities,
-              induction transfer efficiencies, and capital costs are strictly
-              grounded in published technical standards and verified datasheets.
-            </p>
-            <p className="text-[11px] text-slate-500">
-              Corridor traffic volumes remain classified under Dubai RTA
-              Administrative Resolution No. 740 of 2019. Payback estimates
-              default to &ldquo;insufficient data&rdquo; unless an exploratory
-              scenario is entered.
-            </p>
-          </div>
         </div>
 
         {/* Right Column: Map & Results Analysis (7 cols) */}

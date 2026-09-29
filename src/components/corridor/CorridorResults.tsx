@@ -38,73 +38,73 @@ export function CorridorResults({
   return (
     <div className="space-y-6">
       {/* 1. Top KPI Summary Cards */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {/* Net Battery Change */}
-        <div className={`rounded-xl border p-4 backdrop-blur ${
+        <div className={`rounded-xl border p-5 backdrop-blur ${
           isNetPositive
             ? "border-emerald-800 bg-emerald-950/40 text-emerald-200"
             : "border-slate-800 bg-slate-900/60 text-slate-200"
         }`}>
-          <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+          <div className="text-xs font-bold uppercase tracking-wider text-slate-300">
             Net Battery Balance
           </div>
-          <div className="mt-1 flex items-baseline gap-1">
-            <span className={`font-mono text-2xl font-bold ${
+          <div className="mt-2 flex items-baseline gap-1.5">
+            <span className={`font-mono text-3xl sm:text-4xl font-extrabold ${
               isNetPositive ? "text-emerald-400" : "text-amber-400"
             }`}>
               {isNetPositive ? `+${netKwh.toFixed(2)}` : netKwh.toFixed(2)}
             </span>
-            <span className="text-xs text-slate-400 font-sans">kWh</span>
+            <span className="text-sm text-slate-300 font-sans font-medium">kWh</span>
           </div>
-          <div className="mt-1 text-[11px] text-slate-400">
+          <div className="mt-2 text-xs text-slate-300">
             {isNetPositive ? "Net charge gain during trip" : "Net energy drawn from pack"}
           </div>
         </div>
 
         {/* Gross Electrical Consumption */}
-        <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 backdrop-blur">
-          <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+        <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5 backdrop-blur">
+          <div className="text-xs font-bold uppercase tracking-wider text-slate-300">
             Gross Consumption
           </div>
-          <div className="mt-1 flex items-baseline gap-1">
-            <span className="font-mono text-2xl font-bold text-white">
+          <div className="mt-2 flex items-baseline gap-1.5">
+            <span className="font-mono text-3xl sm:text-4xl font-extrabold text-white">
               {grossWhKm.toFixed(1)}
             </span>
-            <span className="text-xs text-slate-400 font-sans">Wh/km</span>
+            <span className="text-sm text-slate-300 font-sans font-medium">Wh/km</span>
           </div>
-          <div className="mt-1 text-[11px] text-slate-400">
+          <div className="mt-2 text-xs text-slate-300">
             {(ledger.consumed / 3600000.0).toFixed(2)} kWh total draw
           </div>
         </div>
 
         {/* Dynamic Wireless Power Received */}
-        <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 backdrop-blur">
-          <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+        <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5 backdrop-blur">
+          <div className="text-xs font-bold uppercase tracking-wider text-slate-300">
             Coil Energy Received
           </div>
-          <div className="mt-1 flex items-baseline gap-1">
-            <span className="font-mono text-2xl font-bold text-emerald-400">
+          <div className="mt-2 flex items-baseline gap-1.5">
+            <span className="font-mono text-3xl sm:text-4xl font-extrabold text-emerald-400">
               {(ledger.roadCoil / 3600000.0).toFixed(2)}
             </span>
-            <span className="text-xs text-slate-400 font-sans">kWh</span>
+            <span className="text-sm text-slate-300 font-sans font-medium">kWh</span>
           </div>
-          <div className="mt-1 text-[11px] text-slate-400">
+          <div className="mt-2 text-xs text-slate-300">
             {((ledger.roadCoil / 3600.0) / totalDistKm).toFixed(1)} Wh/km received
           </div>
         </div>
 
         {/* Net-Positive Crossover Threshold */}
-        <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 backdrop-blur">
-          <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+        <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5 backdrop-blur">
+          <div className="text-xs font-bold uppercase tracking-wider text-slate-300">
             Net-Positive Threshold
           </div>
-          <div className="mt-1 flex items-baseline gap-1">
-            <span className="font-mono text-2xl font-bold text-purple-400">
+          <div className="mt-2 flex items-baseline gap-1.5">
+            <span className="font-mono text-3xl sm:text-4xl font-extrabold text-purple-400">
               {crossoverCoveragePct !== null ? `${crossoverCoveragePct.toFixed(1)}%` : "N/A"}
             </span>
-            <span className="text-xs text-slate-400 font-sans">coverage</span>
+            <span className="text-sm text-slate-300 font-sans font-medium">coverage</span>
           </div>
-          <div className="mt-1 text-[11px] text-slate-400">
+          <div className="mt-2 text-xs text-slate-300">
             {crossoverCoilLengthKm !== null ? `${crossoverCoilLengthKm.toFixed(2)} km of coils needed` : "Unreachable at current specs"}
           </div>
         </div>
@@ -115,7 +115,7 @@ export function CorridorResults({
         <button
           type="button"
           onClick={() => setActiveTab("ledger")}
-          className={`px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer ${
+          className={`px-5 py-3 text-sm font-semibold uppercase tracking-wider transition-colors cursor-pointer ${
             activeTab === "ledger"
               ? "border-b-2 border-emerald-500 text-white"
               : "text-slate-400 hover:text-slate-200"
@@ -126,7 +126,7 @@ export function CorridorResults({
         <button
           type="button"
           onClick={() => setActiveTab("uncertainty")}
-          className={`px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer ${
+          className={`px-5 py-3 text-sm font-semibold uppercase tracking-wider transition-colors cursor-pointer ${
             activeTab === "uncertainty"
               ? "border-b-2 border-emerald-500 text-white"
               : "text-slate-400 hover:text-slate-200"
@@ -137,7 +137,7 @@ export function CorridorResults({
         <button
           type="button"
           onClick={() => setActiveTab("cost")}
-          className={`px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer ${
+          className={`px-5 py-3 text-sm font-semibold uppercase tracking-wider transition-colors cursor-pointer ${
             activeTab === "cost"
               ? "border-b-2 border-emerald-500 text-white"
               : "text-slate-400 hover:text-slate-200"
@@ -152,8 +152,8 @@ export function CorridorResults({
       {/* TAB A: FULL ENERGY LEDGER */}
       {activeTab === "ledger" && (
         <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900/60 backdrop-blur">
-          <table className="w-full text-left text-xs">
-            <thead className="border-b border-slate-800 bg-slate-950/80 text-[11px] uppercase tracking-wider text-slate-400">
+          <table className="w-full text-left text-sm">
+            <thead className="border-b border-slate-800 bg-slate-950/80 text-xs font-bold uppercase tracking-wider text-slate-300">
               <tr>
                 <th className="py-3 px-4">Ledger Component</th>
                 <th className="py-3 px-4">Full Trip (kWh)</th>
