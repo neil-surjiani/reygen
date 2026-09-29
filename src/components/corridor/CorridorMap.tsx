@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as maplibregl from "maplibre-gl";
 import type { Map, StyleSpecification, MapLayerMouseEvent } from "maplibre-gl";
 import type { CorridorRoute } from "@/lib/route/types";
+import { useTheme } from "../ThemeProvider";
 
 export interface ActiveCoilZone {
   id: string;
@@ -54,6 +55,30 @@ const darkMapStyle: StyleSpecification = {
   ],
 };
 
+const lightMapStyle: StyleSpecification = {
+  version: 8,
+  sources: {
+    "esri-light": {
+      type: "raster",
+      tiles: [
+        "https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+      ],
+      tileSize: 256,
+      attribution:
+        '&copy; <a href="https://www.esri.com" target="_blank" rel="noopener noreferrer">Esri</a>, &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors',
+    },
+  },
+  layers: [
+    {
+      id: "esri-light-layer",
+      type: "raster",
+      source: "esri-light",
+      minzoom: 0,
+      maxzoom: 19,
+    },
+  ],
+};
+
 export default function CorridorMap({
   route,
   coveragePct,
@@ -61,6 +86,7 @@ export default function CorridorMap({
   enableSignalPads,
   className = "",
 }: CorridorMapProps) {
+  const { theme } = useTheme();
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<Map | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -78,9 +104,11 @@ export default function CorridorMap({
       maplibregl.setWorkerUrl("/maplibre-gl-worker.mjs");
     }
 
+    const initialStyle = theme === "light" ? lightMapStyle : darkMapStyle;
+
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
-      style: darkMapStyle,
+      style: initialStyle,
       center: [55.38, 25.12],
       zoom: 11.5,
       maxBounds: [55.15, 24.95, 55.65, 25.35],
@@ -302,7 +330,37 @@ export default function CorridorMap({
       map.remove();
       mapRef.current = null;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route]);
+
+  // Dynamically update basemap raster tiles when theme switches
+  useEffect(() => {
+    if (!mapRef.current || !mapLoaded) return;
+    const map = mapRef.current;
+    const style = theme === "light" ? lightMapStyle : darkMapStyle;
+    const srcId = theme === "light" ? "esri-light" : "esri-dark";
+    const layerId = theme === "light" ? "esri-light-layer" : "esri-dark-layer";
+    const oldLayerId = theme === "light" ? "esri-dark-layer" : "esri-light-layer";
+    const oldSrcId = theme === "light" ? "esri-dark" : "esri-light";
+
+    try {
+      if (map.getLayer(oldLayerId)) {
+        map.removeLayer(oldLayerId);
+      }
+      if (map.getSource(oldSrcId)) {
+        map.removeSource(oldSrcId);
+      }
+      if (!map.getSource(srcId)) {
+        map.addSource(srcId, style.sources[srcId] as maplibregl.SourceSpecification);
+      }
+      if (!map.getLayer(layerId)) {
+        // Add underneath all overlay layers (corridor-casing, etc.)
+        map.addLayer(style.layers[0] as maplibregl.LayerSpecification, "corridor-casing");
+      }
+    } catch {
+      // ignore dynamic tile replacement if style is reloading
+    }
+  }, [theme, mapLoaded]);
 
   // Update dynamic coil segments when coverage or active zones change
   useEffect(() => {
