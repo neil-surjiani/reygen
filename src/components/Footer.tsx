@@ -6,7 +6,7 @@ export function Footer() {
           <span className="font-semibold text-slate-300">Data Attributions & Legal:</span>
           <span>Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white underline">OpenStreetMap</a> contributors (ODbL 1.0)</span>
           <span>•</span>
-          <span>Base map tiles &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white underline">CARTO</a></span>
+          <span>Base map tiles &copy; <a href="https://www.esri.com" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white underline">Esri</a></span>
           <span>•</span>
           <span>Solar &amp; Climate data: <a href="https://power.larc.nasa.gov/" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white underline">NASA POWER Project</a></span>
           <span>•</span>

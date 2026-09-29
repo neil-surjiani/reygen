@@ -207,7 +207,7 @@ The project is configured for deployment on [Vercel](https://vercel.com):
 ## 8. Data Attribution & Licences
 
 - **OpenStreetMap Data:** © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors, licensed under the [Open Database Licence (ODbL) 1.0](https://opendatacommons.org/licenses/odbl/1.0/).
-- **Basemap Tiles:** © [CARTO](https://carto.com/attributions), using CartoDB Dark Matter tiles.
+- **Basemap Tiles:** © [Esri](https://www.esri.com), using Esri World Dark Gray Canvas.
 - **Meteorological & Solar Data:** NASA Langley Research Center (LaRC) POWER Project, open public data.
 - **Electricity Tariffs:** [Dubai Electricity and Water Authority (DEWA)](https://www.dewa.gov.ae/en/consumer/billing/slab-tariff), official published commercial slab tariff schedule.
 - **Corridor & Fleet Data:** Dubai Open Data Portal ([Dubai Pulse](https://www.dubaipulse.gov.ae/)) & RTA Annual Statistical Reports.

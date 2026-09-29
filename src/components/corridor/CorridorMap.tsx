@@ -33,24 +33,21 @@ interface CorridorMapProps {
 const darkMapStyle: StyleSpecification = {
   version: 8,
   sources: {
-    "carto-dark": {
+    "esri-dark": {
       type: "raster",
       tiles: [
-        "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-        "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-        "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-        "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+        "https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
       ],
       tileSize: 256,
       attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a>',
+        '&copy; <a href="https://www.esri.com" target="_blank" rel="noopener noreferrer">Esri</a>, &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors',
     },
   },
   layers: [
     {
-      id: "carto-dark-layer",
+      id: "esri-dark-layer",
       type: "raster",
-      source: "carto-dark",
+      source: "esri-dark",
       minzoom: 0,
       maxzoom: 19,
     },

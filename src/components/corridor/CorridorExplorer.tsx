@@ -202,15 +202,15 @@ export function CorridorExplorer({ route }: CorridorExplorerProps) {
       coils,
       solarIrradianceWm2: overrides.solarIrradianceWm2,
       vehicleOverrides: {
-        mass: overrides.massKg,
-        crr: overrides.crr,
-        cdA: overrides.cdaM2,
-        driveEfficiency: overrides.motorEfficiency,
-        regenEfficiency: overrides.regenEfficiency,
-        auxWatts: overrides.auxWatts,
+        ...(overrides.massKg !== undefined && { mass: overrides.massKg }),
+        ...(overrides.crr !== undefined && { crr: overrides.crr }),
+        ...(overrides.cdaM2 !== undefined && { cdA: overrides.cdaM2 }),
+        ...(overrides.motorEfficiency !== undefined && { driveEfficiency: overrides.motorEfficiency }),
+        ...(overrides.regenEfficiency !== undefined && { regenEfficiency: overrides.regenEfficiency }),
+        ...(overrides.auxWatts !== undefined && { auxWatts: overrides.auxWatts }),
       },
       environmentOverrides: {
-        airDensity: overrides.airDensity,
+        ...(overrides.airDensity !== undefined && { airDensity: overrides.airDensity }),
       },
     });
   }, [route, vehicleType, coils, overrides]);

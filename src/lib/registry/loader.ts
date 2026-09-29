@@ -173,6 +173,17 @@ export function getTrafficControlAssumptions() {
   return assumptionsData.trafficControl;
 }
 
+function filterDefinedOverrides<T extends object>(overrides?: Partial<T>): Partial<T> {
+  if (!overrides) return {};
+  const cleaned: Partial<T> = {};
+  for (const [key, val] of Object.entries(overrides)) {
+    if (val !== undefined && val !== null && !Number.isNaN(val as number)) {
+      (cleaned as Record<string, unknown>)[key] = val;
+    }
+  }
+  return cleaned;
+}
+
 /**
  * Converts vehicle assumptions into the physics engine VehicleParameters struct.
  */
@@ -191,7 +202,7 @@ export function toVehicleParameters(
     regenEfficiency: resolveAssumptionValue(v.regenEfficiency, selection),
     maxRegenDecel: resolveAssumptionValue(v.regenCeiling_mps2, selection),
     auxWatts: resolveAssumptionValue(v.auxiliaryLoad_W, selection),
-    ...overrides,
+    ...filterDefinedOverrides(overrides),
   };
 }
 
@@ -210,7 +221,7 @@ export function toEnvironmentConditions(
     headwindSpeed: 0,
     solarIrradiance: 1000,
     ambientTemperature: 28,
-    ...overrides,
+    ...filterDefinedOverrides(overrides),
   };
 }
 
@@ -228,7 +239,7 @@ export function toSolarConfiguration(
     areaM2: resolveAssumptionValue(v.solarPanelArea_m2, selection),
     cellEfficiency: resolveAssumptionValue(v.solarPanelEfficiency, selection),
     applyTemperatureDerating: true,
-    ...overrides,
+    ...filterDefinedOverrides(overrides),
   };
 }
 
@@ -251,7 +262,7 @@ export function toRoadCoilConfiguration(
     coilPowerWatts,
     couplingEfficiency,
     minSpeedThreshold: 0,
-    ...overrides,
+    ...filterDefinedOverrides(overrides),
   };
 }
 
