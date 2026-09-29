@@ -58,6 +58,21 @@ export default function LimitsPage() {
         </div>
       </div>
 
+      {/* Institutional Student Disclaimer & Independent Academic Scope */}
+      <div className="rounded-xl border border-amber-900/60 bg-amber-950/20 p-5 text-xs text-amber-200/90 space-y-2">
+        <div className="flex items-center gap-2">
+          <span className="inline-flex items-center rounded bg-amber-900/80 px-2 py-0.5 font-bold uppercase tracking-wider text-[11px] text-amber-300">
+            Institutional Disclaimer
+          </span>
+          <span className="font-semibold text-amber-300">
+            Independent Student Academic Analysis — Not an Official RTA Product
+          </span>
+        </div>
+        <p className="leading-relaxed">
+          This platform is an independent academic analysis conducted by a student for technical evaluation by Dubai&apos;s Roads and Transport Authority (RTA) and DEWA. It does not constitute an official RTA engineering tender, procurement commitment, or commercial specification. All findings are derived from publicly verifiable datasets, peer-reviewed engineering models, and documented scientific registries. Date of last data update: September 28, 2026.
+        </p>
+      </div>
+
       {/* Section 1: What Is Not Proven */}
       <section className="space-y-6">
         <div>

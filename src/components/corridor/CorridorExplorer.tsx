@@ -207,6 +207,7 @@ export function CorridorExplorer({ route }: CorridorExplorerProps) {
         ...(overrides.cdaM2 !== undefined && { cdA: overrides.cdaM2 }),
         ...(overrides.motorEfficiency !== undefined && { driveEfficiency: overrides.motorEfficiency }),
         ...(overrides.regenEfficiency !== undefined && { regenEfficiency: overrides.regenEfficiency }),
+        ...(overrides.maxRegenDecel !== undefined && { maxRegenDecel: overrides.maxRegenDecel }),
         ...(overrides.auxWatts !== undefined && { auxWatts: overrides.auxWatts }),
       },
       environmentOverrides: {
