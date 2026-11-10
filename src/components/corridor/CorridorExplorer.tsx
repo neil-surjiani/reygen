@@ -74,7 +74,11 @@ interface CorridorExplorerProps {
 }
 
 export function CorridorExplorer({ route }: CorridorExplorerProps) {
-  const isMounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
+  const isMounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
 
   // 1. Interactive Control States
   const [vehicleType, setVehicleType] =
@@ -205,13 +209,23 @@ export function CorridorExplorer({ route }: CorridorExplorerProps) {
         ...(overrides.massKg !== undefined && { mass: overrides.massKg }),
         ...(overrides.crr !== undefined && { crr: overrides.crr }),
         ...(overrides.cdaM2 !== undefined && { cdA: overrides.cdaM2 }),
-        ...(overrides.motorEfficiency !== undefined && { driveEfficiency: overrides.motorEfficiency }),
-        ...(overrides.regenEfficiency !== undefined && { regenEfficiency: overrides.regenEfficiency }),
-        ...(overrides.maxRegenDecel !== undefined && { maxRegenDecel: overrides.maxRegenDecel }),
-        ...(overrides.auxWatts !== undefined && { auxWatts: overrides.auxWatts }),
+        ...(overrides.motorEfficiency !== undefined && {
+          driveEfficiency: overrides.motorEfficiency,
+        }),
+        ...(overrides.regenEfficiency !== undefined && {
+          regenEfficiency: overrides.regenEfficiency,
+        }),
+        ...(overrides.maxRegenDecel !== undefined && {
+          maxRegenDecel: overrides.maxRegenDecel,
+        }),
+        ...(overrides.auxWatts !== undefined && {
+          auxWatts: overrides.auxWatts,
+        }),
       },
       environmentOverrides: {
-        ...(overrides.airDensity !== undefined && { airDensity: overrides.airDensity }),
+        ...(overrides.airDensity !== undefined && {
+          airDensity: overrides.airDensity,
+        }),
       },
     });
   }, [route, vehicleType, coils, overrides]);
@@ -309,60 +323,54 @@ export function CorridorExplorer({ route }: CorridorExplorerProps) {
         </div>
       </div>
 
-      {/* Main 2-Column Responsive Workspace */}
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-        {/* Left Column: Interactive Controls & Parameters (5 cols) */}
-        <div className="lg:col-span-4 space-y-5">
-          <CorridorControls
-            vehicleType={vehicleType}
-            onVehicleChange={setVehicleType}
-            coveragePct={coveragePct}
-            onCoverageChange={handleCoverageChange}
-            crossoverCoveragePct={crossoverCoveragePct}
-            activeZones={activeZones}
-            onToggleZone={handleToggleZone}
-            enableSignalPads={enableSignalPads}
-            onToggleSignalPads={setEnableSignalPads}
-            overrides={overrides}
-            onOverrideChange={handleOverrideChange}
-            onResetOverrides={handleResetOverrides}
-          />
-        </div>
+      <CorridorControls
+        vehicleType={vehicleType}
+        onVehicleChange={setVehicleType}
+        coveragePct={coveragePct}
+        onCoverageChange={handleCoverageChange}
+        crossoverCoveragePct={crossoverCoveragePct}
+        activeZones={activeZones}
+        onToggleZone={handleToggleZone}
+        enableSignalPads={enableSignalPads}
+        onToggleSignalPads={setEnableSignalPads}
+        overrides={overrides}
+        onOverrideChange={handleOverrideChange}
+        onResetOverrides={handleResetOverrides}
+      />
 
-        {/* Right Column: Map & Results Analysis (7 cols) */}
-        <div className="lg:col-span-8 space-y-5">
-          {/* Map Section */}
-          <div>
-            <div className="mb-2 flex items-center justify-between text-xs">
-              <span className="font-semibold uppercase tracking-wider text-slate-400">
-                Corridor Geographic Alignment & Inductive Coil Layer
-              </span>
-              <span className="text-[11px] text-emerald-400 flex items-center gap-1 font-mono">
-                <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                Active Coils:{" "}
-                {((route.totalLengthKm * coveragePct) / 100).toFixed(1)} km (
-                {coveragePct.toFixed(0)}%)
-              </span>
-            </div>
-            <CorridorMap
-              route={route}
-              coveragePct={coveragePct}
-              activeZones={activeZones}
-              enableSignalPads={enableSignalPads}
-            />
+      {/* Simulation workspace: map and results use the full content width. */}
+      <div className="space-y-6">
+        {/* Map Section */}
+        <div>
+          <div className="mb-2 flex items-center justify-between text-xs">
+            <span className="font-semibold uppercase tracking-wider text-slate-400">
+              Corridor Geographic Alignment & Inductive Coil Layer
+            </span>
+            <span className="text-[11px] text-emerald-400 flex items-center gap-1 font-mono">
+              <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              Active Coils:{" "}
+              {((route.totalLengthKm * coveragePct) / 100).toFixed(1)} km (
+              {coveragePct.toFixed(0)}%)
+            </span>
           </div>
-
-          {/* Results Section */}
-          <CorridorResults
-            simulation={simulation}
-            monteCarlo={monteCarlo}
-            cost={cost}
-            crossoverCoveragePct={crossoverCoveragePct}
-            crossoverCoilLengthKm={crossoverCoilLengthKm}
-            scenarioVehiclesPerDay={scenarioVehiclesPerDay}
-            onScenarioVehiclesChange={setScenarioVehiclesPerDay}
+          <CorridorMap
+            route={route}
+            coveragePct={coveragePct}
+            activeZones={activeZones}
+            enableSignalPads={enableSignalPads}
           />
         </div>
+
+        {/* Results Section */}
+        <CorridorResults
+          simulation={simulation}
+          monteCarlo={monteCarlo}
+          cost={cost}
+          crossoverCoveragePct={crossoverCoveragePct}
+          crossoverCoilLengthKm={crossoverCoilLengthKm}
+          scenarioVehiclesPerDay={scenarioVehiclesPerDay}
+          onScenarioVehiclesChange={setScenarioVehiclesPerDay}
+        />
       </div>
     </div>
   );
