@@ -3,8 +3,8 @@ import Image from "next/image";
 import { ThemeToggle } from "./ThemeToggle";
 
 const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/corridor", label: "Corridor" },
+  { href: "/corridor", label: "Simulation" },
+  { href: "/", label: "Research" },
   { href: "/method", label: "Method" },
   { href: "/data", label: "Data" },
   { href: "/limits", label: "Limits" },

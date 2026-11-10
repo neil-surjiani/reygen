@@ -256,3 +256,112 @@ html.light footer a {
     color: #047857 !important;
   }
 }
+
+/* Quiet, document-first presentation. The research content stays intact; this
+   layer only removes decorative weight and makes the simulator the main tool. */
+html.light {
+  --background: #f7f8f7;
+  --foreground: #202724;
+}
+
+html.light body {
+  background: #f7f8f7 !important;
+  color: #202724 !important;
+}
+
+html.light header {
+  background: rgba(247, 248, 247, 0.96) !important;
+  border-color: #dfe4e1 !important;
+  backdrop-filter: none !important;
+}
+
+html.light main > div {
+  max-width: 1440px;
+}
+
+html.light .rounded-xl,
+html.light .rounded-lg {
+  border-radius: 8px !important;
+}
+
+html.light .shadow-2xl,
+html.light .shadow-xl,
+html.light .shadow-lg,
+html.light .shadow-md,
+html.light .shadow-sm {
+  box-shadow: none !important;
+}
+
+html.light .backdrop-blur {
+  backdrop-filter: none !important;
+}
+
+html.light .bg-slate-950\/90,
+html.light .bg-slate-950\/80,
+html.light .bg-slate-950\/70,
+html.light .bg-slate-950\/60,
+html.light .bg-slate-950\/40,
+html.light .bg-slate-900\/80,
+html.light .bg-slate-900\/60,
+html.light .bg-slate-900\/50,
+html.light .bg-slate-900\/40 {
+  background-color: #fff !important;
+}
+
+html.light .bg-emerald-950\/90,
+html.light .bg-emerald-950\/80,
+html.light .bg-emerald-950\/60,
+html.light .bg-emerald-950\/50,
+html.light .bg-emerald-950\/40,
+html.light .bg-emerald-950\/30 {
+  background-color: #f0f4f1 !important;
+}
+
+html.light .bg-sky-950\/80,
+html.light .bg-sky-950\/50,
+html.light .bg-sky-950\/40,
+html.light .bg-sky-950\/30,
+html.light .bg-purple-950\/80,
+html.light .bg-purple-950\/50,
+html.light .bg-purple-950\/40,
+html.light .bg-purple-950\/30,
+html.light .bg-amber-950\/80,
+html.light .bg-amber-950\/50,
+html.light .bg-amber-950\/40,
+html.light .bg-amber-950\/30 {
+  background-color: #f5f6f5 !important;
+}
+
+html.light .border-slate-800,
+html.light .border-slate-800\/80,
+html.light .border-slate-800\/60,
+html.light .border-slate-700,
+html.light .border-slate-700\/60,
+html.light .border-emerald-800,
+html.light .border-emerald-800\/80,
+html.light .border-emerald-600,
+html.light .border-sky-800,
+html.light .border-sky-800\/80,
+html.light .border-purple-800,
+html.light .border-amber-800 {
+  border-color: #dfe4e1 !important;
+}
+
+html.light .text-emerald-400,
+html.light .text-emerald-300,
+html.light .text-sky-400,
+html.light .text-sky-300,
+html.light .text-purple-400,
+html.light .text-purple-300,
+html.light .text-amber-400,
+html.light .text-amber-300 {
+  color: #35604a !important;
+}
+
+html.light input[type="range"] {
+  accent-color: #35604a;
+}
+
+html.light footer {
+  background: #f1f3f1 !important;
+}

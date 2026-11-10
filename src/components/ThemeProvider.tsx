@@ -11,7 +11,7 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: "dark",
+  theme: "light",
   toggleTheme: () => {},
   setTheme: () => {},
 });
@@ -35,10 +35,9 @@ function getStoredTheme(): Theme {
     if (saved === "light" || saved === "dark") {
       return saved;
     }
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    return prefersDark ? "dark" : "light";
+    return "light";
   } catch {
-    return "dark";
+    return "light";
   }
 }
 
@@ -51,7 +50,7 @@ function subscribeTheme(listener: () => void) {
   };
 }
 
-let currentTheme: Theme = "dark";
+let currentTheme: Theme = "light";
 
 if (typeof window !== "undefined") {
   currentTheme = getStoredTheme();
@@ -71,7 +70,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const theme = useSyncExternalStore<Theme>(
     subscribeTheme,
     () => currentTheme,
-    () => "dark" as Theme
+    () => "light" as Theme
   );
 
   const toggleTheme = () => {
