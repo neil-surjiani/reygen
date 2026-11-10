@@ -47,8 +47,8 @@ export function CorridorControls({
   onOverrideChange,
   onResetOverrides,
 }: CorridorControlsProps) {
-  // Open by default so users can change any values immediately
-  const [showAdvanced, setShowAdvanced] = useState(true);
+  // Keep the main corridor controls visible first; detailed parameters stay one click away.
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const vehicleOptions: { id: SupportedVehicleType; name: string; specs: string }[] = [
     {
