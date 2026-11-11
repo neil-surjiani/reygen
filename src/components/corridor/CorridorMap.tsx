@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import * as maplibregl from "maplibre-gl";
 import type { Map, StyleSpecification, MapLayerMouseEvent } from "maplibre-gl";
 import type { CorridorRoute } from "@/lib/route/types";
-import { useTheme } from "../ThemeProvider";
 
 export interface ActiveCoilZone {
   id: string;
@@ -30,30 +29,6 @@ interface CorridorMapProps {
   enableSignalPads: boolean;
   className?: string;
 }
-
-const darkMapStyle: StyleSpecification = {
-  version: 8,
-  sources: {
-    "esri-dark": {
-      type: "raster",
-      tiles: [
-        "https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
-      ],
-      tileSize: 256,
-      attribution:
-        '&copy; <a href="https://www.esri.com" target="_blank" rel="noopener noreferrer">Esri</a>, &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors',
-    },
-  },
-  layers: [
-    {
-      id: "esri-dark-layer",
-      type: "raster",
-      source: "esri-dark",
-      minzoom: 0,
-      maxzoom: 19,
-    },
-  ],
-};
 
 const lightMapStyle: StyleSpecification = {
   version: 8,
@@ -86,7 +61,6 @@ export default function CorridorMap({
   enableSignalPads,
   className = "",
 }: CorridorMapProps) {
-  const { theme } = useTheme();
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<Map | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -104,11 +78,9 @@ export default function CorridorMap({
       maplibregl.setWorkerUrl("/maplibre-gl-worker.mjs");
     }
 
-    const initialStyle = theme === "light" ? lightMapStyle : darkMapStyle;
-
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
-      style: initialStyle,
+      style: lightMapStyle,
       center: [55.38, 25.12],
       zoom: 11.5,
       maxBounds: [55.15, 24.95, 55.65, 25.35],
@@ -116,7 +88,10 @@ export default function CorridorMap({
       attributionControl: { compact: true },
     });
 
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+    map.addControl(
+      new maplibregl.NavigationControl({ showCompass: false }),
+      "top-right"
+    );
 
     map.on("load", () => {
       // 1. Add Corridor Line GeoJSON
@@ -151,7 +126,7 @@ export default function CorridorMap({
         source: "corridor-line-src",
         layout: { "line-join": "round", "line-cap": "round" },
         paint: {
-          "line-color": "#0284c7",
+          "line-color": "#ffffff",
           "line-width": 6,
           "line-opacity": 0.4,
         },
@@ -164,7 +139,7 @@ export default function CorridorMap({
         source: "corridor-line-src",
         layout: { "line-join": "round", "line-cap": "round" },
         paint: {
-          "line-color": "#38bdf8",
+          "line-color": "#111111",
           "line-width": 3,
           "line-opacity": 0.9,
         },
@@ -185,7 +160,7 @@ export default function CorridorMap({
         source: "coil-segments-src",
         layout: { "line-join": "round", "line-cap": "round" },
         paint: {
-          "line-color": "#10b981",
+          "line-color": "#14532d",
           "line-width": 10,
           "line-opacity": 0.4,
           "line-blur": 3,
@@ -198,7 +173,7 @@ export default function CorridorMap({
         source: "coil-segments-src",
         layout: { "line-join": "round", "line-cap": "round" },
         paint: {
-          "line-color": "#34d399",
+          "line-color": "#14532d",
           "line-width": 4,
           "line-opacity": 1.0,
         },
@@ -233,9 +208,9 @@ export default function CorridorMap({
         source: "junctions-src",
         paint: {
           "circle-radius": 7,
-          "circle-color": "#f59e0b",
+          "circle-color": "#14532d",
           "circle-stroke-width": 2,
-          "circle-stroke-color": "#78350f",
+          "circle-stroke-color": "#ffffff",
         },
       });
 
@@ -264,9 +239,9 @@ export default function CorridorMap({
         source: "signal-pads-src",
         paint: {
           "circle-radius": 8,
-          "circle-color": "#8b5cf6",
+          "circle-color": "#14532d",
           "circle-stroke-width": 2,
-          "circle-stroke-color": "#4c1d95",
+          "circle-stroke-color": "#ffffff",
         },
       });
 
@@ -276,7 +251,7 @@ export default function CorridorMap({
         source: "signal-pads-src",
         paint: {
           "circle-radius": 4,
-          "circle-color": "#c4b5fd",
+          "circle-color": "#ffffff",
         },
       });
 
@@ -290,14 +265,16 @@ export default function CorridorMap({
           ref: string;
           distanceKm: string;
         };
-        const coords = (feat.geometry as unknown as { coordinates: [number, number] }).coordinates;
+        const coords = (
+          feat.geometry as unknown as { coordinates: [number, number] }
+        ).coordinates;
 
         new maplibregl.Popup({ closeButton: true, className: "custom-popup" })
           .setLngLat(coords)
           .setHTML(
-            `<div style="color: #0f172a; padding: 4px; font-family: sans-serif;">
-              <strong style="display: block; font-size: 13px; color: #b45309;">${props.name}</strong>
-              <div style="font-size: 11px; color: #475569; margin-top: 2px;">
+            `<div style="color: #111111; padding: 4px; font-family: sans-serif;">
+              <strong style="display: block; font-size: 13px; color: #14532d;">${props.name}</strong>
+              <div style="font-size: 11px; color: #4b5563; margin-top: 2px;">
                 Position: ${props.distanceKm} km along corridor<br/>
                 Reference: ${props.ref}<br/>
                 OSM ID: ${props.id}
@@ -333,40 +310,12 @@ export default function CorridorMap({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route]);
 
-  // Dynamically update basemap raster tiles when theme switches
-  useEffect(() => {
-    if (!mapRef.current || !mapLoaded) return;
-    const map = mapRef.current;
-    const style = theme === "light" ? lightMapStyle : darkMapStyle;
-    const srcId = theme === "light" ? "esri-light" : "esri-dark";
-    const layerId = theme === "light" ? "esri-light-layer" : "esri-dark-layer";
-    const oldLayerId = theme === "light" ? "esri-dark-layer" : "esri-light-layer";
-    const oldSrcId = theme === "light" ? "esri-dark" : "esri-light";
-
-    try {
-      if (map.getLayer(oldLayerId)) {
-        map.removeLayer(oldLayerId);
-      }
-      if (map.getSource(oldSrcId)) {
-        map.removeSource(oldSrcId);
-      }
-      if (!map.getSource(srcId)) {
-        map.addSource(srcId, style.sources[srcId] as maplibregl.SourceSpecification);
-      }
-      if (!map.getLayer(layerId)) {
-        // Add underneath all overlay layers (corridor-casing, etc.)
-        map.addLayer(style.layers[0] as maplibregl.LayerSpecification, "corridor-casing");
-      }
-    } catch {
-      // ignore dynamic tile replacement if style is reloading
-    }
-  }, [theme, mapLoaded]);
-
   // Update dynamic coil segments when coverage or active zones change
   useEffect(() => {
     if (!mapRef.current || !mapLoaded) return;
     const map = mapRef.current;
-    const coilSrc = map.getSource("coil-segments-src") as maplibregl.GeoJSONSource | undefined;
+    const coilSrc = map.getSource("coil-segments-src") as
+      maplibregl.GeoJSONSource | undefined;
     if (!coilSrc) return;
 
     // Collect active electrified ranges in meters
@@ -400,7 +349,10 @@ export default function CorridorMap({
             const f2 = Math.min(1, (rEnd - segStart) / (segEnd - segStart));
 
             const idx1 = Math.floor(f1 * (coords.length - 1));
-            const idx2 = Math.min(coords.length - 1, Math.ceil(f2 * (coords.length - 1)));
+            const idx2 = Math.min(
+              coords.length - 1,
+              Math.ceil(f2 * (coords.length - 1))
+            );
 
             const slice = coords.slice(idx1, idx2 + 1);
             if (slice.length >= 2) {
@@ -428,7 +380,8 @@ export default function CorridorMap({
   useEffect(() => {
     if (!mapRef.current || !mapLoaded) return;
     const map = mapRef.current;
-    const padsSrc = map.getSource("signal-pads-src") as maplibregl.GeoJSONSource | undefined;
+    const padsSrc = map.getSource("signal-pads-src") as
+      maplibregl.GeoJSONSource | undefined;
     if (!padsSrc) return;
 
     if (!enableSignalPads) {
@@ -468,7 +421,9 @@ export default function CorridorMap({
   };
 
   return (
-    <div className={`relative overflow-hidden rounded-xl border border-slate-800 bg-slate-950 shadow-2xl ${className}`}>
+    <div
+      className={`relative overflow-hidden rounded-xl border border-slate-800 bg-slate-950 shadow-2xl ${className}`}
+    >
       {/* Map canvas container */}
       <div
         ref={mapContainerRef}
@@ -491,23 +446,27 @@ export default function CorridorMap({
 
       {/* Corridor Map Legend */}
       <div className="absolute bottom-3 left-3 z-10 rounded-lg border border-slate-800 bg-slate-950/90 p-3 text-[11px] text-slate-300 shadow-xl backdrop-blur">
-        <div className="mb-2 font-semibold text-white">Corridor Layer Legend</div>
+        <div className="mb-2 font-semibold text-white">
+          Corridor Layer Legend
+        </div>
         <div className="space-y-1.5 font-sans">
           <div className="flex items-center gap-2">
-            <span className="h-1 w-5 rounded bg-sky-400"></span>
+            <span className="h-1 w-5 rounded bg-black"></span>
             <span>Sheikh Mohammed Bin Zayed Rd (E311) - 29.2 km</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="h-1.5 w-5 rounded bg-emerald-400 shadow-[0_0_8px_#10b981]"></span>
-            <span>Active Dynamic Wireless Coils ({coveragePct.toFixed(0)}% Coverage)</span>
+            <span className="h-1.5 w-5 rounded bg-emerald-900"></span>
+            <span>
+              Active Dynamic Wireless Coils ({coveragePct.toFixed(0)}% Coverage)
+            </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-full border border-amber-800 bg-amber-500"></span>
+            <span className="h-2.5 w-2.5 rounded-full border border-white bg-emerald-900"></span>
             <span>OSM Motorway Interchanges (12 Junctions)</span>
           </div>
           {enableSignalPads && (
             <div className="flex items-center gap-2">
-              <span className="h-2.5 w-2.5 rounded-full border border-purple-900 bg-purple-500"></span>
+              <span className="h-2.5 w-2.5 rounded-full border border-white bg-emerald-900"></span>
               <span>Stationary Dwell Charging Pads (Active)</span>
             </div>
           )}

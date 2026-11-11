@@ -3,32 +3,18 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #181b19;
+  --foreground: #111111;
   --surface: #ffffff;
-  --line: #e3e7e4;
-  --muted: #606862;
-  --accent: #18733a;
+  --line: #e5e7eb;
+  --muted: #4b5563;
+  --accent: #14532d;
   color-scheme: light;
 }
 
-html.light {
-  --background: #ffffff;
-  --foreground: #181b19;
-  --surface: #ffffff;
-  --line: #e3e7e4;
-  --muted: #606862;
-  --accent: #18733a;
+html {
+  background: #ffffff;
+  color: #111111;
   color-scheme: light;
-}
-
-html.dark {
-  --background: #111412;
-  --foreground: #f2f5f2;
-  --surface: #191d1a;
-  --line: #303632;
-  --muted: #a1aaa3;
-  --accent: #58c878;
-  color-scheme: dark;
 }
 
 body {
@@ -56,6 +42,10 @@ html
     [class*="bg-red-"]
   ) {
   background-color: var(--surface) !important;
+}
+
+html [class~="bg-emerald-900"] {
+  background-color: #14532d !important;
 }
 
 html [class*="text-slate-"],
@@ -92,8 +82,8 @@ html [class*="accent-emerald-"] {
   accent-color: var(--accent) !important;
 }
 
-html .bg-emerald-500,
-html .hover\:bg-emerald-400:hover {
+html [class~="bg-emerald-500"],
+html [class~="hover:bg-emerald-400"]:hover {
   background-color: var(--accent) !important;
 }
 
@@ -187,12 +177,36 @@ html tbody tr:hover {
   padding: 0;
 }
 
-.advanced-controls > div {
+.advanced-controls > div[class*="rounded-lg"] {
   border: 0 !important;
   border-bottom: 1px solid var(--line) !important;
   border-radius: 0 !important;
   padding: 8px 0 !important;
   background: transparent !important;
+}
+
+.coverage-presets {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+  overflow-x: auto;
+}
+
+.coverage-presets button {
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 3px 7px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.coverage-presets button:hover {
+  border-color: #14532d;
+  background: #14532d;
+  color: #ffffff;
 }
 
 @media (min-width: 700px) {

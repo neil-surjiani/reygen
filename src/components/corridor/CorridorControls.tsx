@@ -184,26 +184,31 @@ export function CorridorControls({
               className="h-2 w-full appearance-none rounded-lg bg-slate-800 accent-emerald-500 cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500"
               aria-label="Electrified roadway coverage percentage slider"
             />
-            <select
-              aria-label="Quick coverage preset"
-              value=""
-              onChange={(event) => {
-                if (event.target.value)
-                  onCoverageChange(Number(event.target.value));
-              }}
-              className="rounded border border-slate-700 bg-slate-950 px-2 py-1.5 text-xs text-white"
-            >
-              <option value="">Preset</option>
-              <option value="0">0% baseline</option>
-              {crossoverCoveragePct !== null && (
-                <option value={Math.round(crossoverCoveragePct)}>
-                  Net-positive ({crossoverCoveragePct.toFixed(1)}%)
-                </option>
-              )}
-              <option value="25">25%</option>
-              <option value="50">50%</option>
-              <option value="100">100% full</option>
-            </select>
+          </div>
+          <div className="coverage-presets" aria-label="Quick coverage presets">
+            <button type="button" onClick={() => onCoverageChange(0)}>
+              Baseline
+            </button>
+            {crossoverCoveragePct !== null && (
+              <button
+                type="button"
+                onClick={() =>
+                  onCoverageChange(Math.round(crossoverCoveragePct))
+                }
+                title="Set the calculated net-positive coverage target"
+              >
+                Crossover {crossoverCoveragePct.toFixed(1)}%
+              </button>
+            )}
+            <button type="button" onClick={() => onCoverageChange(25)}>
+              25%
+            </button>
+            <button type="button" onClick={() => onCoverageChange(50)}>
+              50%
+            </button>
+            <button type="button" onClick={() => onCoverageChange(100)}>
+              Full
+            </button>
           </div>
         </div>
 
@@ -267,6 +272,9 @@ export function CorridorControls({
       {/* Detailed parameters remain available without crowding the main controls. */}
       {showAdvanced && (
         <div className="advanced-controls grid grid-cols-1 gap-x-5 gap-y-3 py-4 text-sm sm:grid-cols-2 lg:grid-cols-4">
+          <div className="col-span-full border-0 pb-0 text-xs font-semibold uppercase tracking-wide text-emerald-400">
+            Vehicle physics
+          </div>
           {/* 1. Vehicle Mass */}
           <div className="rounded-lg border border-slate-800/80 bg-slate-900/40 p-3 space-y-1.5">
             <div className="flex justify-between items-center">
@@ -533,6 +541,9 @@ export function CorridorControls({
           </div>
 
           {/* 8. Coil Transmitter Power */}
+          <div className="col-span-full border-0 pb-0 text-xs font-semibold uppercase tracking-wide text-emerald-400">
+            Wireless road infrastructure
+          </div>
           <div className="rounded-lg border border-slate-800/80 bg-slate-900/40 p-3 space-y-1.5">
             <div className="flex justify-between items-center">
               <span className="text-slate-300 font-medium">
@@ -608,6 +619,9 @@ export function CorridorControls({
           </div>
 
           {/* 10. Solar Irradiance */}
+          <div className="col-span-full border-0 pb-0 text-xs font-semibold uppercase tracking-wide text-emerald-400">
+            Environment
+          </div>
           <div className="rounded-lg border border-slate-800/80 bg-slate-900/40 p-3 space-y-1.5">
             <div className="flex justify-between items-center">
               <span className="text-slate-300 font-medium">
