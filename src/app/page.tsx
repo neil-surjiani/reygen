@@ -549,63 +549,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Directory Navigation Links */}
-        <div className="space-y-4">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 print:text-slate-700">
-            Platform Modules &amp; Documentation Directory
-          </h3>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
-            <Link
-              href="/corridor"
-              className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 hover:border-emerald-500 transition-colors print:bg-white print:border-slate-300"
-            >
-              <div className="font-bold text-base text-emerald-400 print:text-emerald-700">
-                1. /corridor
-              </div>
-              <div className="text-xs sm:text-sm text-slate-300 print:text-slate-600 mt-1">
-                Interactive MapLibre digital twin, custom coil placement &amp; 2,000-run Monte Carlo tool.
-              </div>
-            </Link>
-
-            <Link
-              href="/method"
-              className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 hover:border-emerald-500 transition-colors print:bg-white print:border-slate-300"
-            >
-              <div className="font-bold text-base text-sky-400 print:text-sky-700">
-                2. /method
-              </div>
-              <div className="text-xs sm:text-sm text-slate-300 print:text-slate-600 mt-1">
-                Mathematical physics equations and the complete 32-item assumptions registry table.
-              </div>
-            </Link>
-
-            <Link
-              href="/data"
-              className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 hover:border-emerald-500 transition-colors print:bg-white print:border-slate-300"
-            >
-              <div className="font-bold text-base text-purple-400 print:text-purple-700">
-                3. /data
-              </div>
-              <div className="text-xs sm:text-sm text-slate-300 print:text-slate-600 mt-1">
-                Audited datasets: OSM, NASA POWER, DEWA tariffs, and Resolution 740/2019 status.
-              </div>
-            </Link>
-
-            <Link
-              href="/limits"
-              className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 hover:border-emerald-500 transition-colors print:bg-white print:border-slate-300"
-            >
-              <div className="font-bold text-base text-amber-400 print:text-amber-700">
-                4. /limits
-              </div>
-              <div className="text-xs sm:text-sm text-slate-300 print:text-slate-600 mt-1">
-                Engineering unknowns, CapEx notes, lack of signal timing, and required RTA testbed data.
-              </div>
-            </Link>
-          </div>
-        </div>
-
         {/* Print Footer Notice */}
         <div className="border-t border-slate-800 pt-4 text-xs text-slate-400 print:text-slate-600 flex flex-wrap justify-between">
           <span>Prepared for technical evaluation by Dubai Roads and Transport Authority (RTA)</span>
