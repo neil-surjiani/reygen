@@ -91,6 +91,9 @@ export function CorridorExplorer({ route }: CorridorExplorerProps) {
   const [scenarioVehiclesPerDay, setScenarioVehiclesPerDay] = useState<
     number | undefined
   >(undefined);
+  const [viewMode, setViewMode] = useState<"split" | "controls" | "outputs">(
+    "split"
+  );
 
   // 2. Zone & Coverage Handlers
   const handleToggleZone = (zoneId: string) => {
@@ -323,54 +326,97 @@ export function CorridorExplorer({ route }: CorridorExplorerProps) {
         </div>
       </div>
 
-      <CorridorControls
-        vehicleType={vehicleType}
-        onVehicleChange={setVehicleType}
-        coveragePct={coveragePct}
-        onCoverageChange={handleCoverageChange}
-        crossoverCoveragePct={crossoverCoveragePct}
-        activeZones={activeZones}
-        onToggleZone={handleToggleZone}
-        enableSignalPads={enableSignalPads}
-        onToggleSignalPads={setEnableSignalPads}
-        overrides={overrides}
-        onOverrideChange={handleOverrideChange}
-        onResetOverrides={handleResetOverrides}
-      />
+      <div
+        className="simulation-view-tabs"
+        role="tablist"
+        aria-label="Simulation view"
+      >
+        {(
+          [
+            ["split", "Split view"],
+            ["controls", "Controls"],
+            ["outputs", "Outputs"],
+          ] as const
+        ).map(([view, label]) => (
+          <button
+            key={view}
+            type="button"
+            role="tab"
+            aria-selected={viewMode === view}
+            onClick={() => setViewMode(view)}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
 
-      {/* Simulation workspace: map and results use the full content width. */}
-      <div className="space-y-6">
-        {/* Map Section */}
-        <div>
-          <div className="mb-2 flex items-center justify-between text-xs">
-            <span className="font-semibold uppercase tracking-wider text-slate-400">
-              Corridor Geographic Alignment & Inductive Coil Layer
-            </span>
-            <span className="text-[11px] text-emerald-400 flex items-center gap-1 font-mono">
-              <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              Active Coils:{" "}
-              {((route.totalLengthKm * coveragePct) / 100).toFixed(1)} km (
-              {coveragePct.toFixed(0)}%)
-            </span>
-          </div>
-          <CorridorMap
-            route={route}
+      <div className="simulation-workspace" data-view={viewMode}>
+        <section
+          className="simulation-controls-pane"
+          role="tabpanel"
+          aria-label="Simulation controls"
+          hidden={viewMode === "outputs"}
+        >
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">
+            Controls
+          </h2>
+          <CorridorControls
+            vehicleType={vehicleType}
+            onVehicleChange={setVehicleType}
             coveragePct={coveragePct}
+            onCoverageChange={handleCoverageChange}
+            crossoverCoveragePct={crossoverCoveragePct}
             activeZones={activeZones}
+            onToggleZone={handleToggleZone}
             enableSignalPads={enableSignalPads}
+            onToggleSignalPads={setEnableSignalPads}
+            overrides={overrides}
+            onOverrideChange={handleOverrideChange}
+            onResetOverrides={handleResetOverrides}
           />
-        </div>
+        </section>
 
-        {/* Results Section */}
-        <CorridorResults
-          simulation={simulation}
-          monteCarlo={monteCarlo}
-          cost={cost}
-          crossoverCoveragePct={crossoverCoveragePct}
-          crossoverCoilLengthKm={crossoverCoilLengthKm}
-          scenarioVehiclesPerDay={scenarioVehiclesPerDay}
-          onScenarioVehiclesChange={setScenarioVehiclesPerDay}
-        />
+        <section
+          className="simulation-outputs-pane space-y-6"
+          role="tabpanel"
+          aria-label="Simulation outputs"
+          hidden={viewMode === "controls"}
+        >
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+            Outputs
+          </h2>
+          {/* Map Section */}
+          <div>
+            <div className="mb-2 flex items-center justify-between text-xs">
+              <span className="font-semibold uppercase tracking-wider text-slate-400">
+                Corridor Geographic Alignment & Inductive Coil Layer
+              </span>
+              <span className="text-[11px] text-emerald-400 flex items-center gap-1 font-mono">
+                <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                Active Coils:{" "}
+                {((route.totalLengthKm * coveragePct) / 100).toFixed(1)} km (
+                {coveragePct.toFixed(0)}%)
+              </span>
+            </div>
+            <CorridorMap
+              route={route}
+              coveragePct={coveragePct}
+              activeZones={activeZones}
+              enableSignalPads={enableSignalPads}
+            />
+          </div>
+
+          {/* Results Section */}
+          <CorridorResults
+            simulation={simulation}
+            monteCarlo={monteCarlo}
+            cost={cost}
+            crossoverCoveragePct={crossoverCoveragePct}
+            crossoverCoilLengthKm={crossoverCoilLengthKm}
+            scenarioVehiclesPerDay={scenarioVehiclesPerDay}
+            onScenarioVehiclesChange={setScenarioVehiclesPerDay}
+          />
+        </section>
       </div>
     </div>
   );

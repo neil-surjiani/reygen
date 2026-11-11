@@ -209,6 +209,35 @@ html tbody tr:hover {
   color: #ffffff;
 }
 
+.simulation-view-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+}
+
+.simulation-view-tabs button {
+  border-bottom: 2px solid transparent;
+  padding: 9px 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.simulation-view-tabs button[aria-selected="true"] {
+  border-bottom-color: #14532d;
+  color: #14532d;
+  font-weight: 650;
+}
+
+.simulation-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+}
+
+.simulation-workspace > [hidden] {
+  display: none !important;
+}
+
 @media (min-width: 700px) {
   .simulation-control-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -216,6 +245,22 @@ html tbody tr:hover {
 }
 
 @media (min-width: 1200px) {
+  .simulation-workspace[data-view="split"] {
+    grid-template-columns: minmax(280px, 0.34fr) minmax(0, 0.66fr);
+    align-items: start;
+  }
+
+  .simulation-workspace[data-view="split"] .simulation-control-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .simulation-workspace[data-view="split"]
+    .simulation-control-group
+    + .simulation-control-group {
+    border-left: 0;
+    padding-left: 0;
+  }
+
   .simulation-control-row {
     grid-template-columns: 210px minmax(300px, 1fr) 300px 130px 150px;
     align-items: end;

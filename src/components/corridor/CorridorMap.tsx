@@ -310,6 +310,15 @@ export default function CorridorMap({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route]);
 
+  useEffect(() => {
+    const container = mapContainerRef.current;
+    if (!container) return;
+
+    const observer = new ResizeObserver(() => mapRef.current?.resize());
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
   // Update dynamic coil segments when coverage or active zones change
   useEffect(() => {
     if (!mapRef.current || !mapLoaded) return;
